@@ -137,9 +137,9 @@ public abstract class Mobile extends Element implements IMobile{
 	 */
 	public final void setX(final int x) {
 		this.getPosition().x = x;
-		if (this.isKilled()) {
+		/*if (this.isKilled()) {
 			this.die();
-		}
+		}*/
 	}
 
 	/*
@@ -159,10 +159,10 @@ public abstract class Mobile extends Element implements IMobile{
 	 *            based on the road height.
 	 */
 	public final void setY(final int y) {
-		this.getPosition().y = (y + this.getMap().getHeight()) % this.getMap().getHeight();
-		if (this.isKilled()) {
+		this.getPosition().y = y; //(y + this.getMap().getHeight()) % this.getMap().getHeight();
+		/*if (this.isKilled()) {
 			this.die();
-		}
+		}*/
 	}
 
 
@@ -207,7 +207,8 @@ public abstract class Mobile extends Element implements IMobile{
 	 */
 	@Override
 	public Boolean isKilled() {
-		return this.getMap().getOnTheMapXY(this.getX(), this.getY()).getPermeability() == Permeability.KILLING;
+		return null;
+		//return this.getMap().getOnTheMapXY(this.getX(), this.getY()).getPermeability() == Permeability.KILLING;
 	}
 
 	@Override
