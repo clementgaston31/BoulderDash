@@ -42,7 +42,7 @@ public abstract class Mobile extends Element implements IMobile{
 	 * @param permeability
 	 *            the permeability
 	 */
-	Mobile(final Sprite sprite, final IMap map, final Permeability permeability) {
+	public Mobile(final Sprite sprite, final IMap map, final Permeability permeability) {
 		super(sprite, permeability);
 		this.setMap(map);
 		this.position = new Point();
@@ -62,7 +62,7 @@ public abstract class Mobile extends Element implements IMobile{
 	 * @param permeability
 	 *            the permeability
 	 */
-	Mobile(final int x, final int y, final Sprite sprite, final IMap map, final Permeability permeability) {
+	public Mobile(final int x, final int y, final Sprite sprite, final IMap map, final Permeability permeability) {
 		this(sprite, map, permeability);
 		this.setX(x);
 		this.setY(y);
@@ -74,7 +74,8 @@ public abstract class Mobile extends Element implements IMobile{
 	 */
 	@Override
 	public void moveUp() {
-
+		this.setY(this.getY() - 1);
+        this.setHasMoved();
 	}
 
 	/*
@@ -83,7 +84,8 @@ public abstract class Mobile extends Element implements IMobile{
 	 */
 	@Override
 	public void moveLeft() {
-
+		this.setX(this.getX() - 1);
+        this.setHasMoved();
 	}
 
 	/*
@@ -92,7 +94,8 @@ public abstract class Mobile extends Element implements IMobile{
 	 */
 	@Override
 	public void moveDown() {
-
+		this.setY(this.getY() + 1);
+        this.setHasMoved();
 	}
 
 	/*
@@ -101,7 +104,8 @@ public abstract class Mobile extends Element implements IMobile{
 	 */
 	@Override
 	public void moveRight() {
-
+		this.setX(this.getX() + 1);
+        this.setHasMoved();
 	}
 
 	/*
@@ -110,14 +114,14 @@ public abstract class Mobile extends Element implements IMobile{
 	 */
 	@Override
 	public void doNothing() {
-
+		this.setHasMoved();
 	}
 
 	/**
 	 * Sets the has moved.
 	 */
 	private void setHasMoved() {
-
+		 this.getMap().setMobileHasChanged();
 	}
 
 	/*
@@ -137,9 +141,9 @@ public abstract class Mobile extends Element implements IMobile{
 	 */
 	public final void setX(final int x) {
 		this.getPosition().x = x;
-		/*if (this.isKilled()) {
+		if (this.isKilled()) {
 			this.die();
-		}*/
+		}
 	}
 
 	/*
@@ -159,10 +163,10 @@ public abstract class Mobile extends Element implements IMobile{
 	 *            based on the road height.
 	 */
 	public final void setY(final int y) {
-		this.getPosition().y = y; //(y + this.getMap().getHeight()) % this.getMap().getHeight();
-		/*if (this.isKilled()) {
+		this.getPosition().y = (y + this.getMap().getHeight()) % this.getMap().getHeight();
+		if (this.isKilled()) {
 			this.die();
-		}*/
+		}
 	}
 
 
@@ -207,10 +211,13 @@ public abstract class Mobile extends Element implements IMobile{
 	 */
 	@Override
 	public Boolean isKilled() {
-		return null;
-		//return this.getMap().getOnTheMapXY(this.getX(), this.getY()).getPermeability() == Permeability.KILLING;
+		return this.getMap().getOnTheMapXY(this.getX(), this.getY()).getPermeability() == Permeability.KILLING;
 	}
-
+	
+	/*
+	 * (non-Javadoc)
+	 * @see fr.exia.insanevehicles.model.element.mobile.IMobile#isDirt()
+	 */
 	@Override
 	public Boolean isDirt() {
 		return this.getMap().getOnTheMapXY(this.getX(), this.getY()).getPermeability() == Permeability.DISAPPEAR;
