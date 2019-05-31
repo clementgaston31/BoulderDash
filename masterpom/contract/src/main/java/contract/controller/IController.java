@@ -1,5 +1,5 @@
 package contract.controller;
 
-public class IController {
+public interface IController {
 
 }

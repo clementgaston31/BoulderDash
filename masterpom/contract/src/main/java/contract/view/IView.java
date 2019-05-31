@@ -1,5 +1,5 @@
 package contract.view;
 
-public class IView {
+public interface IView {
 
 }
