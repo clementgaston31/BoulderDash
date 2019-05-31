@@ -20,9 +20,9 @@ public class MapTest {
 
 	Map map = new Map(999, 5, 2, 3, 1, "X     \r\n    XX");
 	Sprite spriteSpace = null;
-	IElement elementSpace = new Element(spriteSpace, Permeability.BLOCKING);
+	//IElement elementSpace = new Element(spriteSpace, Permeability.BLOCKING);
 	Sprite spriteX = new Sprite('X', "Chapeau.png");
-	IElement elementX = new Element(spriteX, Permeability.BLOCKING);
+	//IElement elementX = new Element(spriteX, Permeability.BLOCKING);
 	
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
@@ -107,9 +107,9 @@ public class MapTest {
 	private IElement getFromFileSymbol(char c) {
 		if (c == 'X')
 		{
-			return elementX;
+			//return elementX;
 		}
-		return elementSpace;
+		return null /*elementSpace*/;
 	}
 
 	/*

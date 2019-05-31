@@ -272,5 +272,11 @@ public class Map extends Observable implements IMap{
 	public void updateMap() {
 		
 	}
+
+	@Override
+	public Observable getObservable() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 }

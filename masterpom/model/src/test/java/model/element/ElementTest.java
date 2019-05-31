@@ -2,8 +2,6 @@ package model.element;
 
 import static org.junit.Assert.*;
 
-import java.awt.Image;
-
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Assert;
@@ -13,7 +11,6 @@ import org.junit.Test;
 
 import banal.Permeability;
 import banal.Sprite;
-import model.element.mobile.Player;
 
 public class ElementTest {
 	

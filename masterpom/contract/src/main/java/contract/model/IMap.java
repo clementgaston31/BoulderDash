@@ -1,9 +1,5 @@
 package contract.model;
 
-<<<<<<< HEAD
-public interface IMap {
-
-=======
 import java.util.Observable;
 
 
@@ -59,5 +55,4 @@ public interface IMap {
 	 */
 	void updateMap();
 	
->>>>>>> e40084c79f4598126f08bf7e4e6731b87440b4c7
 }

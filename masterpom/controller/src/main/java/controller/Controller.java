@@ -10,7 +10,7 @@ import contract.view.IView;
  * @author Clément GASTON
  * @version 0.1
  */
-public class Controller implements IOrderPerformer {
+public abstract class Controller implements IOrderPerformer {
 
 	/** Speed will be the time in ms between every refresh of the game. */
 	public int speed = 300;
