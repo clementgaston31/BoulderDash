@@ -47,6 +47,10 @@ public abstract class Mobile extends Element implements IMobile{
 		this.setMap(map);
 		this.position = new Point();
 	}
+	
+	public Mobile() {
+		super();
+	}
 
 	/**
 	 * Instantiates a new mobile.

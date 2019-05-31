@@ -53,6 +53,10 @@ public class Player extends Mobile{
         
         this.diamondCount = 0;
     }
+    
+    public Player() {
+		super();
+	}
 
     /*
      * (non-Javadoc)

@@ -36,6 +36,10 @@ public abstract class Element implements IElement{
 		this.setSprite(sprite);
 		this.setPermeability(permeability);
 	}
+	
+	 public Element() {
+		// TODO Auto-generated constructor stub
+	}
 
 	/*
 	 * (non-Javadoc)

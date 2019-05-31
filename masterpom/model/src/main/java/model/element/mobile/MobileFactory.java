@@ -14,6 +14,9 @@ public abstract class MobileFactory {
 
 	/** The Constant Background. */
 	private static final Diamond diamond = new Diamond();
+	
+	/** The Constant Rock. */
+	private static final Rock rock = new Rock();
 
 	/** The Constant Dirt. */
 	private static final Ennemy ennemy = new Ennemy();
@@ -51,8 +54,8 @@ public abstract class MobileFactory {
      *
      * @return the motionless element
      */
-    public static MotionlessElement createBackground() {
-        return background;
+    public static Mobile createPlayer() {
+        return player;
     }
 
     /**
@@ -60,8 +63,8 @@ public abstract class MobileFactory {
      *
      * @return the motionless element
      */
-    public static MotionlessElement createDoor() {
-        return door;
+    public static Mobile createRock() {
+        return rock;
     }
 
     /**
@@ -69,8 +72,8 @@ public abstract class MobileFactory {
      *
      * @return the motionless element
      */
-    public static MotionlessElement createUnbreakableWall() {
-        return unbreakableWall;
+    public static Mobile createEnnemy() {
+        return ennemy;
     }
 
     /**
@@ -78,8 +81,8 @@ public abstract class MobileFactory {
      *
      * @return the motionless element
      */
-    public static MotionlessElement createWall() {
-        return wall;
+    public static Mobile createEnnemyRandom() {
+        return ennemyRandom;
     }
     
     /**
@@ -89,12 +92,12 @@ public abstract class MobileFactory {
      *            the file symbol
      * @return the from file symbol
      */
-    public static MotionlessElement getFromFileSymbol(final char fileSymbol) {
-        for (final MotionlessElement motionlessElement : motionlessElements) {
-            if (motionlessElement.getSprite().getConsoleImage() == fileSymbol) {
-                return motionlessElement;
+    public static Mobile getFromFileSymbol(final char fileSymbol) {
+        for (final Mobile mobileElement : mobileElements) {
+            if (mobileElement.getSprite().getConsoleImage() == fileSymbol) {
+                return mobileElement;
             }
         }
-        return background;
+        return rock;
     }
 }
