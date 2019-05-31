@@ -1,5 +1,5 @@
 package contract.controller;
 
-public interface IController {
+public interface IOrderPerformer {
 
 }
