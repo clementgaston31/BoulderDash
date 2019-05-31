@@ -2,8 +2,6 @@ package model.element;
 
 import java.awt.Image;
 
-import banal.Permeability;
-import banal.Sprite;
 import contract.model.IElement;
 import fr.exia.showboard.ISquare;
 

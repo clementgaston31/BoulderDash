@@ -2,9 +2,9 @@ package contract.model;
 
 import java.awt.Image;
 
-import banal.Permeability;
-import banal.Sprite;
 import fr.exia.showboard.ISquare;
+import model.element.Permeability;
+import model.element.Sprite;
 
 /**
  * <h1>The Interface IElement.</h1>

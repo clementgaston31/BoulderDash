@@ -1,4 +1,4 @@
-package banal;
+package model.element;
 
 import java.awt.Image;
 import java.io.File;
@@ -16,13 +16,13 @@ import javax.imageio.ImageIO;
 public class Sprite {
 
 	/** The image. */
-	private Image   image;
+	private Image image;
 
 	/** The image name. */
-	private String  imageName;
+	private String imageName;
 
 	/** The console image. */
-	private char    consoleImage;
+	private char consoleImage;
 
 	/** The is image loaded. */
 	private boolean imageLoaded;
@@ -30,10 +30,8 @@ public class Sprite {
 	/**
 	 * Instantiates a new sprite.
 	 *
-	 * @param character
-	 *            the character
-	 * @param imageName
-	 *            the image name
+	 * @param character the character
+	 * @param imageName the image name
 	 */
 	public Sprite(final char character, final String imageName) {
 		this.setConsoleImage(character);
@@ -43,8 +41,7 @@ public class Sprite {
 	/**
 	 * Instantiates a new sprite.
 	 *
-	 * @param character
-	 *            the character
+	 * @param character the character
 	 */
 	public Sprite(final char character) {
 		this(character, "noimage.jpg");
@@ -62,8 +59,7 @@ public class Sprite {
 	/**
 	 * Loads image.
 	 *
-	 * @throws IOException
-	 *             Signals that an I/O exception has occurred.
+	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	public final void loadImage() throws IOException {
 		this.setImage(ImageIO.read(new File("images/" + this.getImageName())));
@@ -81,8 +77,7 @@ public class Sprite {
 	/**
 	 * Sets the image.
 	 *
-	 * @param image
-	 *            the new image
+	 * @param image the new image
 	 */
 	private void setImage(final Image image) {
 		this.image = image;
@@ -91,8 +86,7 @@ public class Sprite {
 	/**
 	 * Sets the console image.
 	 *
-	 * @param consoleImage
-	 *            the consoleImage to set
+	 * @param consoleImage the consoleImage to set
 	 */
 	private void setConsoleImage(final char consoleImage) {
 		this.consoleImage = consoleImage;
@@ -110,8 +104,7 @@ public class Sprite {
 	/**
 	 * Sets the image name.
 	 *
-	 * @param imageName
-	 *            the imageName to set
+	 * @param imageName the imageName to set
 	 */
 	private void setImageName(final String imageName) {
 		this.imageName = imageName;
@@ -129,8 +122,7 @@ public class Sprite {
 	/**
 	 * Sets the image loaded.
 	 *
-	 * @param isImageLoaded
-	 *            the new image loaded
+	 * @param isImageLoaded the new image loaded
 	 */
 	public final void setImageLoaded(final boolean isImageLoaded) {
 		this.imageLoaded = isImageLoaded;

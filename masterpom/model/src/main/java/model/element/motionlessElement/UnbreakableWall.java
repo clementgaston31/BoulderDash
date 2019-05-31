@@ -1,7 +1,7 @@
 package model.element.motionlessElement;
 
-import banal.Permeability;
-import banal.Sprite;
+import model.element.Permeability;
+import model.element.Sprite;
 
 public class UnbreakableWall extends MotionlessElement{
 

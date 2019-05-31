@@ -8,10 +8,10 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import banal.Permeability;
-import banal.Sprite;
 import contract.model.IMap;
 import fr.exia.showboard.IBoard;
+import model.element.Permeability;
+import model.element.Sprite;
 
 
 public class MobileTest {

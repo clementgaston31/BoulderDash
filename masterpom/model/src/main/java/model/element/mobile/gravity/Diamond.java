@@ -2,10 +2,10 @@ package model.element.mobile.gravity;
 
 import java.io.IOException;
 
-import banal.Permeability;
-import banal.Sprite;
 import contract.model.IGravity;
 import contract.model.IMap;
+import model.element.Permeability;
+import model.element.Sprite;
 import model.element.mobile.Mobile;
 
 public class Diamond extends Mobile implements IGravity{

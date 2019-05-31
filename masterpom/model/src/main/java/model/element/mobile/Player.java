@@ -3,9 +3,9 @@ package model.element.mobile;
 import java.awt.Point;
 import java.io.IOException;
 
-import banal.Permeability;
-import banal.Sprite;
 import contract.model.IMap;
+import model.element.Permeability;
+import model.element.Sprite;
 
 
 public class Player extends Mobile{

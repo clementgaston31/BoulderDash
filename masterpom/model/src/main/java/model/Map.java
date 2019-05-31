@@ -4,11 +4,13 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
+import java.sql.SQLException;
 import java.util.Observable;
 
 import contract.model.IElement;
 import contract.model.IMap;
 import model.DAO.DAOMap;
+import model.DAO.DBConnection;
 
 /**
  * <h1> The Map Class. </h1>
@@ -67,19 +69,23 @@ public class Map extends Observable implements IMap{
 		this.setPlayerStartX(playerStartX);
 		this.setPlayerStartY(playerStartY);
 		this.setMapFromBDD(mapFromBDD);
+		System.out.println("constructor broken ? " + this.width);
 	}
 	
 	/**
 	 * Creation of a new Map from the database directly.
 	 */
-	public Map(int idMap) {
+	public Map(int idMap, Map map) {
 		super();
-		map = find.find(idMap, map);
 		try {
-			this.loadMap(this.mapFromBDD);
-		} catch (IOException e) {
+			final DAOMap daoMap = new DAOMap(DBConnection.getInstance().getConnection());
+			this.setMap(daoMap.find(idMap, map));
+			System.out.println("Cassé ? " + this.width);
+			System.out.println("Yo Broooo" + this.getWidth());
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		
 	}
 
 	/**
@@ -191,9 +197,17 @@ public class Map extends Observable implements IMap{
 	 * 
 	 * @param mapFromBDD
 	 * 			The new String Map.
+	 * @return 
 	 */
 	public void setMapFromBDD(String mapFromBDD) {
 		this.mapFromBDD = mapFromBDD;
+	}
+	
+	public void setMap(Map map) {
+		this.map = map;
+		System.out.println("SetMap cassé" + this.width);
+		this.setChanged();
+		this.notifyObservers();
 	}
 	
 	/**
@@ -235,7 +249,7 @@ public class Map extends Observable implements IMap{
 	 * @param y
 	 * @return onTheMap[x][y]
 	 */
-	public IElement getOnTheMapXY(int x, int y) {
+	public IElement getOnTheMapXY(final int x,final int y) {
 		return this.onTheMap[x][y];
 	}
 	

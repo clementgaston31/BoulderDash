@@ -3,9 +3,8 @@ package model;
 import java.io.IOException;
 import java.util.Observable;
 
-import banal.IMobile;
-import contract.model.IMap;
-import contract.model.IModel;
+import contract.model.*;
+import model.element.mobile.Player;
 
 /**
  * <h1> The Model Class. </h1>
@@ -39,9 +38,10 @@ public final class Model extends Observable implements IModel {
 	 * @throws IOException
 	 * 			Signals that an I/O exception has occured.
 	 */
-	Model(int idMap, int playerX, int playerY) throws IOException{
-		this.setMap(new Map(idMap));
-		//this.setPlayer(new Player(playerX, playerY, this.getMap()));
+	public Model(int idMap, Map map) throws IOException{
+		this.setMap(new Map(idMap, map));
+	    System.out.println("Pk ça marche pas " + this.getMap().getWidth());
+		this.setPlayer(new Player(2, 2, this.getMap()));
 	}
 	
 	/**
@@ -58,7 +58,7 @@ public final class Model extends Observable implements IModel {
 	 * @param map
 	 * 			The new Map.
 	 */
-	private void setMap(IMap map) {
+	private void setMap(Map map) {
 		this.map = map;
 	}
 	
@@ -78,7 +78,7 @@ public final class Model extends Observable implements IModel {
 	 * 			The new player.
 	 */
 	@SuppressWarnings("unused")
-	private void setPlayer(IMobile player) {
+	private void setPlayer(Player player) {
 		this.player = player;
 	}
 	

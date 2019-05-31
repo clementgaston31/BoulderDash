@@ -1,8 +1,8 @@
 package model.element.motionlessElement;
 
-import banal.Permeability;
-import banal.Sprite;
 import model.element.Element;
+import model.element.Permeability;
+import model.element.Sprite;
 
 /**
  * <h1>The MotionlessElement Class.</h1>

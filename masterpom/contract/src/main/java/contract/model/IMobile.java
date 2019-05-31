@@ -2,6 +2,7 @@ package contract.model;
 
 import java.awt.Point;
 
+import contract.model.IElement;
 import fr.exia.showboard.IPawn;
 
 /**

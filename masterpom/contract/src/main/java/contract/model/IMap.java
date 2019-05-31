@@ -55,4 +55,8 @@ public interface IMap {
 	 */
 	void updateMap();
 	
+	public int getPlayerStartY();
+	
+	public int getPlayerStartX();
+	
 }

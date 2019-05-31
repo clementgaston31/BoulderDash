@@ -68,8 +68,11 @@ public class DAOMap extends DAOElement{
 			call.execute();
 			ResultSet resultSet = call.getResultSet();
 			if (resultSet.first()) {
+				System.out.println("Tkt j'te soutient frérot");
 				map = new Map(resultSet.getInt("idMap"), resultSet.getInt("width"), resultSet.getInt("height"), resultSet.getInt("playerStartX"), resultSet.getInt("playerStartY"), resultSet.getString("StringMap"));
 			}
+			System.out.println(resultSet.getInt("width"));
+			System.out.println("Yo " + map.getWidth());
 			return map;
 		} catch (SQLException e) {
 			e.printStackTrace();

@@ -2,12 +2,12 @@ package model.element.mobile;
 
 import java.awt.Point;
 
-import banal.Permeability;
-import banal.Sprite;
 import contract.model.IMap;
 import contract.model.IMobile;
 import fr.exia.showboard.IBoard;
 import model.element.Element;
+import model.element.Permeability;
+import model.element.Sprite;
 
 /**
  * <h1>The Mobile Class.</h1>

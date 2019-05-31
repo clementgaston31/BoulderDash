@@ -4,7 +4,7 @@ public interface IModel {
 
 	public IMap getMap();
 	
-	public banal.IMobile getPlayer();
+	public IMobile getPlayer();
 	
 	//public void updateModel();
 	

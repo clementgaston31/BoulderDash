@@ -1,4 +1,4 @@
-package banal;
+package model.element;
 
 /**
 * <h1>The Permeability Enum.</h1>

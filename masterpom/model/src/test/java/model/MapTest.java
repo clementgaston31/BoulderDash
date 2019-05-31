@@ -14,7 +14,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import contract.model.IElement;
-import banal.*;
+import model.element.Sprite;;
 
 public class MapTest {
 
