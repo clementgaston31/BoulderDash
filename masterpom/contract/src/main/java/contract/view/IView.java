@@ -24,4 +24,6 @@ public interface IView {
 	void followMyPlayer();
 
 	void setOrderPerformer(IOrderPerformer orderPerformer);
+	
+	public void updateView() ;
 }

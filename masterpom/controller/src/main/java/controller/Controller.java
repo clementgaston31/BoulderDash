@@ -5,10 +5,11 @@ import contract.controller.IOrderPerformer;
 import contract.controller.UserOrder;
 import contract.view.IView;
 import model.IModel;
+import model.element.mobile.MobileFactory;
 import model.element.motionlessElement.MotionlessElementFactory;
 
 /**
- * <h1> The Controller Class. </h1>
+ * <h1>The Controller Class.</h1>
  * 
  * @author Clément GASTON
  * @version 0.1
@@ -17,15 +18,17 @@ public class Controller implements IOrderPerformer, IController {
 
 	/** Speed will be the time in ms between every refresh of the game. */
 	public int speed = 300;
-	
+
 	/** The model. */
 	private IModel model;
-	
+
 	/** The view. */
 	private IView view;
-	
+
 	/** The stack order. */
 	private UserOrder stackOrder;
+
+	public int Diamond = 0;
 
 	/**
 	 * The controller which will create a view and a model.
@@ -40,8 +43,10 @@ public class Controller implements IOrderPerformer, IController {
 	}
 
 	/**
-	 * This function will loop during all the game and will allow the player to move.
-	 * @throws InterruptedException 
+	 * This function will loop during all the game and will allow the player to
+	 * move.
+	 * 
+	 * @throws InterruptedException
 	 */
 	public void play() throws InterruptedException {
 		System.out.println(this.getStackOrder());
@@ -75,26 +80,74 @@ public class Controller implements IOrderPerformer, IController {
 				}
 				break;
 			case NOP:
-				System.out.println(this.getStackOrder());
 				break;
+			/*
+			 * System.out.println(this.getStackOrder()); break;
+			 */
 			default:
 				this.getModel().getPlayer().doNothing();
 				break;
 			}
 			this.clearStackOrder();
-			
-			if(this.getModel().getPlayer().isDirt()==true){
-				MotionlessElementFactory.createBackground();
-				System.out.println("dirt");
-				
-			}
-			
+
 			this.getModel().getMap().updateMap();
-			//this.getView().followMyPlayer();
+			// this.getView().followMyPlayer();
 			this.getModel().getMap().setMobileHasChanged();
-			System.out.println(this.getModel().getPlayer().getX());
+			//this.getModel().getMap().updateMap();
+			updateModel();
+			this.getView().updateView();
+
 		}
 		this.getView().displayMessage("Cheh");
+	}
+
+	public void updateModel() {
+		if (this.getModel().getPlayer().isDirt() == true) {
+			this.getModel().getMap().setOnTheMapXY(MotionlessElementFactory.createBackground(),
+					this.getModel().getPlayer().getX(), this.getModel().getPlayer().getY());
+		}
+
+		if (this.getModel().getPlayer().isDiamond() == true) {
+			this.getModel().getMap().setOnTheMapXY(MotionlessElementFactory.createBackground(),
+					this.getModel().getPlayer().getX(), this.getModel().getPlayer().getY());
+			Diamond = Diamond + 1;
+			System.out.println("CONNAED");
+			System.out.println(Diamond);
+			System.out.println(Diamond);
+			System.out.println(Diamond);
+			
+		}
+
+		
+		for (int x = 1 ; x < this.getModel().getMap().getWidth(); x++) {
+			for (int y = 1 ; y < this.getModel().getMap().getHeight(); y++) {
+				if (this.getModel().getMap().getOnTheMapXY(x, y).getSprite().getConsoleImage() == 'R'
+						&& this.getModel().getMap().getOnTheMapXY(x, y+1).getSprite().getConsoleImage() == 'B'
+						&& this.getModel().getPlayer().getX() != x
+						&& this.getModel().getPlayer().getY() != y+1) {
+					this.getModel().getMap().setOnTheMapXY(this.getModel().getMap().getOnTheMapXY(x, y), x, y+1);
+					this.getModel().getMap().setOnTheMapXY(MotionlessElementFactory.createBackground(), x, y);
+					System.out.println("Position X du joueur : " + this.getModel().getPlayer().getX());
+					System.out.println("Position Y du joueur : " + this.getModel().getPlayer().getY());
+					System.out.println("Position X  : " + x);
+					System.out.println("Position Y : " + y);
+				}
+			}
+		}
+		/*for (int y = 0; y < this.getModel().getMap().getHeight(); y++) {
+			for (int x = 0; x < this.getModel().getMap().getWidth(); x++) {
+				if (this.getModel().getMap().getOnTheMapXY(x, y).getSprite().getConsoleImage() == 'R'
+						|| this.getModel().getMap().getOnTheMapXY(x, y).getSprite().getConsoleImage() == '*') {
+
+					if (this.getModel().getMap().getOnTheMapXY(x, y + 1).getSprite().getConsoleImage() == 'B'
+							&& this.getModel().getPlayer().getX() != x && this.getModel().getPlayer().getY() != y + 1) {
+						this.getModel().getMap().setOnTheMapXY(MotionlessElementFactory.createBackground(), x, y);
+						this.getModel().getMap().setOnTheMapXY(MobileFactory.createRock(), x, (y + 1));
+						System.out.println("COUCOU ANTHONY LE PLUS BO");
+					}
+				}
+			}
+		}*/
 	}
 
 	/**
@@ -109,15 +162,14 @@ public class Controller implements IOrderPerformer, IController {
 	/**
 	 * Sets the view.
 	 * 
-	 * @param view
-	 * 			The new view.
+	 * @param view The new view.
 	 */
 	private void setView(IView view) {
 		this.view = view;
 	}
 
 	/**
-	 * Gets the model. 
+	 * Gets the model.
 	 * 
 	 * @return model
 	 */
@@ -128,8 +180,7 @@ public class Controller implements IOrderPerformer, IController {
 	/**
 	 * Sets the model.
 	 * 
-	 * @param model
-	 * 			The new model.
+	 * @param model The new model.
 	 */
 	private void setModel(IModel model) {
 		this.model = model;
@@ -156,8 +207,7 @@ public class Controller implements IOrderPerformer, IController {
 	/**
 	 * Sets the stack order.
 	 * 
-	 * @param stackOrder
-	 * 			The new stack order.
+	 * @param stackOrder The new stack order.
 	 */
 	private void setStackOrder(UserOrder stackOrder) {
 		this.stackOrder = stackOrder;

@@ -17,7 +17,7 @@ import model.IMap;
 import model.element.mobile.IMobile;
 
 /**
- * <h1> The View Class </h1>
+ * <h1>The View Class</h1>
  * 
  * @author Clément GASTON
  * @version 0.1
@@ -31,8 +31,9 @@ public class View implements IView, KeyListener, Runnable {
 	private IMobile Player;
 	private int view;
 	private IOrderPerformer orderPerformer;
+	final BoardFrame boardFrame = new BoardFrame("Close view");
 	
-	public View(final IMap map, final IMobile player) throws Exception{
+	public View(final IMap map, final IMobile player) throws Exception {
 		this.setView(mapView);
 		this.setMap(map);
 		this.setPlayer(player);
@@ -40,17 +41,17 @@ public class View implements IView, KeyListener, Runnable {
 		this.setCloseView(new Rectangle(0, this.getPlayer().getY(), this.getMap().getWidth(), mapView));
 		SwingUtilities.invokeLater(this);
 	}
-	
+
 	public final void displayMessage(final String message) {
 		JOptionPane.showMessageDialog(null, message);
 	}
-	
+
 	public final void run() {
-		final BoardFrame boardFrame = new BoardFrame("Close view");
-		//Image icone = Toolkit.getDefaultToolkit().getImage("./images/Icon.png");
-		//boardFrame.setIconImage(icone);
-		boardFrame.setResizable(true);
 		
+		// Image icone = Toolkit.getDefaultToolkit().getImage("./images/Icon.png");
+		// boardFrame.setIconImage(icone);
+		boardFrame.setResizable(true);
+
 		boardFrame.setDimension(new Dimension(this.getMap().getWidth(), this.getMap().getHeight()));
 		boardFrame.setDisplayFrame(this.closeView);
 		boardFrame.setSize(this.closeView.width * squareSize, this.closeView.height * squareSize);
@@ -58,23 +59,23 @@ public class View implements IView, KeyListener, Runnable {
 		boardFrame.addKeyListener(this);
 		boardFrame.setFocusable(true);
 		boardFrame.setFocusTraversalKeysEnabled(false);
-		
+
 		for (int x = 0; x < this.getMap().getWidth(); x++) {
 			for (int y = 0; y < this.getMap().getHeight(); y++) {
 				boardFrame.addSquare(this.map.getOnTheMapXY(x, y), x, y);
 			}
 		}
 		boardFrame.addPawn(this.getPlayer());
-		
+
 		this.getMap().getObservable().addObserver(boardFrame.getObserver());
 		this.followMyPlayer();
-		
+
 		boardFrame.setVisible(true);
 	}
-	
+
 	public final void show(final int yStart) {
 		int y = yStart % this.getMap().getHeight();
-		for(int view = 0; view < this.getView(); view++) {
+		for (int view = 0; view < this.getView(); view++) {
 			for (int x = 0; x < this.getMap().getWidth(); x++) {
 				if ((x == this.getPlayer().getX()) && (y == yStart)) {
 					System.out.print(this.getPlayer().getSprite().getConsoleImage());
@@ -85,7 +86,7 @@ public class View implements IView, KeyListener, Runnable {
 			System.out.print("\n");
 		}
 	}
-	
+
 	private static UserOrder keyCodeToUserOrder(final int keyCode) {
 		UserOrder userOrder = null;
 		switch (keyCode) {
@@ -104,11 +105,11 @@ public class View implements IView, KeyListener, Runnable {
 		}
 		return userOrder;
 	}
-	
+
 	public void keyTyped(final KeyEvent keyEvent) {
-		//Nop
+		// Nop
 	}
-	
+
 	public final void keyPressed(final KeyEvent keyEvent) {
 		try {
 			this.getOrderPerformer().orderPerform(keyCodeToUserOrder(keyEvent.getKeyCode()));
@@ -116,21 +117,21 @@ public class View implements IView, KeyListener, Runnable {
 			exception.printStackTrace();
 		}
 	}
-	
+
 	public void keyReleased(final KeyEvent keyEvent) {
-		
+
 	}
-	
+
 	public final void followMyPlayer() {
 		this.getCloseView().y = this.getPlayer().getY();
 		this.getCloseView().x = this.getPlayer().getX();
 	}
-	
+
 	private IMap getMap() {
 		return this.map;
 	}
-	
-	private void setMap(final IMap map) throws IOException{
+
+	private void setMap(final IMap map) throws IOException {
 		this.map = map;
 		for (int x = 0; x < this.getMap().getWidth(); x++) {
 			for (int y = 0; y < this.getMap().getHeight(); y++) {
@@ -138,42 +139,47 @@ public class View implements IView, KeyListener, Runnable {
 			}
 		}
 	}
-	
+
 	private IMobile getPlayer() {
 		return this.Player;
 	}
-	
+
 	private void setPlayer(final IMobile Player) {
 		this.Player = Player;
 	}
-	
+
 	private int getView() {
 		return this.view;
 	}
-	
+
 	private void setView(final int view) {
 		this.view = view;
 	}
-	
+
 	private Rectangle getCloseView() {
 		return this.closeView;
 	}
-	
+
 	private void setCloseView(final Rectangle closeView) {
 		this.closeView = closeView;
 	}
-	
+
 	private IOrderPerformer getOrderPerformer() {
 		return this.orderPerformer;
 	}
-	
+
 	public final void setOrderPerformer(final IOrderPerformer orderPerformer) {
 		this.orderPerformer = orderPerformer;
 	}
 
+	public void updateView() {
+		for (int x = 0; x < this.getMap().getWidth(); x++) {
+			for (int y = 0; y < this.getMap().getHeight(); y++) {
+				boardFrame.addSquare(this.map.getOnTheMapXY(x, y), x, y);
+			}
+		}
+		boardFrame.addPawn(this.getPlayer());
+
+		this.getMap().getObservable().addObserver(boardFrame.getObserver());
+	}
 }
-	
-	
-	
-	
-	

@@ -18,7 +18,7 @@ public class Diamond extends Mobile implements IGravity{
      * Instantiates a new diamond.
      */
     public Diamond() {
-        super(spriteDiamond, Permeability.BLOCKING);
+        super(spriteDiamond, Permeability.DISAPPEAR);
         this.setFalling(false);
        
     }

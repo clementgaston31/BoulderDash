@@ -12,7 +12,7 @@ public class Background extends MotionlessElement {
     /**
      * Instantiates a new background.
      */
-    Background() {
+    public Background() {
         super(spriteBackground, Permeability.PENETRABLE);
     }
 }

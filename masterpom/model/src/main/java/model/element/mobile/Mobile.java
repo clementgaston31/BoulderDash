@@ -238,6 +238,10 @@ public abstract class Mobile extends Element implements IMobile{
 		return this.getMap().getOnTheMapXY(this.getX(), this.getY()).getPermeability() == Permeability.DISAPPEAR;
 	}
 	
+	public Boolean isDiamond() {
+		return this.getMap().getOnTheMapXY(this.getX(), this.getY()).getPermeability() == Permeability.DISAPPEAR;
+	}
+	
 	public Boolean isBlocked() {
 		return this.getMap().getOnTheMapXY(this.getX(), this.getY()).getPermeability() == Permeability.BLOCKING;
 	}
