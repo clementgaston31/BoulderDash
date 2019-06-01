@@ -1,6 +1,5 @@
 package model.element.mobile;
 
-import model.element.mobile.gravity.*;
 
 
 /**
@@ -12,20 +11,11 @@ import model.element.mobile.gravity.*;
 
 public abstract class MobileFactory {
 
-	/** The Constant Background. */
+	/** The Constant Diamond. */
 	private static final Diamond diamond = new Diamond();
 	
 	/** The Constant Rock. */
 	private static final Rock rock = new Rock();
-
-	/** The Constant Dirt. */
-	private static final Ennemy ennemy = new Ennemy();
-	
-	/** The Constant Dirt. */
-	private static final EnnemyRandom ennemyRandom = new EnnemyRandom();
-
-	/** The Constant UnbreakableWall. */
-	private static final Player player = new Player();
 
 	
 	
@@ -34,9 +24,7 @@ public abstract class MobileFactory {
 	 */
 	private static Mobile[] mobileElements = {
 			diamond, 
-			ennemy, 
-			ennemyRandom, 
-			player,
+			rock,
 			};
 	
 	
@@ -54,36 +42,10 @@ public abstract class MobileFactory {
      *
      * @return the motionless element
      */
-    public static Mobile createPlayer() {
-        return player;
-    }
-
-    /**
-     * Creates a new MotionlessElements object.
-     *
-     * @return the motionless element
-     */
     public static Mobile createRock() {
         return rock;
     }
 
-    /**
-     * Creates a new MotionlessElements object.
-     *
-     * @return the motionless element
-     */
-    public static Mobile createEnnemy() {
-        return ennemy;
-    }
-
-    /**
-     * Creates a new MotionlessElements object.
-     *
-     * @return the motionless element
-     */
-    public static Mobile createEnnemyRandom() {
-        return ennemyRandom;
-    }
     
     /**
      * Gets the good MotionlessElement from file symbol.
@@ -98,6 +60,6 @@ public abstract class MobileFactory {
                 return mobileElement;
             }
         }
-        return null;
+        return rock;
     }
 }

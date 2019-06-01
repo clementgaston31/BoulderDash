@@ -70,6 +70,18 @@ public abstract class Mobile extends Element implements IMobile{
 		this.setX(x);
 		this.setY(y);
 	}
+	
+	/**
+     * Instantiates a new mobile element.
+     *
+     * @param sprite
+     *            the sprite
+     * @param permeability
+     *            the permeability
+     */
+    Mobile(final Sprite sprite, final Permeability permeability) {
+        super(sprite, permeability);
+    }
 
 	/*
 	 * (non-Javadoc)
@@ -144,9 +156,9 @@ public abstract class Mobile extends Element implements IMobile{
 	 */
 	public final void setX(final int x) {
 		this.getPosition().x = x;
-		/*if (this.isKilled()) {
+		if (this.isKilled()) {
 			this.die();
-		}*/
+		}
 	}
 
 	/*
@@ -166,10 +178,10 @@ public abstract class Mobile extends Element implements IMobile{
 	 *            based on the road height.
 	 */
 	public final void setY(final int y) {
-		this.getPosition().y = y; /*(y + this.getMap().getHeight()) % this.getMap().getHeight();
+		this.getPosition().y = (y + this.getMap().getHeight()) % this.getMap().getHeight();
 		if (this.isKilled()) {
 			this.die();
-		}*/
+		}
 	}
 
 
@@ -224,6 +236,10 @@ public abstract class Mobile extends Element implements IMobile{
 	@Override
 	public Boolean isDirt() {
 		return this.getMap().getOnTheMapXY(this.getX(), this.getY()).getPermeability() == Permeability.DISAPPEAR;
+	}
+	
+	public Boolean isBlocked() {
+		return this.getMap().getOnTheMapXY(this.getX(), this.getY()).getPermeability() == Permeability.BLOCKING;
 	}
 
 	/*

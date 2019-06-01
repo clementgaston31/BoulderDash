@@ -68,6 +68,8 @@ public interface IMobile extends IPawn, IElement {
 	 * @return the boolean
 	 */
 	Boolean isKilled();
+	
+	 Boolean isBlocked();
 
 	/**
 	 * (non-Javadoc)

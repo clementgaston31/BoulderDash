@@ -6,8 +6,14 @@ import java.io.Reader;
 import java.io.StringReader;
 import java.util.Observable;
 
+import contract.model.IGravity;
 import model.element.IElement;
+import model.element.mobile.Diamond;
+import model.element.mobile.Mobile;
 import model.element.mobile.MobileFactory;
+import model.element.mobile.Player;
+import model.element.mobile.Rock;
+import model.element.motionlessElement.Background;
 import model.element.motionlessElement.MotionlessElementFactory;
 
 /**
@@ -207,9 +213,7 @@ public class Map extends Observable implements IMap{
 		int y = 0;
 		while (line != null) {
 			for (int x = 0; x < this.getWidth(); x++) {
-				if (line.toCharArray()[x] == 'E' ||
-					line.toCharArray()[x] == 'M' ||
-					line.toCharArray()[x] == 'R' ||
+				if (line.toCharArray()[x] == 'R' ||
 					line.toCharArray()[x] == '*') {
 					this.setOnTheMapXY(MobileFactory.getFromFileSymbol(line.toCharArray()[x]), x, y);
 				} else {
@@ -265,6 +269,63 @@ public class Map extends Observable implements IMap{
 	 */
 	public void updateMap() {
 		
+		//Mettre ici ce qu'il y a pour vérif les bordures
+		for (int y = this.getHeight() - 2; y >= 0; y--) {
+			for (int x = 0; x < this.getWidth(); x++) {
+
+				// si l'objet est soumis à la gravité
+				if (this.getOnTheMapXY(x, y).getClass().isInstance(Diamond.class)
+						|| this.getOnTheMapXY(x, y).getClass().isInstance(Rock.class)) {
+
+					// si il y a rien en dessous
+					if (this.getOnTheMapXY(x, y + 1).getClass().isInstance(Background.class)) {
+
+						// gravité passe à true
+						((IGravity) this.getOnTheMapXY(x, y)).setFalling(true);
+
+						// l'objet tombe en bas
+						((Mobile) this.getOnTheMapXY(x, y)).moveDown();
+						this.setOnTheMapXY(this.getOnTheMapXY(x, y), x, y + 1);
+						this.setOnTheMapXY(MotionlessElementFactory.createBackground(), x, y);
+						continue;
+
+						// Si notre joueur est en-dessous et que l'objet tombe
+					} else if (this.getOnTheMapXY(x, y + 1).getClass().isInstance(Player.class)
+							&& ((IGravity) this.getOnTheMapXY(x, y)).isFalling()) {
+						((Player) this.getOnTheMapXY(x, y + 1)).die();
+						((Mobile) this.getOnTheMapXY(x, y)).moveDown();
+						this.setOnTheMapXY(MotionlessElementFactory.createBackground(), x, y);
+						continue;
+
+						// Si il y a un rocher ou un diamand en dessous
+					} else if (this.getOnTheMapXY(x, y + 1).getClass().isInstance(Diamond.class)
+							|| this.getOnTheMapXY(x, y + 1).getClass().isInstance(Rock.class)) {
+						
+						//Et que si à droite il n' y rien, il peut tomber
+						if (this.getOnTheMapXY(x + 1, y).getClass().isInstance(Background.class)
+								&& this.getOnTheMapXY(x + 1, y + 1).getClass().isInstance(Background.class)) {
+							((IGravity) this.getOnTheMapXY(x, y)).setFalling(true);
+							((Mobile) this.getOnTheMapXY(x, y)).moveRight();
+							this.setOnTheMapXY(MotionlessElementFactory.createBackground(), x, y);
+							continue;
+							
+							//Et que si à gauche il n' y rien, il peut tomber
+						}else if (this.getOnTheMapXY(x + 1, y).getClass().isInstance(Background.class)
+								&& this.getOnTheMapXY(x + 1, y + 1).getClass().isInstance(Background.class)) {
+
+							((IGravity) this.getOnTheMapXY(x, y)).setFalling(true);
+							((Mobile) this.getOnTheMapXY(x, y)).moveRight();
+							this.setOnTheMapXY(MotionlessElementFactory.createBackground(), x, y);
+							continue;
+						}
+						
+					}
+					// Si on parvient jusqu'ici cela montre que l'objet n'a pas bougé
+					((IGravity) this.getOnTheMapXY(x, y)).setFalling(false);
+				}
+				
+			}
+		}
 	}
 
 	@Override

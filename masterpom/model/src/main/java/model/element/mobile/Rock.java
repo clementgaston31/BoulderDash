@@ -1,17 +1,15 @@
-package model.element.mobile.gravity;
+package model.element.mobile;
 
-import java.io.IOException;
+
 
 import contract.model.IGravity;
-import model.IMap;
 import model.element.Permeability;
 import model.element.Sprite;
-import model.element.mobile.Mobile;
 
 public class Rock extends Mobile implements IGravity{
 
 	/** The Constant SPRITE. */
-    private static final Sprite spriteRock = new Sprite('R', "Rock.jpg");
+    private static final Sprite spriteRock = new Sprite('R', "Rock.png");
     
     private boolean falling = false;
     
@@ -19,15 +17,10 @@ public class Rock extends Mobile implements IGravity{
     /**
      * Instantiates a new diamond.
      */
-    public Rock(final int x, final int y, final IMap map) throws IOException {
-        super(x, y, spriteRock, map, Permeability.BLOCKING);
-        spriteRock.loadImage();
+    public Rock() {
+        super(spriteRock, Permeability.BLOCKING);
         this.setFalling(false);
     }
-    
-    public Rock() {
-		super();
-	}
     
     
 

@@ -1,17 +1,15 @@
-package model.element.mobile.gravity;
+package model.element.mobile;
 
-import java.io.IOException;
+
 
 import contract.model.IGravity;
-import model.IMap;
 import model.element.Permeability;
 import model.element.Sprite;
-import model.element.mobile.Mobile;
 
 public class Diamond extends Mobile implements IGravity{
 	
 	/** The Constant SPRITE. */
-    private static final Sprite spriteDiamond = new Sprite('*', "Diamond.jpg");
+    private static final Sprite spriteDiamond = new Sprite('*', "Diamond.png");
     
     private boolean falling = false;
     
@@ -19,15 +17,12 @@ public class Diamond extends Mobile implements IGravity{
     /**
      * Instantiates a new diamond.
      */
-    public Diamond(final int x, final int y, final IMap map) throws IOException {
-        super(x, y, spriteDiamond, map, Permeability.BLOCKING);
-        spriteDiamond.loadImage();
+    public Diamond() {
+        super(spriteDiamond, Permeability.BLOCKING);
         this.setFalling(false);
+       
     }
     
-    public Diamond() {
-		super();
-	}
     
     
 

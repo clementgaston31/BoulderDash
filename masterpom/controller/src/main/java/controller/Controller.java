@@ -5,6 +5,7 @@ import contract.controller.IOrderPerformer;
 import contract.controller.UserOrder;
 import contract.view.IView;
 import model.IModel;
+import model.element.motionlessElement.MotionlessElementFactory;
 
 /**
  * <h1> The Controller Class. </h1>
@@ -51,15 +52,27 @@ public class Controller implements IOrderPerformer, IController {
 			switch (this.getStackOrder()) {
 			case UP:
 				this.getModel().getPlayer().moveUp();
+				if (this.getModel().getPlayer().isBlocked() == true) {
+					this.getModel().getPlayer().moveDown();
+				}
 				break;
 			case LEFT:
 				this.getModel().getPlayer().moveLeft();
+				if (this.getModel().getPlayer().isBlocked() == true) {
+					this.getModel().getPlayer().moveRight();
+				}
 				break;
 			case DOWN:
 				this.getModel().getPlayer().moveDown();
+				if (this.getModel().getPlayer().isBlocked() == true) {
+					this.getModel().getPlayer().moveUp();
+				}
 				break;
 			case RIGHT:
 				this.getModel().getPlayer().moveRight();
+				if (this.getModel().getPlayer().isBlocked() == true) {
+					this.getModel().getPlayer().moveLeft();
+				}
 				break;
 			case NOP:
 				System.out.println(this.getStackOrder());
@@ -69,7 +82,16 @@ public class Controller implements IOrderPerformer, IController {
 				break;
 			}
 			this.clearStackOrder();
-			this.getView().followMyPlayer();
+			
+			if(this.getModel().getPlayer().isDirt()==true){
+				MotionlessElementFactory.createBackground();
+				System.out.println("dirt");
+				
+			}
+			
+			this.getModel().getMap().updateMap();
+			//this.getView().followMyPlayer();
+			this.getModel().getMap().setMobileHasChanged();
 			System.out.println(this.getModel().getPlayer().getX());
 		}
 		this.getView().displayMessage("Cheh");

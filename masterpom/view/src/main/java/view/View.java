@@ -47,10 +47,14 @@ public class View implements IView, KeyListener, Runnable {
 	
 	public final void run() {
 		final BoardFrame boardFrame = new BoardFrame("Close view");
+		//Image icone = Toolkit.getDefaultToolkit().getImage("./images/Icon.png");
+		//boardFrame.setIconImage(icone);
+		boardFrame.setResizable(true);
+		
 		boardFrame.setDimension(new Dimension(this.getMap().getWidth(), this.getMap().getHeight()));
 		boardFrame.setDisplayFrame(this.closeView);
 		boardFrame.setSize(this.closeView.width * squareSize, this.closeView.height * squareSize);
-		boardFrame.setHeightLooped(true);
+		boardFrame.setHeightLooped(false);
 		boardFrame.addKeyListener(this);
 		boardFrame.setFocusable(true);
 		boardFrame.setFocusTraversalKeysEnabled(false);
