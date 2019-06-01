@@ -1,5 +1,7 @@
 package contract.view;
 
+import contract.controller.IOrderPerformer;
+
 /**
  * <h1> The View Interface </h1>
  * 
@@ -20,4 +22,6 @@ public interface IView {
      * Follow myPlayer.
      */
 	void followMyPlayer();
+
+	void setOrderPerformer(IOrderPerformer orderPerformer);
 }

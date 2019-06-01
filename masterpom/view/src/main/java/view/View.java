@@ -118,7 +118,8 @@ public class View implements IView, KeyListener, Runnable {
 	}
 	
 	public final void followMyPlayer() {
-		this.getCloseView().y = this.getPlayer().getY() - 1;
+		this.getCloseView().y = this.getPlayer().getY();
+		this.getCloseView().x = this.getPlayer().getX();
 	}
 	
 	private IMap getMap() {
