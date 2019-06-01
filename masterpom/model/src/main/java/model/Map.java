@@ -7,6 +7,7 @@ import java.io.StringReader;
 import java.util.Observable;
 
 import model.element.IElement;
+import model.element.mobile.MobileFactory;
 import model.element.motionlessElement.MotionlessElementFactory;
 
 /**
@@ -55,8 +56,7 @@ public class Map extends Observable implements IMap{
 	 * 			The characters Map.
 	 * @throws IOException 
 	 */
-	public Map(int idMap, int width, int height, int playerStartX, int playerStartY, String mapFromBDD) throws IOException {
-		super();
+	public Map(int idMap, int width, int height, int playerStartX, int playerStartY, String mapFromBDD) throws IOException {		super();
 		this.setIdMap(idMap);
 		this.setWidth(width);
 		this.setHeight(height);
@@ -207,7 +207,14 @@ public class Map extends Observable implements IMap{
 		int y = 0;
 		while (line != null) {
 			for (int x = 0; x < this.getWidth(); x++) {
-				this.setOnTheMapXY(MotionlessElementFactory.getFromFileSymbol(line.toCharArray()[x]), x, y);
+				if (line.toCharArray()[x] == 'E' ||
+					line.toCharArray()[x] == 'M' ||
+					line.toCharArray()[x] == 'R' ||
+					line.toCharArray()[x] == '*') {
+					this.setOnTheMapXY(MobileFactory.getFromFileSymbol(line.toCharArray()[x]), x, y);
+				} else {
+					this.setOnTheMapXY(MotionlessElementFactory.getFromFileSymbol(line.toCharArray()[x]), x, y);
+				}
 			}
 			line = reader.readLine();
 			y++;
@@ -262,8 +269,7 @@ public class Map extends Observable implements IMap{
 
 	@Override
 	public Observable getObservable() {
-		// TODO Auto-generated method stub
-		return null;
+		return this;
 	}
 	
 }

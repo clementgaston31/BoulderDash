@@ -98,6 +98,6 @@ public abstract class MobileFactory {
                 return mobileElement;
             }
         }
-        return rock;
+        return null;
     }
 }
