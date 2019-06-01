@@ -1,6 +1,8 @@
-package contract.model;
+package model;
 
 import java.util.Observable;
+
+import model.element.IElement;
 
 
 /**
@@ -58,5 +60,11 @@ public interface IMap {
 	public int getPlayerStartY();
 	
 	public int getPlayerStartX();
+	
+	public String getMapFromBDD();
+	
+	public IMap getMap();
+	
+	public void setOnTheMapXY(IElement element, int x, int y);
 	
 }

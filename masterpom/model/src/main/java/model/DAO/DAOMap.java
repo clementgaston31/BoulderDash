@@ -1,11 +1,13 @@
 package model.DAO;
 
+import java.io.IOException;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import model.DAO.Entity;
+import model.IMap;
 import model.Map;
 
 /**
@@ -60,19 +62,21 @@ public class DAOMap extends DAOElement{
 	 * @return map
 	 * 			Return all the corresponding information of the idMap if found.
 	 */
-	public Map find(int idMap, Map map) {
+	public IMap find(int idMap) {
 		try {
+			IMap map = null;
 			final String sql = "{call MapById(?)}";
 			final CallableStatement call = this.getConnection().prepareCall(sql);
 			call.setInt(1, idMap);
 			call.execute();
 			ResultSet resultSet = call.getResultSet();
 			if (resultSet.first()) {
-				System.out.println("Tkt j'te soutient frérot");
-				map = new Map(resultSet.getInt("idMap"), resultSet.getInt("width"), resultSet.getInt("height"), resultSet.getInt("playerStartX"), resultSet.getInt("playerStartY"), resultSet.getString("StringMap"));
+				try {
+					map = new Map(resultSet.getInt("idMap"), resultSet.getInt("width"), resultSet.getInt("height"), resultSet.getInt("playerStartX"), resultSet.getInt("playerStartY"), resultSet.getString("StringMap"));
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			}
-			System.out.println(resultSet.getInt("width"));
-			System.out.println("Yo " + map.getWidth());
 			return map;
 		} catch (SQLException e) {
 			e.printStackTrace();

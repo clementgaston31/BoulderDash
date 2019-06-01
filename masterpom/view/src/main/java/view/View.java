@@ -10,11 +10,11 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
 import contract.controller.IOrderPerformer;
-import contract.model.IMap;
-import contract.model.IMobile;
+import contract.controller.UserOrder;
 import contract.view.IView;
-import controller.UserOrder;
 import fr.exia.showboard.BoardFrame;
+import model.IMap;
+import model.element.mobile.IMobile;
 
 /**
  * <h1> The View Class </h1>

@@ -13,12 +13,12 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import contract.model.IElement;
+import model.element.IElement;
 import model.element.Sprite;;
 
 public class MapTest {
 
-	Map map = new Map(999, 5, 2, 3, 1, "X     \r\n    XX");
+	/*Map map = new Map(999, 5, 2, 3, 1, "X     \r\n    XX");
 	Sprite spriteSpace = null;
 	//IElement elementSpace = new Element(spriteSpace, Permeability.BLOCKING);
 	Sprite spriteX = new Sprite('X', "Chapeau.png");
@@ -109,8 +109,8 @@ public class MapTest {
 		{
 			//return elementX;
 		}
-		return null /*elementSpace*/;
-	}
+		return null /*elementSpace*//*;
+	}*/
 
 	/*
 	@Test

@@ -3,12 +3,12 @@ package model.element.mobile;
 import java.awt.Point;
 import java.io.IOException;
 
-import contract.model.IMap;
+import model.IMap;
 import model.element.Permeability;
 import model.element.Sprite;
 
 
-public class Player extends Mobile{
+public class Player extends Mobile implements IMobile{
 	
 	/** The Constant SPRITE. */
 	private static final Sprite sprite = new Sprite('P', "Player.png");

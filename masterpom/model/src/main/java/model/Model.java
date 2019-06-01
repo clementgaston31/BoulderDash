@@ -1,9 +1,12 @@
 package model;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.Observable;
 
-import contract.model.*;
+import model.DAO.DAOMap;
+import model.DAO.DBConnection;
+import model.element.mobile.IMobile;
 import model.element.mobile.Player;
 
 /**
@@ -37,11 +40,12 @@ public final class Model extends Observable implements IModel {
 	 * 			Gives the Y position of the player.
 	 * @throws IOException
 	 * 			Signals that an I/O exception has occured.
+	 * @throws SQLException 
 	 */
-	public Model(int idMap, Map map) throws IOException{
-		this.setMap(new Map(idMap, map));
-	    System.out.println("Pk ça marche pas " + this.getMap().getWidth());
-		this.setPlayer(new Player(2, 2, this.getMap()));
+	public Model(int idMap) throws IOException, SQLException{
+		final DAOMap daoMap = new DAOMap(DBConnection.getInstance().getConnection());
+		this.setMap(daoMap.find(idMap));
+		this.setPlayer(new Player(this.getMap().getPlayerStartX(), this.getMap().getPlayerStartY(), this.getMap()));
 	}
 	
 	/**
@@ -58,8 +62,10 @@ public final class Model extends Observable implements IModel {
 	 * @param map
 	 * 			The new Map.
 	 */
-	private void setMap(Map map) {
+	public void setMap(final IMap map) {
 		this.map = map;
+		this.setChanged();
+		this.notifyObservers();
 	}
 	
 	/**

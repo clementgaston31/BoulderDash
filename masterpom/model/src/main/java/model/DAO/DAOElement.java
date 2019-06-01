@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.sql.Connection;
 
 import model.DAO.Entity;
+import model.IMap;
 import model.Map;
 
 /**
@@ -61,5 +62,5 @@ abstract class DAOElement {
 	 * @return map
 	 * 			Return all the corresponding information of the idMap if found.
 	 */
-	public abstract Map find (int iDMap, Map map);
+	public abstract IMap find (int iDMap);
 }

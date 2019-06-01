@@ -1,8 +1,9 @@
 package controller;
 
 import contract.controller.IOrderPerformer;
-import contract.model.IModel;
+import contract.controller.UserOrder;
 import contract.view.IView;
+import model.IModel;
 
 /**
  * <h1> The Controller Class. </h1>

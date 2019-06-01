@@ -2,7 +2,6 @@ package model.element;
 
 import java.awt.Image;
 
-import contract.model.IElement;
 import fr.exia.showboard.ISquare;
 
 /**

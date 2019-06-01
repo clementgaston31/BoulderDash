@@ -1,4 +1,6 @@
-package contract.model;
+package model;
+
+import model.element.mobile.IMobile;
 
 public interface IModel {
 

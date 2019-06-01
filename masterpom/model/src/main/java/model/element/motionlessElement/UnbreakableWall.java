@@ -6,7 +6,7 @@ import model.element.Sprite;
 public class UnbreakableWall extends MotionlessElement{
 
 	/** The Constant SPRITE. */
-    private static final Sprite spriteUnbreakableWall = new Sprite('X', "UnbreakableWall.jpg");
+    private static final Sprite spriteUnbreakableWall = new Sprite('X', "UnbreakableWall.png");
     
     
     /**

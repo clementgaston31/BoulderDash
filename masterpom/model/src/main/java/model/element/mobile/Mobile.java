@@ -2,9 +2,8 @@ package model.element.mobile;
 
 import java.awt.Point;
 
-import contract.model.IMap;
-import contract.model.IMobile;
 import fr.exia.showboard.IBoard;
+import model.IMap;
 import model.element.Element;
 import model.element.Permeability;
 import model.element.Sprite;
@@ -145,9 +144,9 @@ public abstract class Mobile extends Element implements IMobile{
 	 */
 	public final void setX(final int x) {
 		this.getPosition().x = x;
-		if (this.isKilled()) {
+		/*if (this.isKilled()) {
 			this.die();
-		}
+		}*/
 	}
 
 	/*
@@ -167,10 +166,10 @@ public abstract class Mobile extends Element implements IMobile{
 	 *            based on the road height.
 	 */
 	public final void setY(final int y) {
-		this.getPosition().y = (y + this.getMap().getHeight()) % this.getMap().getHeight();
+		this.getPosition().y = y; /*(y + this.getMap().getHeight()) % this.getMap().getHeight();
 		if (this.isKilled()) {
 			this.die();
-		}
+		}*/
 	}
 
 

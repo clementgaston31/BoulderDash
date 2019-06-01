@@ -4,13 +4,10 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
-import java.sql.SQLException;
 import java.util.Observable;
 
-import contract.model.IElement;
-import contract.model.IMap;
-import model.DAO.DAOMap;
-import model.DAO.DBConnection;
+import model.element.IElement;
+import model.element.motionlessElement.MotionlessElementFactory;
 
 /**
  * <h1> The Map Class. </h1>
@@ -41,10 +38,6 @@ public class Map extends Observable implements IMap{
 	/** The grill of the map which will stock every character with their X Y coordinates. */
 	IElement[][] onTheMap;
 	
-	DAOMap find;
-	
-	Map map;
-	
 	/**
 	 * Creation of a new Map.
 	 * 
@@ -60,8 +53,9 @@ public class Map extends Observable implements IMap{
 	 * 			The Y start point of the player.
 	 * @param mapFromBDD
 	 * 			The characters Map.
+	 * @throws IOException 
 	 */
-	public Map(int idMap, int width, int height, int playerStartX, int playerStartY, String mapFromBDD) {
+	public Map(int idMap, int width, int height, int playerStartX, int playerStartY, String mapFromBDD) throws IOException {
 		super();
 		this.setIdMap(idMap);
 		this.setWidth(width);
@@ -69,25 +63,14 @@ public class Map extends Observable implements IMap{
 		this.setPlayerStartX(playerStartX);
 		this.setPlayerStartY(playerStartY);
 		this.setMapFromBDD(mapFromBDD);
-		System.out.println("constructor broken ? " + this.width);
+		this.loadMap(mapFromBDD);
 	}
 	
 	/**
 	 * Creation of a new Map from the database directly.
+	 * @throws IOException 
 	 */
-	public Map(int idMap, Map map) {
-		super();
-		try {
-			final DAOMap daoMap = new DAOMap(DBConnection.getInstance().getConnection());
-			this.setMap(daoMap.find(idMap, map));
-			System.out.println("Cassé ? " + this.width);
-			System.out.println("Yo Broooo" + this.getWidth());
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		
-	}
-
+	
 	/**
 	 * Gets the id of the Map.
 	 * 
@@ -203,11 +186,8 @@ public class Map extends Observable implements IMap{
 		this.mapFromBDD = mapFromBDD;
 	}
 	
-	public void setMap(Map map) {
-		this.map = map;
-		System.out.println("SetMap cassé" + this.width);
-		this.setChanged();
-		this.notifyObservers();
+	public IMap getMap() {
+		return this;
 	}
 	
 	/**
@@ -219,7 +199,7 @@ public class Map extends Observable implements IMap{
 	 * 		Signals that an I/O exception has occured.
 	 */
 	public void loadMap(String mapFromBDD) throws IOException {
-		String line = this.getMapFromBDD();
+		String line = mapFromBDD;
 		Reader inputString = new StringReader(line);
 		BufferedReader reader = new BufferedReader(inputString);
 		this.onTheMap = new IElement[this.getWidth()][this.getHeight()];
@@ -227,19 +207,12 @@ public class Map extends Observable implements IMap{
 		int y = 0;
 		while (line != null) {
 			for (int x = 0; x < this.getWidth(); x++) {
-				this.setOnTheMapXY(getFromFileSymbol(line.toCharArray()[x]), x, y);
+				this.setOnTheMapXY(MotionlessElementFactory.getFromFileSymbol(line.toCharArray()[x]), x, y);
 			}
 			line = reader.readLine();
 			y++;
 		}
 		reader.close();
-	}
-
-	/**
-	 * Going to be deleted (just here for tests)
-	 */
-	private IElement getFromFileSymbol(char c) {
-		return null;
 	}
 	
 	/**

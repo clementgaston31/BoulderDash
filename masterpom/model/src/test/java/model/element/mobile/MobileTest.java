@@ -8,8 +8,8 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import contract.model.IMap;
 import fr.exia.showboard.IBoard;
+import model.IMap;
 import model.element.Permeability;
 import model.element.Sprite;
 

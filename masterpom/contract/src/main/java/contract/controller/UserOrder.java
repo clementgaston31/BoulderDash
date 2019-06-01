@@ -1,4 +1,4 @@
-package controller;
+package contract.controller;
 
 /**
  * <h1> The UserOrder enumeration. </h1>
