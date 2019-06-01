@@ -91,10 +91,12 @@ public class Controller implements IOrderPerformer, IController {
 			this.clearStackOrder();
 
 			this.getModel().getMap().updateMap();
+			updateModel();
+			
 			// this.getView().followMyPlayer();
 			this.getModel().getMap().setMobileHasChanged();
 			//this.getModel().getMap().updateMap();
-			updateModel();
+			
 			this.getView().updateView();
 
 		}
@@ -111,14 +113,12 @@ public class Controller implements IOrderPerformer, IController {
 			this.getModel().getMap().setOnTheMapXY(MotionlessElementFactory.createBackground(),
 					this.getModel().getPlayer().getX(), this.getModel().getPlayer().getY());
 			Diamond = Diamond + 1;
-			System.out.println("CONNAED");
-			System.out.println(Diamond);
 			System.out.println(Diamond);
 			System.out.println(Diamond);
 			
 		}
 
-		
+		/*
 		for (int x = 1 ; x < this.getModel().getMap().getWidth(); x++) {
 			for (int y = 1 ; y < this.getModel().getMap().getHeight(); y++) {
 				if (this.getModel().getMap().getOnTheMapXY(x, y).getSprite().getConsoleImage() == 'R'
@@ -133,7 +133,7 @@ public class Controller implements IOrderPerformer, IController {
 					System.out.println("Position Y : " + y);
 				}
 			}
-		}
+		}*/
 		/*for (int y = 0; y < this.getModel().getMap().getHeight(); y++) {
 			for (int x = 0; x < this.getModel().getMap().getWidth(); x++) {
 				if (this.getModel().getMap().getOnTheMapXY(x, y).getSprite().getConsoleImage() == 'R'
