@@ -41,6 +41,8 @@ public class Controller implements IOrderPerformer, IController {
 
 	/** Set true if we win (GOING TO BE DELETED) */
 	public boolean win = false;
+	
+	public boolean tried = false;
 
 	/**
 	 * The controller which will create a view and a model.
@@ -76,6 +78,7 @@ public class Controller implements IOrderPerformer, IController {
 			case LEFT:
 				this.getModel().getPlayer().moveLeft();
 				if (this.getModel().getPlayer().isBlocked() == true) {
+					this.tried = true;
 					this.getModel().getPlayer().moveRight();
 				}
 				break;
@@ -88,6 +91,7 @@ public class Controller implements IOrderPerformer, IController {
 			case RIGHT:
 				this.getModel().getPlayer().moveRight();
 				if (this.getModel().getPlayer().isBlocked() == true) {
+					this.tried = true;
 					this.getModel().getPlayer().moveLeft();
 				}
 				break;
@@ -103,8 +107,9 @@ public class Controller implements IOrderPerformer, IController {
 			this.getView().updateView();
 
 			// updateModel();
-
+			this.tried = false;
 			this.clearStackOrder();
+			this.getModel().getMap().getEnnemy().setHasMoved(false);
 
 		}
 		if (win) {
@@ -206,22 +211,25 @@ public class Controller implements IOrderPerformer, IController {
 				 * }
 				 */
 				
+				/// PUSH DROIT
 				if (this.getModel().getMap().getOnTheMapXY(x, y).getClass() == Rock.class 
 						&& this.getModel().getPlayer().getX() == (x-1)
 						&& this.getModel().getPlayer().getY() == y
 						&& this.getModel().getMap().getOnTheMapXY(x+1, y).getPermeability() == Permeability.PENETRABLE
-						&& this.getStackOrder() == UserOrder.RIGHT) {
+						&& this.getStackOrder() == UserOrder.RIGHT
+						&& this.tried == true) {
 					this.getModel().getMap().setOnTheMapXY(this.getModel().getMap().getOnTheMapXY(x, y), x+1, y);
 					this.getModel().getMap().setOnTheMapXY(MotionlessElementFactory.createBackground(), x, y);
 					this.getModel().getPlayer().moveRight();
 				}
-				
 				// CA MARCHEEEEEEEEEEEEE PASSSSSSSSSSSSSSSSS
+				//PUSH GAUCHE
 				if (this.getModel().getMap().getOnTheMapXY(x, y).getClass() == Rock.class 
 						&& this.getModel().getPlayer().getX() == (x+1)
 						&& this.getModel().getPlayer().getY() == y
 						&& this.getModel().getMap().getOnTheMapXY(x-1, y).getPermeability() == Permeability.PENETRABLE
-						&& this.getStackOrder() == UserOrder.LEFT) {
+						&& this.getStackOrder() == UserOrder.LEFT
+						&& this.tried == true) {
 					this.getModel().getMap().setOnTheMapXY(this.getModel().getMap().getOnTheMapXY(x, y), x-1, y);
 					this.getModel().getMap().setOnTheMapXY(MotionlessElementFactory.createBackground(), x, y);
 					this.getModel().getPlayer().moveLeft();
@@ -234,8 +242,10 @@ public class Controller implements IOrderPerformer, IController {
 						|| this.getModel().getMap().getOnTheMapXY(x, y).getClass() == Diamond.class) {
 					// Et qu'il n'ya rien en dessous
 
-					if (this.getModel().getMap().getOnTheMapXY(x, y + 1).getClass() == Rock.class
-							|| this.getModel().getMap().getOnTheMapXY(x, y + 1).getClass() == Diamond.class
+					
+					//SLIDE
+					if ((this.getModel().getMap().getOnTheMapXY(x, y + 1).getClass() == Rock.class
+							|| this.getModel().getMap().getOnTheMapXY(x, y + 1).getClass() == Diamond.class)
 									&& this.getModel().getMap().getOnTheMapXY(x - 1, y)
 											.getPermeability() == Permeability.PENETRABLE
 									&& this.getModel().getMap().getOnTheMapXY(x - 1, y + 1)
@@ -245,8 +255,8 @@ public class Controller implements IOrderPerformer, IController {
 						this.getModel().getMap().setOnTheMapXY(MotionlessElementFactory.createBackground(), x, y);
 					}
 
-					if (this.getModel().getMap().getOnTheMapXY(x, y + 1).getClass() == Rock.class
-							|| this.getModel().getMap().getOnTheMapXY(x, y + 1).getClass() == Diamond.class
+					if ((this.getModel().getMap().getOnTheMapXY(x, y + 1).getClass() == Rock.class
+							|| this.getModel().getMap().getOnTheMapXY(x, y + 1).getClass() == Diamond.class)
 									&& this.getModel().getMap().getOnTheMapXY(x + 1, y)
 											.getPermeability() == Permeability.PENETRABLE
 									&& this.getModel().getMap().getOnTheMapXY(x + 1, y + 1)
@@ -256,6 +266,8 @@ public class Controller implements IOrderPerformer, IController {
 						this.getModel().getMap().setOnTheMapXY(MotionlessElementFactory.createBackground(), x, y);
 					}
 
+					
+					//LA CHUTE
 					if (this.getModel().getMap().getOnTheMapXY(x, y + 1).getPermeability() == Permeability.PENETRABLE
 							&& (this.getModel().getPlayer().getX() != x
 									|| this.getModel().getPlayer().getY() != y + 1)) {
@@ -264,7 +276,7 @@ public class Controller implements IOrderPerformer, IController {
 
 						
 						
-						if ((this.getModel().getPlayer().getX() == x || this.getModel().getPlayer().getY() == y + 2)) {
+						if ((this.getModel().getPlayer().getX() == x && this.getModel().getPlayer().getY() == y + 2)) {
 							this.getModel().getPlayer().die();
 						}
 

@@ -44,6 +44,8 @@ public class Map extends Observable implements IMap {
 	private String mapFromBDD;
 
 	private Mobile ennemy;
+	
+	private Mobile rock;
 
 	/**
 	 * The grill of the map which will stock every character with their X Y
@@ -269,6 +271,10 @@ public class Map extends Observable implements IMap {
 
 	public Mobile getEnnemy() {
 		return ennemy;
+	}
+	
+	public Mobile getRock() {
+		return rock;
 	}
 
 	/**

@@ -70,6 +70,8 @@ public interface IMap {
 
 	public Mobile getEnnemy();
 	
+	public Mobile getRock();
+	
 	public int getIdMap();
 	
 }
