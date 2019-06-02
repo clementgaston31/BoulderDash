@@ -65,7 +65,7 @@ public class Controller implements IOrderPerformer, IController {
 		this.stackOrder = UserOrder.NOP;
 		while (this.getModel().getPlayer().isAlive()) {
 			Thread.sleep(speed);
-			// System.out.println(this.getStackOrder());
+			//System.out.println(this.getStackOrder());
 			switch (this.getStackOrder()) {
 			case UP:
 				this.getModel().getPlayer().moveUp();
@@ -205,7 +205,30 @@ public class Controller implements IOrderPerformer, IController {
 				 * 
 				 * }
 				 */
-
+				
+				if (this.getModel().getMap().getOnTheMapXY(x, y).getClass() == Rock.class 
+						&& this.getModel().getPlayer().getX() == (x-1)
+						&& this.getModel().getPlayer().getY() == y
+						&& this.getModel().getMap().getOnTheMapXY(x+1, y).getPermeability() == Permeability.PENETRABLE
+						&& this.getStackOrder() == UserOrder.RIGHT) {
+					this.getModel().getMap().setOnTheMapXY(this.getModel().getMap().getOnTheMapXY(x, y), x+1, y);
+					this.getModel().getMap().setOnTheMapXY(MotionlessElementFactory.createBackground(), x, y);
+					this.getModel().getPlayer().moveRight();
+				}
+				
+				// CA MARCHEEEEEEEEEEEEE PASSSSSSSSSSSSSSSSS
+				if (this.getModel().getMap().getOnTheMapXY(x, y).getClass() == Rock.class 
+						&& this.getModel().getPlayer().getX() == (x+1)
+						&& this.getModel().getPlayer().getY() == y
+						&& this.getModel().getMap().getOnTheMapXY(x-1, y).getPermeability() == Permeability.PENETRABLE
+						&& this.getStackOrder() == UserOrder.LEFT) {
+					this.getModel().getMap().setOnTheMapXY(this.getModel().getMap().getOnTheMapXY(x, y), x-1, y);
+					this.getModel().getMap().setOnTheMapXY(MotionlessElementFactory.createBackground(), x, y);
+					this.getModel().getPlayer().moveLeft();
+				}
+				
+				
+				
 				// Si notre objet est soumis à la gravité
 				if (this.getModel().getMap().getOnTheMapXY(x, y).getClass() == Rock.class
 						|| this.getModel().getMap().getOnTheMapXY(x, y).getClass() == Diamond.class) {
