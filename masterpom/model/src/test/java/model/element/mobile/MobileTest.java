@@ -36,10 +36,10 @@ public class MobileTest {
 
 	@Before
 	public void setUp() throws Exception {
-		this.testMobile = new Mobile(2, 1, sprite, map, Permeability.BLOCKING) {
+		//this.testMobile = new Mobile(2, 1, sprite, map, Permeability.BLOCKING) {
 			
 		};
-	}
+	//}
 
 	@After
 	public void tearDown() throws Exception {
