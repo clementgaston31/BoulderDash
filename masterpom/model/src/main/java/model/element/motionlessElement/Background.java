@@ -6,7 +6,7 @@ import model.element.Sprite;
 public class Background extends MotionlessElement {
 
 	/** The Constant SPRITE. */
-    private static final Sprite spriteBackground = new Sprite('B', "Background.png");
+    private static final Sprite spriteBackground = new Sprite(' ', "Background.png");
     
     
     /**

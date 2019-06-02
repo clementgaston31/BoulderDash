@@ -208,7 +208,7 @@ public class Map extends Observable implements IMap {
 		int y = 0;
 		while (line != null) {
 			for (int x = 0; x < this.getWidth(); x++) {
-				if (line.toCharArray()[x] == 'R' || line.toCharArray()[x] == '*' || line.toCharArray()[x] == 'E') {
+				if (line.toCharArray()[x] == 'R' || line.toCharArray()[x] == '*' || line.toCharArray()[x] == 'E' || line.toCharArray()[x] == 'J') {
 					this.setOnTheMapXY(MobileFactory.getFromFileSymbol(line.toCharArray()[x]), x, y);
 					if (line.toCharArray()[x] == 'E') {
 						this.setEnnemy(new Ennemy());

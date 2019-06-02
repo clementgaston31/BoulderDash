@@ -61,8 +61,8 @@ public class Sprite {
 	 *
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
-	public final void loadImage() throws IOException {
-		this.setImage(ImageIO.read(new File("images/" + this.getImageName())));
+	public final void loadImage(int idMap) throws IOException {
+		this.setImage(ImageIO.read(new File("Level"+idMap+"/" + this.getImageName())));
 	}
 
 	/**

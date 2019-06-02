@@ -45,11 +45,11 @@ public class Player extends Mobile implements IMobile{
      */
     public Player(final int x, final int y, final IMap map) throws IOException {
         super(x, y, sprite, map, Permeability.BLOCKING);
-        spriteLeft.loadImage();
-        spriteRight.loadImage();
-        spriteDie.loadImage();
-        spriteDown.loadImage();
-        spriteUp.loadImage();
+        spriteLeft.loadImage(this.getMap().getIdMap());
+        spriteRight.loadImage(this.getMap().getIdMap());
+        spriteDie.loadImage(this.getMap().getIdMap());
+        spriteDown.loadImage(this.getMap().getIdMap());
+        spriteUp.loadImage(this.getMap().getIdMap());
         
         this.diamondCount = 0;
     }

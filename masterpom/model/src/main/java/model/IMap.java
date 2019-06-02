@@ -70,4 +70,6 @@ public interface IMap {
 
 	public Mobile getEnnemy();
 	
+	public int getIdMap();
+	
 }

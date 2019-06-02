@@ -6,7 +6,7 @@ import model.element.Sprite;
 public class Wall extends MotionlessElement{
 
 	/** The Constant SPRITE. */
-    private static final Sprite spriteWall = new Sprite('W', "Wall.jpg");
+    private static final Sprite spriteWall = new Sprite('W', "Wall.png");
     
     
     /**

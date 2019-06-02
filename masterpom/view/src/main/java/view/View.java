@@ -37,7 +37,7 @@ public class View implements IView, KeyListener, Runnable {
 		this.setView(mapView);
 		this.setMap(map);
 		this.setPlayer(player);
-		this.getPlayer().getSprite().loadImage();
+		this.getPlayer().getSprite().loadImage(this.getMap().getIdMap());
 		this.setCloseView(new Rectangle(0, mapView, mapView, mapView));
 		SwingUtilities.invokeLater(this);
 	}
@@ -154,7 +154,7 @@ public class View implements IView, KeyListener, Runnable {
 		this.map = map;
 		for (int x = 0; x < this.getMap().getWidth(); x++) {
 			for (int y = 0; y < this.getMap().getHeight(); y++) {
-				this.getMap().getOnTheMapXY(x, y).getSprite().loadImage();
+				this.getMap().getOnTheMapXY(x, y).getSprite().loadImage(this.getMap().getIdMap());
 			}
 		}
 	}

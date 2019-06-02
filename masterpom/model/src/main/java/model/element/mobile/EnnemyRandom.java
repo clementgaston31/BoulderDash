@@ -21,8 +21,8 @@ public class EnnemyRandom extends Mobile{
 	
 	public EnnemyRandom(final int x, final int y, final IMap map) throws IOException {
         super(x, y, spriteEnnemyRandom, map, Permeability.BLOCKING);
-        spriteMoveRandom.loadImage();
-        spriteEnnemyDieRandom.loadImage();
+        spriteMoveRandom.loadImage(this.getMap().getIdMap());
+        spriteEnnemyDieRandom.loadImage(this.getMap().getIdMap());
     }
     
     public EnnemyRandom() {
