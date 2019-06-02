@@ -24,21 +24,21 @@ import model.element.mobile.IMobile;
  */
 public class View implements IView, KeyListener, Runnable {
 
-	private static final int mapView = 10;
-	private static final int squareSize = 50;
+	private static final int mapView = 11;
+	private static final int squareSize = 75;
 	private Rectangle closeView;
 	private IMap map;
 	private IMobile Player;
 	private int view;
 	private IOrderPerformer orderPerformer;
 	final BoardFrame boardFrame = new BoardFrame("Close view");
-	
+
 	public View(final IMap map, final IMobile player) throws Exception {
 		this.setView(mapView);
 		this.setMap(map);
 		this.setPlayer(player);
 		this.getPlayer().getSprite().loadImage();
-		this.setCloseView(new Rectangle(0, this.getPlayer().getY(), this.getMap().getWidth(), mapView));
+		this.setCloseView(new Rectangle(0, mapView, mapView, mapView));
 		SwingUtilities.invokeLater(this);
 	}
 
@@ -47,7 +47,7 @@ public class View implements IView, KeyListener, Runnable {
 	}
 
 	public final void run() {
-		
+
 		// Image icone = Toolkit.getDefaultToolkit().getImage("./images/Icon.png");
 		// boardFrame.setIconImage(icone);
 		boardFrame.setResizable(true);
@@ -123,8 +123,27 @@ public class View implements IView, KeyListener, Runnable {
 	}
 
 	public final void followMyPlayer() {
-		this.getCloseView().y = this.getPlayer().getY();
-		this.getCloseView().x = this.getPlayer().getX();
+		//
+		//
+		if (this.getPlayer().getY() < 5) {
+			this.getCloseView().y = 0;
+		} else {
+			if (this.getPlayer().getY() > this.getMap().getHeight() - 6) {
+				this.getCloseView().y = this.getMap().getHeight() - 11;
+			} else {
+				this.getCloseView().y = this.getPlayer().getY() - 5;
+			}
+		}
+		if (this.getPlayer().getX() < 5) {
+			this.getCloseView().x = 0;
+		} else {
+			if (this.getPlayer().getX() > this.getMap().getWidth() - 6) {
+				this.getCloseView().x = this.getMap().getWidth() - 11;
+			} else {
+				this.getCloseView().x = this.getPlayer().getX() - 5;
+			}
+		}
+
 	}
 
 	private IMap getMap() {

@@ -10,14 +10,14 @@ import model.element.Sprite;
 public class EnnemyRandom extends Mobile{
 
 	/** The Constant SPRITE. */
-	private static final Sprite spriteEnnemyRandom = new Sprite('E', "EnnemyRandom.png");
+	private static final Sprite spriteEnnemyRandom = new Sprite('J', "EnnemyRandom.png");
 	
 	
 	/** The Constant spriteMove. */
-	private static final Sprite spriteMoveRandom = new Sprite('E', "EnnemyMoveRandom.png");
+	private static final Sprite spriteMoveRandom = new Sprite('J', "EnnemyMoveRandom.png");
 	
 	/** The Constant spriteDie. */
-	private static final Sprite spriteEnnemyDieRandom = new Sprite('E', "EnnemyDieRandom.png");
+	private static final Sprite spriteEnnemyDieRandom = new Sprite('J', "EnnemyDieRandom.png");
 	
 	public EnnemyRandom(final int x, final int y, final IMap map) throws IOException {
         super(x, y, spriteEnnemyRandom, map, Permeability.BLOCKING);
@@ -74,7 +74,8 @@ public class EnnemyRandom extends Mobile{
      * @see fr.exia.insanevehicles.model.element.mobile.Mobile#die()
      */
     @Override
-    protected final void die() {
+	public
+    final void die() {
         super.die();
         this.setSprite(spriteEnnemyDieRandom);
     }
@@ -92,5 +93,17 @@ public class EnnemyRandom extends Mobile{
     @Override
 	public Point getPosition() {
 		return super.getPosition();
+	}
+
+	@Override
+	public void movement() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Boolean isNotWin() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

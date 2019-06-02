@@ -10,7 +10,6 @@ public class Rock extends Mobile implements IGravity{
 
 	/** The Constant SPRITE. */
     private static final Sprite spriteRock = new Sprite('R', "Rock.png");
-    
     private boolean falling = false;
     
     
@@ -45,6 +44,22 @@ public class Rock extends Mobile implements IGravity{
 	@Override
 	public void setFalling(boolean falling) {	
 		this.falling = falling;
+	}
+
+
+
+	@Override
+	public void movement() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+	@Override
+	public Boolean isNotWin() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

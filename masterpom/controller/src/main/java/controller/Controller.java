@@ -1,23 +1,28 @@
 package controller;
 
 import contract.controller.IController;
+
+import java.util.Random;
 import contract.controller.IOrderPerformer;
 import contract.controller.UserOrder;
 import contract.view.IView;
 import model.IModel;
-import model.element.mobile.MobileFactory;
+import model.element.mobile.Rock;
+import model.element.Permeability;
+import model.element.mobile.Diamond;
+import model.element.mobile.Ennemy;
 import model.element.motionlessElement.MotionlessElementFactory;
 
 /**
  * <h1>The Controller Class.</h1>
  * 
- * @author Clément GASTON
- * @version 0.1
+ * @author Clément GASTON & Kévin BOURDEAU
+ * @version 0.2
  */
 public class Controller implements IOrderPerformer, IController {
 
 	/** Speed will be the time in ms between every refresh of the game. */
-	public int speed = 300;
+	public int speed = 150;
 
 	/** The model. */
 	private IModel model;
@@ -28,7 +33,14 @@ public class Controller implements IOrderPerformer, IController {
 	/** The stack order. */
 	private UserOrder stackOrder;
 
+	/** Going to be deleted I think */
 	public int Diamond = 0;
+
+	/** Number of diamond to get (GOING TO BE DELETED) */
+	public int DiamondToGet = 3;
+
+	/** Set true if we win (GOING TO BE DELETED) */
+	public boolean win = false;
 
 	/**
 	 * The controller which will create a view and a model.
@@ -53,7 +65,7 @@ public class Controller implements IOrderPerformer, IController {
 		this.stackOrder = UserOrder.NOP;
 		while (this.getModel().getPlayer().isAlive()) {
 			Thread.sleep(speed);
-			System.out.println(this.getStackOrder());
+			// System.out.println(this.getStackOrder());
 			switch (this.getStackOrder()) {
 			case UP:
 				this.getModel().getPlayer().moveUp();
@@ -81,26 +93,25 @@ public class Controller implements IOrderPerformer, IController {
 				break;
 			case NOP:
 				break;
-			/*
-			 * System.out.println(this.getStackOrder()); break;
-			 */
 			default:
 				this.getModel().getPlayer().doNothing();
 				break;
 			}
-			this.clearStackOrder();
-
-			this.getModel().getMap().updateMap();
 			updateModel();
-			
-			// this.getView().followMyPlayer();
 			this.getModel().getMap().setMobileHasChanged();
-			//this.getModel().getMap().updateMap();
-			
+			this.getView().followMyPlayer();
 			this.getView().updateView();
 
+			// updateModel();
+
+			this.clearStackOrder();
+
 		}
-		this.getView().displayMessage("Cheh");
+		if (win) {
+			this.getView().displayMessage("VICTORYYYYY !!!!!!!!");
+		} else {
+			this.getView().displayMessage("Cheh");
+		}
 	}
 
 	public void updateModel() {
@@ -113,41 +124,146 @@ public class Controller implements IOrderPerformer, IController {
 			this.getModel().getMap().setOnTheMapXY(MotionlessElementFactory.createBackground(),
 					this.getModel().getPlayer().getX(), this.getModel().getPlayer().getY());
 			Diamond = Diamond + 1;
-			System.out.println(Diamond);
-			System.out.println(Diamond);
-			
+
 		}
+		this.getModel().getMap().getEnnemy().setHasMoved(false);
+		for (int y = this.getModel().getMap().getHeight() - 1; y > 0; y--) {
+			for (int x = this.getModel().getMap().getWidth() - 1; x > 0; x--) {
 
-		/*
-		for (int x = 1 ; x < this.getModel().getMap().getWidth(); x++) {
-			for (int y = 1 ; y < this.getModel().getMap().getHeight(); y++) {
-				if (this.getModel().getMap().getOnTheMapXY(x, y).getSprite().getConsoleImage() == 'R'
-						&& this.getModel().getMap().getOnTheMapXY(x, y+1).getSprite().getConsoleImage() == 'B'
-						&& this.getModel().getPlayer().getX() != x
-						&& this.getModel().getPlayer().getY() != y+1) {
-					this.getModel().getMap().setOnTheMapXY(this.getModel().getMap().getOnTheMapXY(x, y), x, y+1);
-					this.getModel().getMap().setOnTheMapXY(MotionlessElementFactory.createBackground(), x, y);
-					System.out.println("Position X du joueur : " + this.getModel().getPlayer().getX());
-					System.out.println("Position Y du joueur : " + this.getModel().getPlayer().getY());
-					System.out.println("Position X  : " + x);
-					System.out.println("Position Y : " + y);
-				}
-			}
-		}*/
-		/*for (int y = 0; y < this.getModel().getMap().getHeight(); y++) {
-			for (int x = 0; x < this.getModel().getMap().getWidth(); x++) {
-				if (this.getModel().getMap().getOnTheMapXY(x, y).getSprite().getConsoleImage() == 'R'
-						|| this.getModel().getMap().getOnTheMapXY(x, y).getSprite().getConsoleImage() == '*') {
+				if (this.getModel().getMap().getOnTheMapXY(x, y).getClass() == Ennemy.class) {
 
-					if (this.getModel().getMap().getOnTheMapXY(x, y + 1).getSprite().getConsoleImage() == 'B'
-							&& this.getModel().getPlayer().getX() != x && this.getModel().getPlayer().getY() != y + 1) {
-						this.getModel().getMap().setOnTheMapXY(MotionlessElementFactory.createBackground(), x, y);
-						this.getModel().getMap().setOnTheMapXY(MobileFactory.createRock(), x, (y + 1));
-						System.out.println("COUCOU ANTHONY LE PLUS BO");
+					if ((this.getModel().getPlayer().getX() == x && this.getModel().getPlayer().getY() == y)
+							|| (this.getModel().getPlayer().getX() == x+1 && this.getModel().getPlayer().getY() == y)
+							|| (this.getModel().getPlayer().getX() == x-1 && this.getModel().getPlayer().getY() == y)
+							|| (this.getModel().getPlayer().getX() == x && this.getModel().getPlayer().getY() == y+1)
+							|| (this.getModel().getPlayer().getX() == x && this.getModel().getPlayer().getY() == y-1)) {
+						this.getModel().getPlayer().die();
+					}
+					
+					if (this.getModel().getMap().getEnnemy().getHasMoved() == false) {
+
+						int Random = new Random().nextInt(3 + 1);
+						// System.out.println(Random);
+
+						if (this.getModel().getMap().getOnTheMapXY(x - 1, y).getSprite().getConsoleImage() == 'B'
+								&& Random == 0) {
+							this.getModel().getMap().setOnTheMapXY(this.getModel().getMap().getOnTheMapXY(x, y), x - 1,
+									y);
+							this.getModel().getMap().setOnTheMapXY(MotionlessElementFactory.createBackground(), x, y);
+						}
+
+						if (this.getModel().getMap().getOnTheMapXY(x, y + 1).getSprite().getConsoleImage() == 'B'
+								&& Random == 1) {
+							this.getModel().getMap().setOnTheMapXY(this.getModel().getMap().getOnTheMapXY(x, y), x,
+									y + 1);
+							this.getModel().getMap().setOnTheMapXY(MotionlessElementFactory.createBackground(), x, y);
+						}
+
+						if (this.getModel().getMap().getOnTheMapXY(x + 1, y).getSprite().getConsoleImage() == 'B'
+								&& Random == 2) {
+							this.getModel().getMap().setOnTheMapXY(this.getModel().getMap().getOnTheMapXY(x, y), x + 1,
+									y);
+							this.getModel().getMap().setOnTheMapXY(MotionlessElementFactory.createBackground(), x, y);
+						}
+
+						if (this.getModel().getMap().getOnTheMapXY(x, y - 1).getSprite().getConsoleImage() == 'B'
+								&& Random == 3) {
+							this.getModel().getMap().setOnTheMapXY(this.getModel().getMap().getOnTheMapXY(x, y), x,
+									y - 1);
+							this.getModel().getMap().setOnTheMapXY(MotionlessElementFactory.createBackground(), x, y);
+						}
+
+						this.getModel().getMap().getEnnemy().setHasMoved(true);
 					}
 				}
+
+				/*
+				 * //GAUCHE if (this.getModel().getMap().getOnTheMapXY(x - 1,
+				 * y).getSprite().getConsoleImage() == 'B') {
+				 * this.getModel().getMap().setOnTheMapXY(this.getModel().getMap().getOnTheMapXY
+				 * (x, y), x - 1, y);
+				 * this.getModel().getMap().setOnTheMapXY(MotionlessElementFactory.
+				 * createBackground(), x, y); } //BAS if
+				 * (this.getModel().getMap().getOnTheMapXY(x, y -
+				 * 1).getSprite().getConsoleImage() == 'B') {
+				 * this.getModel().getMap().setOnTheMapXY(this.getModel().getMap().getOnTheMapXY
+				 * (x, y), x, y - 1);
+				 * this.getModel().getMap().setOnTheMapXY(MotionlessElementFactory.
+				 * createBackground(), x, y); } //DROITE if
+				 * (this.getModel().getMap().getOnTheMapXY(x + 1,
+				 * y).getSprite().getConsoleImage() == 'B') {
+				 * this.getModel().getMap().setOnTheMapXY(this.getModel().getMap().getOnTheMapXY
+				 * (x, y), x + 1, y);
+				 * this.getModel().getMap().setOnTheMapXY(MotionlessElementFactory.
+				 * createBackground(), x, y); } //HAUT if
+				 * (this.getModel().getMap().getOnTheMapXY(x, y +
+				 * 1).getSprite().getConsoleImage() == 'B') {
+				 * this.getModel().getMap().setOnTheMapXY(this.getModel().getMap().getOnTheMapXY
+				 * (x, y), x, y + 1);
+				 * this.getModel().getMap().setOnTheMapXY(MotionlessElementFactory.
+				 * createBackground(), x, y);
+				 * 
+				 * }
+				 */
+
+				// Si notre objet est soumis à la gravité
+				if (this.getModel().getMap().getOnTheMapXY(x, y).getClass() == Rock.class
+						|| this.getModel().getMap().getOnTheMapXY(x, y).getClass() == Diamond.class) {
+					// Et qu'il n'ya rien en dessous
+
+					if (this.getModel().getMap().getOnTheMapXY(x, y + 1).getClass() == Rock.class
+							|| this.getModel().getMap().getOnTheMapXY(x, y + 1).getClass() == Diamond.class
+									&& this.getModel().getMap().getOnTheMapXY(x - 1, y)
+											.getPermeability() == Permeability.PENETRABLE
+									&& this.getModel().getMap().getOnTheMapXY(x - 1, y + 1)
+											.getPermeability() == Permeability.PENETRABLE) {
+						this.getModel().getMap().setOnTheMapXY(this.getModel().getMap().getOnTheMapXY(x, y), x - 1,
+								y + 1);
+						this.getModel().getMap().setOnTheMapXY(MotionlessElementFactory.createBackground(), x, y);
+					}
+
+					if (this.getModel().getMap().getOnTheMapXY(x, y + 1).getClass() == Rock.class
+							|| this.getModel().getMap().getOnTheMapXY(x, y + 1).getClass() == Diamond.class
+									&& this.getModel().getMap().getOnTheMapXY(x + 1, y)
+											.getPermeability() == Permeability.PENETRABLE
+									&& this.getModel().getMap().getOnTheMapXY(x + 1, y + 1)
+											.getPermeability() == Permeability.PENETRABLE) {
+						this.getModel().getMap().setOnTheMapXY(this.getModel().getMap().getOnTheMapXY(x, y), x + 1,
+								y + 1);
+						this.getModel().getMap().setOnTheMapXY(MotionlessElementFactory.createBackground(), x, y);
+					}
+
+					if (this.getModel().getMap().getOnTheMapXY(x, y + 1).getPermeability() == Permeability.PENETRABLE
+							&& (this.getModel().getPlayer().getX() != x
+									|| this.getModel().getPlayer().getY() != y + 1)) {
+						// Alors notre objet tombe
+						this.getModel().getMap().setOnTheMapXY(this.getModel().getMap().getOnTheMapXY(x, y), x, y + 1);
+
+						
+						
+						if ((this.getModel().getPlayer().getX() == x || this.getModel().getPlayer().getY() == y + 2)) {
+							this.getModel().getPlayer().die();
+						}
+
+						if (this.getModel().getMap().getOnTheMapXY(x, y+2).getClass() == Ennemy.class) {
+							this.getModel().getMap().setOnTheMapXY(MotionlessElementFactory.createBackground(), x, y+2);
+						}
+						
+						this.getModel().getMap().setOnTheMapXY(MotionlessElementFactory.createBackground(), x, y);
+
+					}
+
+				}
+
+				if (Diamond >= DiamondToGet && this.getModel().getMap()
+						.getOnTheMapXY(this.getModel().getPlayer().getX(), this.getModel().getPlayer().getY())
+						.getPermeability() == Permeability.WIN) {
+					win = true;
+					this.getModel().getPlayer().die();
+				}
+
 			}
-		}*/
+		}
 	}
 
 	/**
@@ -227,4 +343,5 @@ public class Controller implements IOrderPerformer, IController {
 	public IOrderPerformer getOrderPerformer() {
 		return this;
 	}
+
 }

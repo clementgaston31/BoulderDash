@@ -18,5 +18,9 @@ public enum Permeability {
     /** The dirt disappear. */
     DISAPPEAR,
 	/** The diamond pickable */
-	PICKABLE;
+	PICKABLE,
+	/** The rock pushable */
+	PUSHABLE,
+	/** The door winning*/
+	WIN;
 }

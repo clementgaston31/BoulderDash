@@ -52,4 +52,22 @@ public class Diamond extends Mobile implements IGravity{
 		this.falling = falling;
 		
 	}
+
+
+
+
+	@Override
+	public void movement() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+
+	@Override
+	public Boolean isNotWin() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

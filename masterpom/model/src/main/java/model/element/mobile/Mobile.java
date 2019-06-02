@@ -30,6 +30,10 @@ public abstract class Mobile extends Element implements IMobile{
 
 	/** The board. */
 	private IBoard  board;
+	
+	private Ennemy ennemy;
+	
+	private Boolean moved = false;
 
 	/**
 	 * Instantiates a new mobile.
@@ -216,8 +220,9 @@ public abstract class Mobile extends Element implements IMobile{
 	/**
 	 * Dies.
 	 */
-	protected void die() {
-
+	public void die() {
+		this.alive = false;
+		this.setHasMoved();
 	}
 
 	/*
@@ -244,6 +249,10 @@ public abstract class Mobile extends Element implements IMobile{
 	
 	public Boolean isBlocked() {
 		return this.getMap().getOnTheMapXY(this.getX(), this.getY()).getPermeability() == Permeability.BLOCKING;
+	}
+	
+	public Boolean isPushable() {
+		return this.getMap().getOnTheMapXY(this.getX(), this.getY()).getPermeability() == Permeability.PUSHABLE;
 	}
 
 	/*
@@ -276,5 +285,23 @@ public abstract class Mobile extends Element implements IMobile{
 	 */
 	protected IBoard getBoard() {
 		return this.board;
+	}
+
+	public Ennemy getEnnemy() {
+		return ennemy;
+	}
+
+	public void setEnnemy(Ennemy ennemy) {
+		this.ennemy = ennemy;
+	}
+
+	public abstract void movement();
+
+	public void setHasMoved(boolean moved) {
+		this.moved = moved;
+	}
+	
+	public Boolean getHasMoved() {
+		return this.moved;
 	}
 }

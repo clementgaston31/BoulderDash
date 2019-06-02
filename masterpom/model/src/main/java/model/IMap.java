@@ -3,6 +3,7 @@ package model;
 import java.util.Observable;
 
 import model.element.IElement;
+import model.element.mobile.Mobile;
 
 
 /**
@@ -55,7 +56,7 @@ public interface IMap {
 	 * At each game case, apply physics on the map
 	 * 
 	 */
-	void updateMap();
+	//void updateMap();
 	
 	public int getPlayerStartY();
 	
@@ -66,5 +67,7 @@ public interface IMap {
 	public IMap getMap();
 	
 	public void setOnTheMapXY(IElement element, int x, int y);
+
+	public Mobile getEnnemy();
 	
 }

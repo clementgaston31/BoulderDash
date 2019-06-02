@@ -9,6 +9,7 @@ import java.util.Observable;
 import contract.model.IGravity;
 import model.element.IElement;
 import model.element.mobile.Diamond;
+import model.element.mobile.Ennemy;
 import model.element.mobile.Mobile;
 import model.element.mobile.MobileFactory;
 import model.element.mobile.Player;
@@ -17,52 +18,53 @@ import model.element.motionlessElement.Background;
 import model.element.motionlessElement.MotionlessElementFactory;
 
 /**
- * <h1> The Map Class. </h1>
+ * <h1>The Map Class.</h1>
  * 
  * @author Clément Gaston
  * @version 0.1
  */
-public class Map extends Observable implements IMap{
+public class Map extends Observable implements IMap {
 
 	/** The number of the map in the database. */
 	private int idMap;
-	
+
 	/** The width of the map. */
 	private int width;
-	
+
 	/** The height of the map. */
 	private int height;
-	
+
 	/** The X of the player when he start a game. */
 	private int playerStartX;
-	
+
 	/** The Y of the player when he start a game. */
 	private int playerStartY;
-	
+
 	/** The map composed of characters. */
 	private String mapFromBDD;
-	
-	/** The grill of the map which will stock every character with their X Y coordinates. */
+
+	private Mobile ennemy;
+
+	/**
+	 * The grill of the map which will stock every character with their X Y
+	 * coordinates.
+	 */
 	IElement[][] onTheMap;
-	
+
 	/**
 	 * Creation of a new Map.
 	 * 
-	 * @param idMap
-	 * 			The number of the Map.
-	 * @param width
-	 * 			The width of the Map.
-	 * @param height
-	 * 			The height of the Map.
-	 * @param playerStartX
-	 * 			The X start point of the player.
-	 * @param playerStartY
-	 * 			The Y start point of the player.
-	 * @param mapFromBDD
-	 * 			The characters Map.
-	 * @throws IOException 
+	 * @param idMap        The number of the Map.
+	 * @param width        The width of the Map.
+	 * @param height       The height of the Map.
+	 * @param playerStartX The X start point of the player.
+	 * @param playerStartY The Y start point of the player.
+	 * @param mapFromBDD   The characters Map.
+	 * @throws IOException
 	 */
-	public Map(int idMap, int width, int height, int playerStartX, int playerStartY, String mapFromBDD) throws IOException {		super();
+	public Map(int idMap, int width, int height, int playerStartX, int playerStartY, String mapFromBDD)
+			throws IOException {
+		super();
 		this.setIdMap(idMap);
 		this.setWidth(width);
 		this.setHeight(height);
@@ -71,12 +73,13 @@ public class Map extends Observable implements IMap{
 		this.setMapFromBDD(mapFromBDD);
 		this.loadMap(mapFromBDD);
 	}
-	
+
 	/**
 	 * Creation of a new Map from the database directly.
-	 * @throws IOException 
+	 * 
+	 * @throws IOException
 	 */
-	
+
 	/**
 	 * Gets the id of the Map.
 	 * 
@@ -89,8 +92,7 @@ public class Map extends Observable implements IMap{
 	/**
 	 * Sets the id of the Map.
 	 * 
-	 * @param idMap
-	 * 			The new id of the Map.
+	 * @param idMap The new id of the Map.
 	 */
 	public void setIdMap(int idMap) {
 		this.idMap = idMap;
@@ -108,8 +110,7 @@ public class Map extends Observable implements IMap{
 	/**
 	 * Sets the width of the Map
 	 * 
-	 * @param width
-	 * 			The new width of the Map.
+	 * @param width The new width of the Map.
 	 */
 	public void setWidth(int width) {
 		this.width = width;
@@ -127,8 +128,7 @@ public class Map extends Observable implements IMap{
 	/**
 	 * Sets the height of the map.
 	 * 
-	 * @param height
-	 * 			The new height of the map.
+	 * @param height The new height of the map.
 	 */
 	public void setHeight(int height) {
 		this.height = height;
@@ -146,8 +146,7 @@ public class Map extends Observable implements IMap{
 	/**
 	 * Sets the X point start of the player.
 	 * 
-	 * @param playerStartX
-	 * 			The new X start point of the player.
+	 * @param playerStartX The new X start point of the player.
 	 */
 	public void setPlayerStartX(int playerStartX) {
 		this.playerStartX = playerStartX;
@@ -165,8 +164,7 @@ public class Map extends Observable implements IMap{
 	/**
 	 * Sets the Y point start of the player.
 	 * 
-	 * @param playerStartY
-	 * 			The new Y start point of the player.
+	 * @param playerStartY The new Y start point of the player.
 	 */
 	public void setPlayerStartY(int playerStartY) {
 		this.playerStartY = playerStartY;
@@ -184,25 +182,22 @@ public class Map extends Observable implements IMap{
 	/**
 	 * Sets the String Map.
 	 * 
-	 * @param mapFromBDD
-	 * 			The new String Map.
-	 * @return 
+	 * @param mapFromBDD The new String Map.
+	 * @return
 	 */
 	public void setMapFromBDD(String mapFromBDD) {
 		this.mapFromBDD = mapFromBDD;
 	}
-	
+
 	public IMap getMap() {
 		return this;
 	}
-	
+
 	/**
 	 * Read the String map, then create the grill.
 	 * 
-	 * @param mapFromBDD
-	 * 			The String map to read.
-	 * @throws IOException
-	 * 		Signals that an I/O exception has occured.
+	 * @param mapFromBDD The String map to read.
+	 * @throws IOException Signals that an I/O exception has occured.
 	 */
 	public void loadMap(String mapFromBDD) throws IOException {
 		String line = mapFromBDD;
@@ -213,11 +208,14 @@ public class Map extends Observable implements IMap{
 		int y = 0;
 		while (line != null) {
 			for (int x = 0; x < this.getWidth(); x++) {
-				if (line.toCharArray()[x] == 'R' ||
-					line.toCharArray()[x] == '*') {
+				if (line.toCharArray()[x] == 'R' || line.toCharArray()[x] == '*' || line.toCharArray()[x] == 'E') {
 					this.setOnTheMapXY(MobileFactory.getFromFileSymbol(line.toCharArray()[x]), x, y);
+					if (line.toCharArray()[x] == 'E') {
+						this.setEnnemy(new Ennemy());
+					}
 				} else {
 					this.setOnTheMapXY(MotionlessElementFactory.getFromFileSymbol(line.toCharArray()[x]), x, y);
+
 				}
 			}
 			line = reader.readLine();
@@ -225,7 +223,7 @@ public class Map extends Observable implements IMap{
 		}
 		reader.close();
 	}
-	
+
 	/**
 	 * Gets the coordinate on the map.
 	 * 
@@ -233,104 +231,53 @@ public class Map extends Observable implements IMap{
 	 * @param y
 	 * @return onTheMap[x][y]
 	 */
-	public IElement getOnTheMapXY(final int x,final int y) {
+	public IElement getOnTheMapXY(final int x, final int y) {
 		return this.onTheMap[x][y];
 	}
-	
+
 	/**
 	 * Sets the coordinate on the map.
 	 * 
-	 * @param element
-	 * 			The object to place.
-	 * @param x
-	 * 			The new X of the object.
-	 * @param y
-	 * 			The new Y of the object.
+	 * @param element The object to place.
+	 * @param x       The new X of the object.
+	 * @param y       The new Y of the object.
 	 */
 	public void setOnTheMapXY(IElement element, int x, int y) {
 		this.onTheMap[x][y] = element;
 	}
-	
+
 	/**
 	 * IDK
 	 */
 	public void setMobileHasChanged() {
 		this.setChanged();
-        this.notifyObservers();
+		this.notifyObservers();
 	}
-	
+
 	/*
-	public Observable getObservable() {
-		return this;
-	}*/
-	
+	 * public Observable getObservable() { return this; }
+	 */
+
 	/**
 	 * IDK
 	 */
-	public void updateMap() {
-		
-		//Mettre ici ce qu'il y a pour vérif les bordures
-		for (int y = this.getHeight() - 2; y >= 0; y--) {
-			for (int x = 0; x < this.getWidth(); x++) {
-
-				// si l'objet est soumis à la gravité
-				if (this.getOnTheMapXY(x, y).getClass().isInstance(Diamond.class)
-						|| this.getOnTheMapXY(x, y).getClass().isInstance(Rock.class)) {
-
-					// si il y a rien en dessous
-					if (this.getOnTheMapXY(x, y + 1).getClass().isInstance(Background.class)) {
-
-						// gravité passe à true
-						((IGravity) this.getOnTheMapXY(x, y)).setFalling(true);
-
-						// l'objet tombe en bas
-						((Mobile) this.getOnTheMapXY(x, y)).moveDown();
-						this.setOnTheMapXY(this.getOnTheMapXY(x, y), x, y + 1);
-						this.setOnTheMapXY(MotionlessElementFactory.createBackground(), x, y);
-						continue;
-
-						// Si notre joueur est en-dessous et que l'objet tombe
-					} else if (this.getOnTheMapXY(x, y + 1).getClass().isInstance(Player.class)
-							&& ((IGravity) this.getOnTheMapXY(x, y)).isFalling()) {
-						((Player) this.getOnTheMapXY(x, y + 1)).die();
-						((Mobile) this.getOnTheMapXY(x, y)).moveDown();
-						this.setOnTheMapXY(MotionlessElementFactory.createBackground(), x, y);
-						continue;
-
-						// Si il y a un rocher ou un diamand en dessous
-					} else if (this.getOnTheMapXY(x, y + 1).getClass().isInstance(Diamond.class)
-							|| this.getOnTheMapXY(x, y + 1).getClass().isInstance(Rock.class)) {
-						
-						//Et que si à droite il n' y rien, il peut tomber
-						if (this.getOnTheMapXY(x + 1, y).getClass().isInstance(Background.class)
-								&& this.getOnTheMapXY(x + 1, y + 1).getClass().isInstance(Background.class)) {
-							((IGravity) this.getOnTheMapXY(x, y)).setFalling(true);
-							((Mobile) this.getOnTheMapXY(x, y)).moveRight();
-							this.setOnTheMapXY(MotionlessElementFactory.createBackground(), x, y);
-							continue;
-							
-							//Et que si à gauche il n' y rien, il peut tomber
-						}else if (this.getOnTheMapXY(x + 1, y).getClass().isInstance(Background.class)
-								&& this.getOnTheMapXY(x + 1, y + 1).getClass().isInstance(Background.class)) {
-
-							((IGravity) this.getOnTheMapXY(x, y)).setFalling(true);
-							((Mobile) this.getOnTheMapXY(x, y)).moveRight();
-							this.setOnTheMapXY(MotionlessElementFactory.createBackground(), x, y);
-							continue;
-						}
-						
-					}
-					// Si on parvient jusqu'ici cela montre que l'objet n'a pas bougé
-					((IGravity) this.getOnTheMapXY(x, y)).setFalling(false);
-				}
-				
-			}
-		}
-	}
 
 	@Override
 	public Observable getObservable() {
 		return this;
 	}
-	
+
+	public Mobile getEnnemy() {
+		return ennemy;
+	}
+
+	/**
+	 * Sets the Y point start of the player.
+	 * 
+	 * @param playerStartY The new Y start point of the player.
+	 */
+	public void setEnnemy(Mobile ennemy) {
+		this.ennemy = ennemy;
+	}
+
 }

@@ -39,6 +39,8 @@ public interface IMobile extends IPawn, IElement {
 	 */
 
 	void moveRight();
+	
+	void die();
 
 	/**
 	 * Do nothing
@@ -95,4 +97,6 @@ public interface IMobile extends IPawn, IElement {
 	int getY();
 
 	Boolean isDiamond();
+
+	Boolean isNotWin();
 }

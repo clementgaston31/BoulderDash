@@ -148,4 +148,16 @@ public class Player extends Mobile implements IMobile{
 	public Point getPosition() {
 		return super.getPosition();
 	}
+
+	@Override
+	public void movement() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Boolean isNotWin() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

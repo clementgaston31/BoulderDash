@@ -13,7 +13,7 @@ public class Door extends MotionlessElement{
      * Instantiates a new door.
      */
     Door() {
-        super(spriteDoor, Permeability.PENETRABLE);
+        super(spriteDoor, Permeability.WIN);
     }
 
 }

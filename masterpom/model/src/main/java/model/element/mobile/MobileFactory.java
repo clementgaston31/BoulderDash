@@ -16,6 +16,8 @@ public abstract class MobileFactory {
 	
 	/** The Constant Rock. */
 	private static final Rock rock = new Rock();
+	
+	private static final Ennemy ennemy = new Ennemy();
 
 	
 	
@@ -25,6 +27,7 @@ public abstract class MobileFactory {
 	private static Mobile[] mobileElements = {
 			diamond, 
 			rock,
+			ennemy,
 			};
 	
 	
@@ -46,6 +49,9 @@ public abstract class MobileFactory {
         return rock;
     }
 
+    public static Mobile createEnnemy() {
+    	return ennemy;
+    }
     
     /**
      * Gets the good MotionlessElement from file symbol.

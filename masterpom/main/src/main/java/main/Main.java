@@ -9,7 +9,7 @@ import view.View;
 
 public class Main {
 	
-	private static int idMap = 3;
+	private static int idMap = 6;
 
 	public static void main(final String[] args) throws Exception {
 		final IModel model = new Model(idMap);
