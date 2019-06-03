@@ -17,33 +17,24 @@ import view.View;
  */
 public class Main {
 	
-	/** The Constant idMap. */
+	/** The id of the map in the dataBase. */
 	private static int idMap = 5;
 
 	/**
-     * The main method.
+     * The main method which launch all the settings (for the player, the map, ...).
      *
      * @param args
-     *            the arguments
+     *            The arguments.
      * @throws IOException
      *             Signals that an I/O exception has occurred.
      * @throws InterruptedException
-     *             the interrupted exception
+     *             The interrupted exception.
      */
 	public static void main(final String[] args) throws Exception {
 		final IModel model = new Model(idMap);
-		System.out.println("Checkpoint 1");
-		
 		final IView view = new View(model.getMap(), model.getPlayer());
-		System.out.println("Checkpoint 2");
-		
 		final IController controller = new Controller(view, model);
-		System.out.println("Checkpoint 3");
-		
 		view.setOrderPerformer(controller.getOrderPerformer());
-		System.out.println("Checkpoint 4");
-		
 		controller.play();
-		System.out.println("Checkpoint 5");
 	}
 }

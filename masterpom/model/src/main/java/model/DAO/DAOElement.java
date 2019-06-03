@@ -1,13 +1,13 @@
 package model.DAO;
 
 import java.sql.SQLException;
-import java.sql.Connection;
 
-import model.DAO.Entity;
 import model.IMap;
 
+import java.sql.Connection;
+
 /**
- * <h1> The DAOElement abstract Class. </h1>
+ * <h1>The Abstract Class DAOElement.</h1>
  * 
  * @author Clément GASTON
  * @version 0.1
@@ -38,20 +38,6 @@ abstract class DAOElement {
 		return this.connection;
 	}
 	
-	/**
-	 * Not yet implemented
-	 */
-	public abstract boolean create(Entity entity);
-	
-	/**
-	 * Not yet implemented
-	 */
-	public abstract boolean delete(Entity entity);
-	
-	/**
-	 * Not yet implemented
-	 */
-	public abstract boolean update(Entity entity);
 	
 	/**
 	 * Search a specific map in the database then add it to a new Map.

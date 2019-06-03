@@ -7,11 +7,22 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+/**
+ * <h1>The ElementTest Class.</h1>
+ *
+ * @author keivnBourdeau
+ * @version 0.1
+ */
 
 public class ElementTest {
 	
+	/** The element */
 	private Element element;
+	
+	/**The new sprite */
 	final Sprite sprite = new Sprite('X', "player");
+	
+	/**The permeability*/
 	private Permeability permeability = Permeability.BLOCKING;
 
 	@BeforeClass
@@ -22,6 +33,10 @@ public class ElementTest {
 	public static void tearDownAfterClass() throws Exception {
 	}
 
+	/**
+	 * Sets the set up
+	 * @throws Exception
+	 */
 	@Before
 	public void setUp() throws Exception {
 		this.element = new Element(sprite, Permeability.BLOCKING) {
@@ -45,12 +60,18 @@ public class ElementTest {
 		assertEquals(sprite, element.getSprite());
 	}
 
+	/**
+	 * Check if the element has a permeability
+	 */
 	@Test
 	public void testGetPermeability() {
 		assertNotNull(permeability);
 		assertEquals(permeability, element.getPermeability());
 	}
 
+	/**
+	 * Test the setSprite of the element
+	 */
 	@Test
 	public void testSetSprite() {
 		this.element.setSprite(sprite);
@@ -59,11 +80,17 @@ public class ElementTest {
 		
 	}
 
+	/**
+	 * Test if the element has an image
+	 */
 	@Test
 	public void testGetImage() {
 		
 	}
 	
+	/**
+	 * Test the setPermeability of the element
+	 */
 	@Test
 	public void testSetPermeability() {
 		this.element.setPermeability(Permeability.BLOCKING);

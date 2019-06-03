@@ -13,8 +13,6 @@ public enum Permeability {
     BLOCKING,
     /** The penetrable. */
     PENETRABLE,
-	/** The killable. */
-    KILLING,
     /** The dirt disappear. */
     DISAPPEAR,
 	/** The diamond pickable */

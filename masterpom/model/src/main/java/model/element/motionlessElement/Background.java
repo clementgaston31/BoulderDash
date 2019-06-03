@@ -3,6 +3,13 @@ package model.element.motionlessElement;
 import model.element.Permeability;
 import model.element.Sprite;
 
+/**
+ * <h1>The Background Class.</h1>
+ *
+ * @author keivnBourdeau
+ * @version 0.1
+ */
+
 public class Background extends MotionlessElement {
 
 	/** The Constant SPRITE. */

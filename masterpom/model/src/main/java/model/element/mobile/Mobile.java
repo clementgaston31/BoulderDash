@@ -31,8 +31,10 @@ public abstract class Mobile extends Element implements IMobile{
 	/** The board. */
 	private IBoard  board;
 	
+	/* The ennemy */
 	private Ennemy ennemy;
 	
+	/* The moved */
 	private Boolean moved = false;
 
 	/**
@@ -51,6 +53,9 @@ public abstract class Mobile extends Element implements IMobile{
 		this.position = new Point();
 	}
 	
+	/**
+     * Instantiates a new mobile.
+     */
 	public Mobile() {
 		super();
 	}
@@ -87,9 +92,10 @@ public abstract class Mobile extends Element implements IMobile{
         super(sprite, permeability);
     }
 
-	/*
-	 * (non-Javadoc)
-	 * @see fr.exia.insanevehicles.model.element.mobile.IMobile#moveUp()
+	/**
+	 * Move up the mobile and say he has moved
+	 * 
+	 * @see model.element.mobile.IMobile#moveUp()
 	 */
 	@Override
 	public void moveUp() {
@@ -97,9 +103,11 @@ public abstract class Mobile extends Element implements IMobile{
         this.setHasMoved();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see fr.exia.insanevehicles.model.element.mobile.IMobile#moveLeft()
+	/**
+	 * Move left the mobile and say he has moved
+	 * 
+	 * @see model.element.mobile.IMobile#moveLeft()
+	 * 
 	 */
 	@Override
 	public void moveLeft() {
@@ -107,9 +115,10 @@ public abstract class Mobile extends Element implements IMobile{
         this.setHasMoved();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see fr.exia.insanevehicles.model.element.mobile.IMobile#moveDown()
+	/**
+	 * Move down the mobile and say he has moved
+	 * 
+	 * @see model.element.mobile.IMobile#moveDown()
 	 */
 	@Override
 	public void moveDown() {
@@ -117,9 +126,10 @@ public abstract class Mobile extends Element implements IMobile{
         this.setHasMoved();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see fr.exia.insanevehicles.model.element.mobile.IMobile#moveRight()
+	/**
+	 * Move up the mobile and say he has moved
+	 * 
+	 * @see model.element.mobile.IMobile#moveRight()
 	 */
 	@Override
 	public void moveRight() {
@@ -127,9 +137,9 @@ public abstract class Mobile extends Element implements IMobile{
         this.setHasMoved();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see fr.exia.insanevehicles.model.element.mobile.IMobile#doNothing()
+	/**
+	 * The mobile do nothing
+	 * @see model.element.mobile.IMobile#doNothing()
 	 */
 	@Override
 	public void doNothing() {
@@ -143,9 +153,11 @@ public abstract class Mobile extends Element implements IMobile{
 		 this.getMap().setMobileHasChanged();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see fr.exia.insanevehicles.model.element.mobile.IMobile#getX()
+	/**
+	 * Get the x
+	 * 
+	 * @see model.element.mobile.IMobile#getX()
+	 * 
 	 */
 	@Override
 	public final int getX() {
@@ -160,14 +172,13 @@ public abstract class Mobile extends Element implements IMobile{
 	 */
 	public final void setX(final int x) {
 		this.getPosition().x = x;
-		if (this.isKilled()) {
-			this.die();
-		}
+		
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see fr.exia.insanevehicles.model.element.mobile.IMobile#getY()
+	/**
+	 * Get the y
+	 * 
+	 * @see model.element.mobile.IMobile#getY()
 	 */
 	@Override
 	public final int getY() {
@@ -182,10 +193,8 @@ public abstract class Mobile extends Element implements IMobile{
 	 *            based on the road height.
 	 */
 	public final void setY(final int y) {
-		this.getPosition().y = (y + this.getMap().getHeight()) % this.getMap().getHeight();
-		if (this.isKilled()) {
-			this.die();
-		}
+		this.getPosition().y = y;
+		
 	}
 
 
@@ -208,9 +217,10 @@ public abstract class Mobile extends Element implements IMobile{
 		this.map = map;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see fr.exia.insanevehicles.model.element.mobile.IMobile#isAlive()
+	/**
+	 * Get the alive
+	 * 
+	 * @see model.element.mobile.IMobile#isAlive()
 	 */
 	@Override
 	public Boolean isAlive() {
@@ -218,50 +228,62 @@ public abstract class Mobile extends Element implements IMobile{
 	}
 
 	/**
-	 * Dies.
+	 * The player dies.
 	 */
 	public void die() {
 		this.alive = false;
+		this.getMap().setStillPlaying(false);
 		this.setHasMoved();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see fr.exia.insanevehicles.model.element.mobile.IMobile#isKilled()
-	 */
-	@Override
-	public Boolean isKilled() {
-		return this.getMap().getOnTheMapXY(this.getX(), this.getY()).getPermeability() == Permeability.KILLING;
-	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see fr.exia.insanevehicles.model.element.mobile.IMobile#isDirt()
+	/**
+	 * Check if is a dirt
+	 * 
+	 * @see model.element.mobile.IMobile#isDirt()
 	 */
 	@Override
 	public Boolean isDirt() {
 		return this.getMap().getOnTheMapXY(this.getX(), this.getY()).getPermeability() == Permeability.DISAPPEAR;
 	}
 	
+	/**
+	 * Check if is a diamond
+	 * 
+	 * @see model.element.mobile.IMobile#isDiamond()
+	 */
+	@Override
 	public Boolean isDiamond() {
 		return this.getMap().getOnTheMapXY(this.getX(), this.getY()).getPermeability() == Permeability.PICKABLE;
 	}
 	
+	/**
+	 * Check if we can passed through objects
+	 * 
+	 * @see model.element.mobile.IMobile#isBlocked()
+	 */
+	@Override
 	public Boolean isBlocked() {
 		return this.getMap().getOnTheMapXY(this.getX(), this.getY()).getPermeability() == Permeability.BLOCKING;
 	}
 	
+	/**
+	 * Check if we can push rocks
+	 * 
+	 * @see model.element.mobile.IMobile#isPushable()
+	 */
+	@Override
 	public Boolean isPushable() {
 		return this.getMap().getOnTheMapXY(this.getX(), this.getY()).getPermeability() == Permeability.PUSHABLE;
 	}
 
-	/*
-	 * (non-Javadoc)
+	/**
+	 * (
 	 * @see fr.exia.showboard.IPawn#getPosition()
 	 */
-	/*
-	 * (non-Javadoc)
-	 * @see fr.exia.insanevehicles.model.element.mobile.IMobile#getPosition()
+	/**
+	 * Get the position
+	 * @see model.element.mobile.IMobile#getPosition()
 	 */
 	@Override
 	public Point getPosition() {
@@ -287,26 +309,40 @@ public abstract class Mobile extends Element implements IMobile{
 		return this.board;
 	}
 
+	/**
+	 * Get the ennemy
+	 * 
+	 * @return ennemy
+	 */
 	public Ennemy getEnnemy() {
 		return ennemy;
 	}
 
+	/**
+	 * Set the ennemy
+	 * 
+	 * @param ennemy
+	 */
 	public void setEnnemy(Ennemy ennemy) {
 		this.ennemy = ennemy;
 	}
 
-
+	/**
+	 * Set the moved
+	 * 
+	 * @param moved
+	 */
 	public void setHasMoved(boolean moved) {
 		this.moved = moved;
 	}
 	
+	/**
+	 * Get the moved
+	 * 
+	 * @return the moved
+	 */
 	public Boolean getHasMoved() {
 		return this.moved;
 	}
 	
-	@Override
-	public Boolean isNotWin() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }

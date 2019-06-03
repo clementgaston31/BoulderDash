@@ -6,12 +6,11 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import model.DAO.Entity;
 import model.IMap;
 import model.Map;
 
 /**
- * <h1> The DAOMap Class. </h1>
+ * <h1>The Class DAOMap.</h1>
  * 
  * @author Clément GASTON
  * @version 0.1
@@ -28,30 +27,6 @@ public class DAOMap extends DAOElement{
 	 */
 	public DAOMap(Connection connection) throws SQLException {
 		super(connection);
-	}
-	
-	/**
-	 * Not yet implemented
-	 */
-	public boolean create(Entity entity) {
-		// Not implemented
-		return false;
-	}
-	
-	/**
-	 * Not yet implemented
-	 */
-	public boolean delete(Entity entity) {
-		// Not implemented
-		return false;
-	}
-	
-	/**
-	 * Not yet implemented
-	 */
-	public boolean update(Entity entity) {
-		// Not implemented
-		return false;
 	}
 	
 	/**
@@ -72,7 +47,7 @@ public class DAOMap extends DAOElement{
 			ResultSet resultSet = call.getResultSet();
 			if (resultSet.first()) {
 				try {
-					map = new Map(resultSet.getInt("idMap"), resultSet.getInt("width"), resultSet.getInt("height"), resultSet.getInt("playerStartX"), resultSet.getInt("playerStartY"), resultSet.getString("StringMap"));
+					map = new Map(resultSet.getInt("idMap"), resultSet.getInt("DiamondToGet"), resultSet.getInt("width"), resultSet.getInt("height"), resultSet.getInt("playerStartX"), resultSet.getInt("playerStartY"), resultSet.getString("StringMap"));
 				} catch (IOException e) {
 					e.printStackTrace();
 				}

@@ -37,7 +37,7 @@ public abstract class MobileFactory {
 	/**
      * Creates a new MotionlessElements object.
      *
-     * @return the motionless element
+     * @return the motionless element diamond
      */
     public static Mobile createDiamond() {
         return diamond;
@@ -46,16 +46,27 @@ public abstract class MobileFactory {
     /**
      * Creates a new MotionlessElements object.
      *
-     * @return the motionless element
+     * @return the motionless element rock
      */
     public static Mobile createRock() {
         return rock;
     }
 
+    /**
+     * Creates a new MotionlessElements object.
+     *
+     * @return the motionless element ennemy
+     */
+    
     public static Mobile createEnnemy() {
     	return ennemy;
     }
     
+    /**
+     * Creates a new MotionlessElements object.
+     *
+     * @return the motionless element ennemyRandom
+     */
     public static Mobile createEnnemyRandom() {
     	return ennemyRandom;
     }

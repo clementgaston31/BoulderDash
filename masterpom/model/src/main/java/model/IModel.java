@@ -2,14 +2,26 @@ package model;
 
 import model.element.mobile.IMobile;
 
+/**
+ * <h1>The Interface IModel.</h1>
+ * 
+ * @author Clément GASTON & Kévin BOURDEAU
+ * @version 0.1
+ */
 public interface IModel {
 
-	public IMap getMap();
+	/**
+	 * Gets the Map.
+	 * 
+	 * @return map
+	 */
+	IMap getMap();
 	
-	public IMobile getPlayer();
-	
-	//public void updateModel();
-	
-	//public void orderPerform(UserOrder userOrder);
+	/**
+	 * Gets the Player.
+	 * 
+	 * @return player
+	 */
+	IMobile getPlayer();
 
 }

@@ -39,7 +39,7 @@ public class Player extends Mobile implements IMobile{
 	public boolean win = false;
 	
 	/**
-     * Instantiates a new my vehicle.
+     * Instantiates a new player.
      *
      * @param x
      *            the x
@@ -61,13 +61,17 @@ public class Player extends Mobile implements IMobile{
         this.Diamond = 0;
     }
     
+    /**
+     * Instantiates a new player.
+     */
     public Player() {
 		super();
 	}
 
-    /*
-     * (non-Javadoc)
-     * @see fr.exia.insanevehicles.model.element.mobile.Mobile#moveLeft()
+    /**
+     * Move left the player and he can remove the dirt
+     * 								   pick the diamond
+     * @see model.element.mobile.Mobile#moveLeft()
      */
     @Override
     public final void moveLeft() {
@@ -77,9 +81,10 @@ public class Player extends Mobile implements IMobile{
         this.setSprite(spriteLeft);
     }
 
-    /*
-     * (non-Javadoc)
-     * @see fr.exia.insanevehicles.model.element.mobile.Mobile#moveRight()
+    /**
+     * Move right the player and he can remove the dirt
+     * 								   pick the diamond
+     * @see model.element.mobile.Mobile#moveRight()
      */
     @Override
     public final void moveRight() {
@@ -89,9 +94,10 @@ public class Player extends Mobile implements IMobile{
         this.setSprite(spriteRight);
     }
     
-    /*
-     * (non-Javadoc)
-     * @see fr.exia.insanevehicles.model.element.mobile.Mobile#moveUp()
+    /**
+     * Move up the player and he can remove the dirt
+     * 								   pick the diamond
+     * @see model.element.mobile.Mobile#moveUp()
      */
     @Override
     public final void moveUp() {
@@ -101,9 +107,10 @@ public class Player extends Mobile implements IMobile{
         this.setSprite(spriteUp);
     }
     
-    /*
-     * (non-Javadoc)
-     * @see fr.exia.insanevehicles.model.element.mobile.Mobile#moveDown()
+    /**
+     * Move down the player and he can remove the dirt
+     * 								   pick the diamond
+     * @see model.element.mobile.Mobile#moveDown()
      */
     @Override
     public final void moveDown() {
@@ -113,9 +120,10 @@ public class Player extends Mobile implements IMobile{
         this.setSprite(spriteDown);
     }
 
-    /*
-     * (non-Javadoc)
-     * @see fr.exia.insanevehicles.model.element.mobile.Mobile#die()
+    /**
+     * The player dies
+     * 
+     * @see model.element.mobile.Mobile#die()
      */
     @Override
 	public final void die() {
@@ -123,51 +131,51 @@ public class Player extends Mobile implements IMobile{
         this.setSprite(spriteDie);
     }
 
-    /*
-     * (non-Javadoc)
-     * @see fr.exia.insanevehicles.model.element.mobile.Mobile#doNothing()
+    /**
+     * The player do nothing
+     * 
+     * @see model.element.mobile.Mobile#doNothing()
      */
     @Override
     public final void doNothing() {
         super.doNothing();
         this.setSprite(sprite);
     }
-    
+    /**
+     * Remove the dirt
+     * 
+     */
     public void removeTheDirt() {
+    	//Check if there is dirt under the player
     	if (this.isDirt() == true) {
+    		//The dirt disappear
 			this.getMap().setOnTheMapXY(MotionlessElementFactory.createBackground(),
 					this.getX(), this.getY());
 		}
     	
     }
     
+    /**
+     * The player picks diamonds
+     */
     public void pickDiamond() {
+    	//Check if there is diamond under the player
     	if (this.isDiamond() == true) {
+    		//The diamond was picked up
+    		this.getMap().addDiamond();
 			this.getMap().setOnTheMapXY(MotionlessElementFactory.createBackground(),
 					this.getX(), this.getY());
-			/*Diamond = Diamond + 1;*/
+			
 
 		}
     }
-    
-  /* public void playerWin() {
-    	if (Diamond >= DiamondToGet && this.getMap()
-				.getOnTheMapXY(this.getX(), this.getY())
-				.getPermeability() == Permeability.WIN) {
-			win = true;
-			
-		}
-    }*/
-    
-   
+   /**
+    * Get the position
+    *
+    */
 	@Override
 	public Point getPosition() {
 		return super.getPosition();
 	}
 
-	@Override
-	public Boolean isNotWin() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }

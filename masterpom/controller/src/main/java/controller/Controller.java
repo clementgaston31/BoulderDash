@@ -33,12 +33,12 @@ public class Controller implements IOrderPerformer, IController {
 
 	/** The stack order. */
 	private UserOrder stackOrder;
-	
-	/** Comment this */
-	public boolean tried = false;
-	
-	/** Comment this */
-	public boolean pushed = false;
+
+	/** If he tried to push the rock. */
+	private boolean tried = false;
+
+	/** If he pushed the rock once. */
+	private boolean pushed = false;
 
 	/**
 	 * The controller which will create a view and a model.
@@ -59,11 +59,9 @@ public class Controller implements IOrderPerformer, IController {
 	 * @throws InterruptedException
 	 */
 	public void play() throws InterruptedException {
-		System.out.println(this.getStackOrder());
 		this.stackOrder = UserOrder.NOP;
-		while (this.getModel().getPlayer().isAlive()) {
+		while (this.getModel().getMap().getStillPlaying()) {
 			Thread.sleep(speed);
-			//System.out.println(this.getStackOrder());
 			switch (this.getStackOrder()) {
 			case UP:
 				this.getModel().getPlayer().moveUp();
@@ -104,33 +102,44 @@ public class Controller implements IOrderPerformer, IController {
 			this.tried = false;
 			this.pushed = false;
 			this.clearStackOrder();
-			this.getModel().getMap().getEnnemy().setHasMoved(false);
 
 		}
-		/*if (win) {
+
+		if (this.getModel().getPlayer().isAlive()) {
 			this.getView().displayMessage("VICTORYYYYY !!!!!!!!");
 		} else {
-			this.getView().displayMessage("Cheh");
-		}*/
+			this.getView().displayMessage("Loose ! Try again ;)");
+		}
+
 	}
 
 	/**
-	 * Check if the player die when the ennemy killed it
-	 * 			rock, diamond fall and slide
-	 * 			the player can push the rock
-	 *  
+	 * Check if the player die when the ennemy killed it rock, diamond fall and
+	 * slide the player can push the rock
+	 * 
 	 */
-	public void updateModel() {
-		this.getModel().getMap().getEnnemy().setHasMoved(false);
-		
+	private void updateModel() {
+
+		/**
+		 * Test if we win.
+		 */
+
 		// Sweeping of the map
 		for (int y = this.getModel().getMap().getHeight() - 1; y > 0; y--) {
 			for (int x = this.getModel().getMap().getWidth() - 1; x > 0; x--) {
 
+				//Test if the player won the game
+				if (this.getModel().getMap().getCurrentDiamondGot() == this.getModel().getMap().getDiamondToGet()
+						&& this.getModel().getMap()
+								.getOnTheMapXY(this.getModel().getPlayer().getX(), this.getModel().getPlayer().getY())
+								.getPermeability() == Permeability.WIN) {
+					win();
+				}
 				// If there is an ennemy at the current x, y on the map
-				if (this.getModel().getMap().getOnTheMapXY(x, y).getClass() == Ennemy.class) {
+				if (this.getModel().getMap().getOnTheMapXY(x, y).getClass() == Ennemy.class
+						|| this.getModel().getMap().getOnTheMapXY(x, y).getClass() == EnnemyRandom.class) {
 
-					// If the player is in a radius of 1 of the ennemy 
+					// If the player is in a radius of 1 of the ennemy
 					if ((this.getModel().getPlayer().getX() == x && this.getModel().getPlayer().getY() == y)
 							|| (this.getModel().getPlayer().getX() == x + 1 && this.getModel().getPlayer().getY() == y)
 							|| (this.getModel().getPlayer().getX() == x - 1 && this.getModel().getPlayer().getY() == y)
@@ -140,19 +149,16 @@ public class Controller implements IOrderPerformer, IController {
 						// The player die
 						this.getModel().getPlayer().die();
 					}
-
-					//To comment 
-					if (this.getModel().getMap().getEnnemy().getHasMoved() == false) {
-						moveEnnemy(x, y);
-
-						this.getModel().getMap().getEnnemy().setHasMoved(true);
-					}
+					// Launch the movement of the ennemy
+					this.moveEnnemy(x, y);
 				}
-				
+
 				// If in the map there are rocks you can push
 				pushTheRockRight(x, y);
 				pushTheRockLeft(x, y);
-				// To comment
+
+				// Check if the rock was pushed, if true, the player will not be able to push it
+				// again.
 				if (pushed == true) {
 					this.clearStackOrder();
 				}
@@ -160,50 +166,52 @@ public class Controller implements IOrderPerformer, IController {
 				// If our object is subjected to gravity
 				if (this.getModel().getMap().getOnTheMapXY(x, y).getClass() == Rock.class
 						|| this.getModel().getMap().getOnTheMapXY(x, y).getClass() == Diamond.class) {
-					//And there is nothing below
+					// And there is nothing below
 					slideRight(x, y);
 					slideLeft(x, y);
 					fall(x, y);
 				}
 			}
 		}
+
 	}
-	
+
 	/**
 	 * Check if there is nothing under that our object is falling
+	 * 
 	 * @param x
 	 * @param y
 	 * 
 	 */
-	public void fall(int x, int y) {
-		
+	private void fall(int x, int y) {
+
+		// Check if the rock / diamond can fall.
 		if (this.getModel().getMap().getOnTheMapXY(x, y + 1).getPermeability() == Permeability.PENETRABLE
 				&& (this.getModel().getPlayer().getX() != x || this.getModel().getPlayer().getY() != y + 1)) {
-			// Alors notre objet tombe
+
+			// Then our object fall.
 			this.getModel().getMap().setOnTheMapXY(this.getModel().getMap().getOnTheMapXY(x, y), x, y + 1);
 
 			if ((this.getModel().getPlayer().getX() == x && this.getModel().getPlayer().getY() == y + 2)) {
 				this.getModel().getPlayer().die();
 			}
 
+			// If a player / monster is under, it will kill it.
 			if (this.getModel().getMap().getOnTheMapXY(x, y + 2).getClass() == Ennemy.class
 					|| this.getModel().getMap().getOnTheMapXY(x, y + 2).getClass() == EnnemyRandom.class) {
 				this.getModel().getMap().setOnTheMapXY(MotionlessElementFactory.createBackground(), x, y + 2);
 			}
-
 			this.getModel().getMap().setOnTheMapXY(MotionlessElementFactory.createBackground(), x, y);
-
 		}
-
 	}
 
 	/**
+	 * The rock will slide on the right
 	 * 
 	 * @param x
 	 * @param y
 	 */
-	public void slideRight(int x, int y) {
-		// SLIDE droite
+	private void slideRight(int x, int y) {
 		if ((this.getModel().getMap().getOnTheMapXY(x, y + 1).getClass() == Rock.class
 				|| this.getModel().getMap().getOnTheMapXY(x, y + 1).getClass() == Diamond.class)
 				&& this.getModel().getMap().getOnTheMapXY(x + 1, y).getPermeability() == Permeability.PENETRABLE
@@ -215,12 +223,12 @@ public class Controller implements IOrderPerformer, IController {
 	}
 
 	/**
+	 * The rock will slide on the left
 	 * 
 	 * @param x
 	 * @param y
 	 */
-	public void slideLeft(int x, int y) {
-		// SLIDE gauche
+	private void slideLeft(int x, int y) {
 		if ((this.getModel().getMap().getOnTheMapXY(x, y + 1).getClass() == Rock.class
 				|| this.getModel().getMap().getOnTheMapXY(x, y + 1).getClass() == Diamond.class)
 				&& this.getModel().getMap().getOnTheMapXY(x - 1, y).getPermeability() == Permeability.PENETRABLE
@@ -232,12 +240,12 @@ public class Controller implements IOrderPerformer, IController {
 	}
 
 	/**
+	 * The rock is pushed to the right by the player.
 	 * 
 	 * @param x
 	 * @param y
 	 */
-	public void pushTheRockRight(int x, int y) {
-		/// PUSH DROIT
+	private void pushTheRockRight(int x, int y) {
 		if (this.getModel().getMap().getOnTheMapXY(x, y).getClass() == Rock.class
 				&& this.getModel().getPlayer().getX() == (x - 1) && this.getModel().getPlayer().getY() == y
 				&& this.getModel().getMap().getOnTheMapXY(x + 1, y).getPermeability() == Permeability.PENETRABLE
@@ -252,11 +260,12 @@ public class Controller implements IOrderPerformer, IController {
 	}
 
 	/**
+	 * The rock is pushed to the left by the player.
 	 * 
 	 * @param x
 	 * @param y
 	 */
-	public void pushTheRockLeft(int x, int y) {
+	private void pushTheRockLeft(int x, int y) {
 		// PUSH GAUCHE
 		if (this.getModel().getMap().getOnTheMapXY(x, y).getClass() == Rock.class
 				&& this.getModel().getPlayer().getX() == (x + 1) && this.getModel().getPlayer().getY() == y
@@ -268,6 +277,7 @@ public class Controller implements IOrderPerformer, IController {
 			this.pushed = true;
 		}
 	}
+
 	/**
 	 * Gets the view.
 	 * 
@@ -305,7 +315,7 @@ public class Controller implements IOrderPerformer, IController {
 	}
 
 	/**
-	 * IDK
+	 * Set the order to perform.
 	 * 
 	 * @param userOrder
 	 */
@@ -339,14 +349,16 @@ public class Controller implements IOrderPerformer, IController {
 	}
 
 	/**
+	 * Get the order to perform.
 	 * 
 	 * @return
 	 */
 	public IOrderPerformer getOrderPerformer() {
 		return this;
 	}
-	
+
 	/**
+	 * The ennemies movement script.
 	 * 
 	 * @param x
 	 * @param y
@@ -357,31 +369,35 @@ public class Controller implements IOrderPerformer, IController {
 
 		if (this.getModel().getMap().getOnTheMapXY(x - 1, y).getPermeability() == Permeability.PENETRABLE
 				&& Random == 0) {
-			this.getModel().getMap().setOnTheMapXY(this.getModel().getMap().getOnTheMapXY(x, y), x - 1,
-					y);
+			this.getModel().getMap().setOnTheMapXY(this.getModel().getMap().getOnTheMapXY(x, y), x - 1, y);
 			this.getModel().getMap().setOnTheMapXY(MotionlessElementFactory.createBackground(), x, y);
 		}
 
 		if (this.getModel().getMap().getOnTheMapXY(x, y + 1).getPermeability() == Permeability.PENETRABLE
 				&& Random == 1) {
-			this.getModel().getMap().setOnTheMapXY(this.getModel().getMap().getOnTheMapXY(x, y), x,
-					y + 1);
+			this.getModel().getMap().setOnTheMapXY(this.getModel().getMap().getOnTheMapXY(x, y), x, y + 1);
 			this.getModel().getMap().setOnTheMapXY(MotionlessElementFactory.createBackground(), x, y);
 		}
 
 		if (this.getModel().getMap().getOnTheMapXY(x + 1, y).getPermeability() == Permeability.PENETRABLE
 				&& Random == 2) {
-			this.getModel().getMap().setOnTheMapXY(this.getModel().getMap().getOnTheMapXY(x, y), x + 1,
-					y);
+			this.getModel().getMap().setOnTheMapXY(this.getModel().getMap().getOnTheMapXY(x, y), x + 1, y);
 			this.getModel().getMap().setOnTheMapXY(MotionlessElementFactory.createBackground(), x, y);
 		}
 
 		if (this.getModel().getMap().getOnTheMapXY(x, y - 1).getPermeability() == Permeability.PENETRABLE
 				&& Random == 3) {
-			this.getModel().getMap().setOnTheMapXY(this.getModel().getMap().getOnTheMapXY(x, y), x,
-					y - 1);
+			this.getModel().getMap().setOnTheMapXY(this.getModel().getMap().getOnTheMapXY(x, y), x, y - 1);
 			this.getModel().getMap().setOnTheMapXY(MotionlessElementFactory.createBackground(), x, y);
 		}
+
+	}
+
+	/**
+	 * Set the end of the game because the player won.
+	 */
+	public void win() {
+		this.getModel().getMap().setStillPlaying(false);
 	}
 
 }

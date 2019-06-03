@@ -6,9 +6,11 @@ import fr.exia.showboard.IPawn;
 import model.element.IElement;
 
 /**
+ * <h1>The IMobile Interface.</h1>
  * 
  * @author kevinBourdeau
  * @version 0.1
+ * 
  * @see IPawn
  * @see IElement
  *
@@ -57,19 +59,18 @@ public interface IMobile extends IPawn, IElement {
 	Boolean isAlive();
 
 	/**
-	 * Checks if he is on a dirt block.
+	 * Check if there is a dirt.
 	 *
-	 * @return the alive
+	 * @return the dirt
 	 */
 
 	Boolean isDirt();
-
+	
 	/**
-	 * Checks if rockford killed.
-	 *
-	 * @return the boolean
+	 * Check if objects have a blockable permeability
+	 * 
+	 * @return the blocked
 	 */
-	Boolean isKilled();
 	
 	 Boolean isBlocked();
 
@@ -96,9 +97,15 @@ public interface IMobile extends IPawn, IElement {
 	@Override
 	int getY();
 
+	/**
+	 * Check if is a diamond
+	 * @return the diamond
+	 */
 	Boolean isDiamond();
 
-	Boolean isNotWin();
+	/**
+	 * Check if is a rock
+	 * @return the rock
+	 */
 	Boolean isPushable();
-
 }

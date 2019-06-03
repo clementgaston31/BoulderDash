@@ -34,22 +34,27 @@ public abstract class Element implements IElement{
 		this.setPermeability(permeability);
 	}
 	
+	/**
+     * Instantiates a new element.
+     */
 	 public Element() {
 		// TODO Auto-generated constructor stub
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see fr.exia.insanevehicles.model.element.IElement#getSprite()
+	/**
+	 * Get the sprite
+	 * 
+	 * @see model.element.IElement#getSprite()
 	 */
 	@Override
 	public final Sprite getSprite() {
 		return this.sprite;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see fr.exia.insanevehicles.model.element.IElement#getPermeability()
+	/**
+	 * Get the the permeability
+	 * 
+	 * @see model.element.IElement#getPermeability()
 	 */
 	@Override
 	public final Permeability getPermeability() {
@@ -76,13 +81,13 @@ public abstract class Element implements IElement{
 		this.permeability = permeability;
 	}
 
-	/*
-	 * (non-Javadoc)
+	/**
+	 * 
 	 * @see fr.exia.showboard.ISquare#getImage()
 	 */
-	/*
-	 * (non-Javadoc)
-	 * @see fr.exia.insanevehicles.model.element.IElement#getImage()
+	/**
+	 * 
+	 * @see model.element.IElement#getImage()
 	 */
 	@Override
 	public Image getImage() {

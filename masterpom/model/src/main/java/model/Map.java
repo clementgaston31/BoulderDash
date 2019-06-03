@@ -7,21 +7,22 @@ import java.io.StringReader;
 import java.util.Observable;
 
 import model.element.IElement;
-import model.element.mobile.Ennemy;
-import model.element.mobile.Mobile;
 import model.element.mobile.MobileFactory;
 import model.element.motionlessElement.MotionlessElementFactory;
 
 /**
  * <h1>The Map Class.</h1>
  * 
- * @author Clément Gaston
+ * @author Clément GASTON
  * @version 0.1
  */
 public class Map extends Observable implements IMap {
 
-	/** The number of the map in the database. */
+	/** The id of the map in the database. */
 	private int idMap;
+
+	/** The number of diamond needed to finish the level. */
+	private int diamondToGet;
 
 	/** The width of the map. */
 	private int width;
@@ -38,9 +39,11 @@ public class Map extends Observable implements IMap {
 	/** The map composed of characters. */
 	private String mapFromBDD;
 
-	private Mobile ennemy;
+	/** The current number of diamond collected. */
+	private int currentDiamondGot;
 	
-	private Mobile rock;
+	/** If the player still can play. */
+	private Boolean StillPlaying = true;
 
 	/**
 	 * The grill of the map which will stock every character with their X Y
@@ -59,10 +62,11 @@ public class Map extends Observable implements IMap {
 	 * @param mapFromBDD   The characters Map.
 	 * @throws IOException
 	 */
-	public Map(int idMap, int width, int height, int playerStartX, int playerStartY, String mapFromBDD)
-			throws IOException {
+	public Map(int idMap, int diamondToGet, int width, int height, int playerStartX, int playerStartY,
+			String mapFromBDD) throws IOException {
 		super();
 		this.setIdMap(idMap);
+		this.setDiamondToGet(diamondToGet);
 		this.setWidth(width);
 		this.setHeight(height);
 		this.setPlayerStartX(playerStartX);
@@ -70,12 +74,6 @@ public class Map extends Observable implements IMap {
 		this.setMapFromBDD(mapFromBDD);
 		this.loadMap(mapFromBDD);
 	}
-
-	/**
-	 * Creation of a new Map from the database directly.
-	 * 
-	 * @throws IOException
-	 */
 
 	/**
 	 * Gets the id of the Map.
@@ -91,8 +89,26 @@ public class Map extends Observable implements IMap {
 	 * 
 	 * @param idMap The new id of the Map.
 	 */
-	public void setIdMap(int idMap) {
+	private void setIdMap(int idMap) {
 		this.idMap = idMap;
+	}
+
+	/**
+	 * Gets the number of diamond needed to finish the level.
+	 * 
+	 * @return diamondToGet
+	 */
+	public int getDiamondToGet() {
+		return this.diamondToGet;
+	}
+
+	/**
+	 * Sets the number of diamond needed to finish the game.
+	 * 
+	 * @param diamondToGet The new number of diamond needed.
+	 */
+	private void setDiamondToGet(int diamondToGet) {
+		this.diamondToGet = diamondToGet;
 	}
 
 	/**
@@ -109,7 +125,7 @@ public class Map extends Observable implements IMap {
 	 * 
 	 * @param width The new width of the Map.
 	 */
-	public void setWidth(int width) {
+	private void setWidth(int width) {
 		this.width = width;
 	}
 
@@ -127,12 +143,12 @@ public class Map extends Observable implements IMap {
 	 * 
 	 * @param height The new height of the map.
 	 */
-	public void setHeight(int height) {
+	private void setHeight(int height) {
 		this.height = height;
 	}
 
 	/**
-	 * Gets the X point start of the player.
+	 * Gets the X of the player when the game start.
 	 * 
 	 * @return playerStartX
 	 */
@@ -141,16 +157,16 @@ public class Map extends Observable implements IMap {
 	}
 
 	/**
-	 * Sets the X point start of the player.
+	 * Sets the X of the player when the game start.
 	 * 
 	 * @param playerStartX The new X start point of the player.
 	 */
-	public void setPlayerStartX(int playerStartX) {
+	private void setPlayerStartX(int playerStartX) {
 		this.playerStartX = playerStartX;
 	}
 
 	/**
-	 * Gets the Y point start of the player.
+	 * Gets the Y of the player when the game start.
 	 * 
 	 * @return playerStartY
 	 */
@@ -159,11 +175,11 @@ public class Map extends Observable implements IMap {
 	}
 
 	/**
-	 * Sets the Y point start of the player.
+	 * Sets the Y of the player when the game start.
 	 * 
 	 * @param playerStartY The new Y start point of the player.
 	 */
-	public void setPlayerStartY(int playerStartY) {
+	private void setPlayerStartY(int playerStartY) {
 		this.playerStartY = playerStartY;
 	}
 
@@ -180,45 +196,36 @@ public class Map extends Observable implements IMap {
 	 * Sets the String Map.
 	 * 
 	 * @param mapFromBDD The new String Map.
-	 * @return
 	 */
-	public void setMapFromBDD(String mapFromBDD) {
+	private void setMapFromBDD(String mapFromBDD) {
 		this.mapFromBDD = mapFromBDD;
 	}
 
-	public IMap getMap() {
-		return this;
+	/**
+	 * Gets the number of the current diamond collected.
+	 * 
+	 * @return currentDiamondGot
+	 */
+	public int getCurrentDiamondGot() {
+		return this.currentDiamondGot;
 	}
 
 	/**
-	 * Read the String map, then create the grill.
+	 * Sets the number of the current diamond collected.
 	 * 
-	 * @param mapFromBDD The String map to read.
-	 * @throws IOException Signals that an I/O exception has occured.
+	 * @param currentDiamondGot The new current of diamond got.
 	 */
-	public void loadMap(String mapFromBDD) throws IOException {
-		String line = mapFromBDD;
-		Reader inputString = new StringReader(line);
-		BufferedReader reader = new BufferedReader(inputString);
-		this.onTheMap = new IElement[this.getWidth()][this.getHeight()];
-		line = reader.readLine();
-		int y = 0;
-		while (line != null) {
-			for (int x = 0; x < this.getWidth(); x++) {
-				if (line.toCharArray()[x] == 'R' || line.toCharArray()[x] == '*' || line.toCharArray()[x] == 'E' || line.toCharArray()[x] == 'J') {
-					this.setOnTheMapXY(MobileFactory.getFromFileSymbol(line.toCharArray()[x]), x, y);
-					if (line.toCharArray()[x] == 'E') {
-						this.setEnnemy(new Ennemy());
-					}
-				} else {
-					this.setOnTheMapXY(MotionlessElementFactory.getFromFileSymbol(line.toCharArray()[x]), x, y);
+	public void setCurrentDiamondGot(int currentDiamondGot) {
+		this.currentDiamondGot = currentDiamondGot;
+	}
 
-				}
-			}
-			line = reader.readLine();
-			y++;
-		}
-		reader.close();
+	/**
+	 * Gets the current map.
+	 * 
+	 * @return this
+	 */
+	public IMap getMap() {
+		return this;
 	}
 
 	/**
@@ -244,41 +251,62 @@ public class Map extends Observable implements IMap {
 	}
 
 	/**
-	 * IDK
+	 * Sets the mobile has changed.
 	 */
 	public void setMobileHasChanged() {
 		this.setChanged();
 		this.notifyObservers();
 	}
 
-	/*
-	 * public Observable getObservable() { return this; }
-	 */
-
 	/**
-	 * IDK
+	 * Gets the observable.
+	 *
+	 * @return the observable
 	 */
-
-	@Override
 	public Observable getObservable() {
 		return this;
 	}
 
-	public Mobile getEnnemy() {
-		return ennemy;
+	/**
+	 * Read the String map, then create the grill.
+	 * 
+	 * @param mapFromBDD The String map to read.
+	 * @throws IOException Signals that an I/O exception has occured.
+	 */
+	private void loadMap(String mapFromBDD) throws IOException {
+		String line = mapFromBDD;
+		Reader inputString = new StringReader(line);
+		BufferedReader reader = new BufferedReader(inputString);
+		this.onTheMap = new IElement[this.getWidth()][this.getHeight()];
+		line = reader.readLine();
+		int y = 0;
+		while (line != null) {
+			for (int x = 0; x < this.getWidth(); x++) {
+				if (line.toCharArray()[x] == 'R' || line.toCharArray()[x] == '*' || line.toCharArray()[x] == 'E'
+						|| line.toCharArray()[x] == 'J') {
+					this.setOnTheMapXY(MobileFactory.getFromFileSymbol(line.toCharArray()[x]), x, y);
+				} else {
+					this.setOnTheMapXY(MotionlessElementFactory.getFromFileSymbol(line.toCharArray()[x]), x, y);
+				}
+			}
+			line = reader.readLine();
+			y++;
+		}
+		reader.close();
+	}
+
+	/*
+	 * Add a diamond each time you pick up one.
+	 */
+	public void addDiamond() {
+		this.setCurrentDiamondGot(currentDiamondGot + 1);
 	}
 	
-	public Mobile getRock() {
-		return rock;
+	public void setStillPlaying(boolean stillPlaying) {
+		this.StillPlaying = stillPlaying;
 	}
-
-	/**
-	 * Sets the Y point start of the player.
-	 * 
-	 * @param playerStartY The new Y start point of the player.
-	 */
-	public void setEnnemy(Mobile ennemy) {
-		this.ennemy = ennemy;
+	
+	public Boolean getStillPlaying() {
+		return this.StillPlaying;
 	}
-
 }

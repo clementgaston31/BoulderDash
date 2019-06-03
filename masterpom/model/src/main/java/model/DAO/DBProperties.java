@@ -5,7 +5,7 @@ import java.io.InputStream;
 import java.util.Properties;
 
 /**
- * <h1>The DBProperties Class.</h1>
+ * <h1>The Class DBProperties.</h1>
  * 
  * @author Clément GASTON
  * @version 0.1

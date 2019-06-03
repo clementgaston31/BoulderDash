@@ -10,7 +10,16 @@ import org.junit.Test;
 
 import model.element.Permeability;
 
+/**
+ * <h1>The MotionlessElementTest Class.</h1>
+ *
+ * @author keivnBourdeau
+ * @version 0.1
+ */
+
 public class MotionlessElementTest {
+	
+	/**The wall */
 	private Wall wall;
 
 	@BeforeClass
@@ -21,6 +30,10 @@ public class MotionlessElementTest {
 	public static void tearDownAfterClass() throws Exception {
 	}
 
+	/**
+	 * Set up the wall
+	 * @throws Exception
+	 */
 	@Before
 	public void setUp() throws Exception {
 		this.wall = new Wall();	}
@@ -29,6 +42,9 @@ public class MotionlessElementTest {
 	public void tearDown() throws Exception {
 	}
 
+	/**
+	 * Check if the motionlessElement has a sprite and a permeability
+	 */
 	@Test
 	public void testMotionlessElement() {
 		assertNotNull(this.wall.getSprite());

@@ -5,7 +5,7 @@ import java.sql.SQLException;
 import java.sql.Connection;
 
 /**
- * <h1> The DBConnection Class. </h1>
+ * <h1>The Class DBConnection.</h1>
  * 
  * @author Clément GASTON
  * @version 0.1
