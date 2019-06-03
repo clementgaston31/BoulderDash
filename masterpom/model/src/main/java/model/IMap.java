@@ -119,6 +119,15 @@ public interface IMap {
 	 */
 	void addDiamond();
 
+	/*
+	 * Sets if the player can play.
+	 * @param stillPlaying
+	 */
 	void setStillPlaying(boolean stillPlaying);
+	
+	/**
+	 * Gets if the player can still play.
+	 * @return stillPlaying
+	 */
 	public Boolean getStillPlaying();
 }

@@ -33,7 +33,6 @@ public class Controller implements IOrderPerformer, IController {
 
 	/** The stack order. */
 	private UserOrder stackOrder;
-
 	/** If he tried to push the rock. */
 	private boolean tried = false;
 
