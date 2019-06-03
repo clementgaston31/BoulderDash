@@ -35,7 +35,7 @@ public class ElementTest {
 
 	/**
 	 * Sets the set up
-	 * @throws Exception
+	 * @throws Exception the exception
 	 */
 	@Before
 	public void setUp() throws Exception {

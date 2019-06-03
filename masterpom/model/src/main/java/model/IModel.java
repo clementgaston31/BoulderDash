@@ -5,7 +5,7 @@ import model.element.mobile.IMobile;
 /**
  * <h1>The Interface IModel.</h1>
  * 
- * @author Clément GASTON & Kévin BOURDEAU
+ * @author Clement GASTON Kevin BOURDEAU
  * @version 0.1
  */
 public interface IModel {

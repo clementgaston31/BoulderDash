@@ -32,7 +32,7 @@ public class MotionlessElementTest {
 
 	/**
 	 * Set up the wall
-	 * @throws Exception
+	 * @throws Exception the exception
 	 */
 	@Before
 	public void setUp() throws Exception {

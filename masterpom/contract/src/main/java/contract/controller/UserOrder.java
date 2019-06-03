@@ -3,7 +3,7 @@ package contract.controller;
 /**
  * <h1> The UserOrder enumeration. </h1>
  * 
- * @author Clément GASTON && kevinBourdeau
+ * @author Clement GASTON kevinBourdeau
  * @version 0.1
  */
 public enum UserOrder {

@@ -12,7 +12,7 @@ import view.View;
 /**
  * <h1>The Main Class.</h1>
  *
- * @author Clément GASTON && kevinBourdeau
+ * @author Clement GASTON kevinBourdeau
  * @version 0.1
  */
 public class Main {

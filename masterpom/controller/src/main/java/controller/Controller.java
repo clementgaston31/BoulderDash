@@ -17,7 +17,7 @@ import model.element.motionlessElement.MotionlessElementFactory;
 /**
  * <h1>The Controller Class.</h1>
  * 
- * @author Clément GASTON & Kévin BOURDEAU
+ * @author Clement GASTON  Kevin BOURDEAU
  * @version 0.2
  */
 public class Controller implements IOrderPerformer, IController {
@@ -42,8 +42,8 @@ public class Controller implements IOrderPerformer, IController {
 	/**
 	 * The controller which will create a view and a model.
 	 * 
-	 * @param view
-	 * @param model
+	 * @param view the view
+	 * @param model the model
 	 */
 	public Controller(final IView view, final IModel model) {
 		this.setView(view);
@@ -55,7 +55,7 @@ public class Controller implements IOrderPerformer, IController {
 	 * This function will loop during all the game and will allow the player to
 	 * move.
 	 * 
-	 * @throws InterruptedException
+	 * @throws InterruptedException the interruptedException
 	 */
 	public void play() throws InterruptedException {
 		this.stackOrder = UserOrder.NOP;
@@ -178,8 +178,8 @@ public class Controller implements IOrderPerformer, IController {
 	/**
 	 * Check if there is nothing under that our object is falling
 	 * 
-	 * @param x
-	 * @param y
+	 * @param x the x
+	 * @param y the y
 	 * 
 	 */
 	private void fall(int x, int y) {
@@ -207,8 +207,8 @@ public class Controller implements IOrderPerformer, IController {
 	/**
 	 * The rock will slide on the right
 	 * 
-	 * @param x
-	 * @param y
+	 * @param x the x
+	 * @param y  the y
 	 */
 	private void slideRight(int x, int y) {
 		if ((this.getModel().getMap().getOnTheMapXY(x, y + 1).getClass() == Rock.class
@@ -224,8 +224,8 @@ public class Controller implements IOrderPerformer, IController {
 	/**
 	 * The rock will slide on the left
 	 * 
-	 * @param x
-	 * @param y
+	 * @param x the x
+	 * @param y the y
 	 */
 	private void slideLeft(int x, int y) {
 		if ((this.getModel().getMap().getOnTheMapXY(x, y + 1).getClass() == Rock.class
@@ -241,8 +241,8 @@ public class Controller implements IOrderPerformer, IController {
 	/**
 	 * The rock is pushed to the right by the player.
 	 * 
-	 * @param x
-	 * @param y
+	 * @param x the x
+	 * @param y the y
 	 */
 	private void pushTheRockRight(int x, int y) {
 		if (this.getModel().getMap().getOnTheMapXY(x, y).getClass() == Rock.class
@@ -261,8 +261,8 @@ public class Controller implements IOrderPerformer, IController {
 	/**
 	 * The rock is pushed to the left by the player.
 	 * 
-	 * @param x
-	 * @param y
+	 * @param x the x
+	 * @param y the y
 	 */
 	private void pushTheRockLeft(int x, int y) {
 		// PUSH GAUCHE
@@ -280,7 +280,7 @@ public class Controller implements IOrderPerformer, IController {
 	/**
 	 * Gets the view.
 	 * 
-	 * @return view
+	 * @return view the view
 	 */
 	public IView getView() {
 		return this.view;
@@ -298,7 +298,7 @@ public class Controller implements IOrderPerformer, IController {
 	/**
 	 * Gets the model.
 	 * 
-	 * @return model
+	 * @return model the model
 	 */
 	public IModel getModel() {
 		return this.model;
@@ -316,16 +316,16 @@ public class Controller implements IOrderPerformer, IController {
 	/**
 	 * Set the order to perform.
 	 * 
-	 * @param userOrder
+	 * @param userOrder the userOrder
 	 */
-	public void orderPerform(UserOrder userOder) {
-		this.setStackOrder(userOder);
+	public void orderPerform(UserOrder userOrder) {
+		this.setStackOrder(userOrder);
 	}
 
 	/**
 	 * Gets the stack order.
 	 * 
-	 * @return stackOrder
+	 * @return stackOrder the stackOrder
 	 */
 	public UserOrder getStackOrder() {
 		return this.stackOrder;
@@ -350,7 +350,7 @@ public class Controller implements IOrderPerformer, IController {
 	/**
 	 * Get the order to perform.
 	 * 
-	 * @return
+	 * @return getOrderPerformer the orderPerformer
 	 */
 	public IOrderPerformer getOrderPerformer() {
 		return this;
@@ -359,8 +359,8 @@ public class Controller implements IOrderPerformer, IController {
 	/**
 	 * The ennemies movement script.
 	 * 
-	 * @param x
-	 * @param y
+	 * @param x the x
+	 * @param y the y
 	 */
 	public void moveEnnemy(int x, int y) {
 		int Random = new Random().nextInt(3 + 1);

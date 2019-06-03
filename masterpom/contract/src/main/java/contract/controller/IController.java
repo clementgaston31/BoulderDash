@@ -2,7 +2,7 @@ package contract.controller;
 /**
  * <h1> The Controller Interface </h1>
  * 
- * @author Clément GASTON && kevinBourdeau
+ * @author Clement GASTON kevinBourdeau
  * @version 0.1
  */
 public interface IController {

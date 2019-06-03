@@ -48,8 +48,8 @@ public class DAOMapTest {
 
 	/**
 	 * Test if we got the correct map with the correct attributes of this one.
-	 * @throws SQLException
-	 * @throws IOException
+	 * @throws SQLException sqlException
+	 * @throws IOException the IOException
 	 */
 	@Test
 	public void testFind() throws SQLException, IOException {

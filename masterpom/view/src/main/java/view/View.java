@@ -53,7 +53,7 @@ public class View implements IView, KeyListener, Runnable {
 	 * 
 	 * @param map    The new map.
 	 * @param player The new player.
-	 * @throws Exception
+	 * @throws Exception the Exception
 	 */
 	public View(final IMap map, final IMobile player) throws Exception {
 		this.setView(mapView);
@@ -218,7 +218,7 @@ public class View implements IView, KeyListener, Runnable {
 	 * 
 	 * @param map
 	 * 			The new map.
-	 * @throws IOException
+	 * @throws IOException the IOException
 	 */
 	private void setMap(final IMap map) throws IOException {
 		this.map = map;

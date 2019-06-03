@@ -41,7 +41,7 @@ public class DBPropertiesTest {
 	 */
 	@Test
 	public void testGetURL() {
-		final String expected = "jdbc:mysql://localhost:3308/boulderdash?autoReconnect=true&useSSL=false";
+		final String expected = "jdbc:mysql://localhost/boulderdash?autoReconnect=true&useSSL=false";
 		assertEquals(expected, dbproperties.getURL());
 	}
 

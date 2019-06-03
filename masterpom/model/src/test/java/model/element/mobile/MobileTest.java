@@ -46,7 +46,7 @@ public class MobileTest {
 
 	/**
 	 * Set up the map and then the mobile
-	 * @throws Exception
+	 * @throws Exception the exception
 	 */
 	@Before
 	public void setUp() throws Exception {

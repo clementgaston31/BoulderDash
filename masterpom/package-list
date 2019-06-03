@@ -1,0 +1,17 @@
+contract.controller
+contract.view
+controller
+fr.exia.insanevehicles
+fr.exia.insanevehicles.controller
+fr.exia.insanevehicles.model
+fr.exia.insanevehicles.model.element
+fr.exia.insanevehicles.model.element.mobile
+fr.exia.insanevehicles.model.element.motionless
+fr.exia.insanevehicles.view
+main
+model
+model.DAO
+model.element
+model.element.mobile
+model.element.motionlessElement
+view

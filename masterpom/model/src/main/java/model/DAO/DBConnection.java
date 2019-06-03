@@ -7,7 +7,7 @@ import java.sql.Connection;
 /**
  * <h1>The Class DBConnection.</h1>
  * 
- * @author Clément GASTON
+ * @author Clement GASTON
  * @version 0.1
  */
 public class DBConnection {

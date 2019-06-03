@@ -13,7 +13,7 @@ import model.element.motionlessElement.MotionlessElementFactory;
 /**
  * <h1>The Map Class.</h1>
  * 
- * @author Clément GASTON
+ * @author Clement GASTON
  * @version 0.1
  */
 public class Map extends Observable implements IMap {
@@ -60,7 +60,8 @@ public class Map extends Observable implements IMap {
 	 * @param playerStartX The X start point of the player.
 	 * @param playerStartY The Y start point of the player.
 	 * @param mapFromBDD   The characters Map.
-	 * @throws IOException
+	 * @param diamondToGet the diamondToGet
+	 * @throws IOException the IOException
 	 */
 	public Map(int idMap, int diamondToGet, int width, int height, int playerStartX, int playerStartY,
 			String mapFromBDD) throws IOException {
@@ -231,8 +232,8 @@ public class Map extends Observable implements IMap {
 	/**
 	 * Gets the coordinate on the map.
 	 * 
-	 * @param x
-	 * @param y
+	 * @param x the x
+	 * @param y the y
 	 * @return onTheMap[x][y]
 	 */
 	public IElement getOnTheMapXY(final int x, final int y) {

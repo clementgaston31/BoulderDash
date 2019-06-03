@@ -12,7 +12,7 @@ import model.Map;
 /**
  * <h1>The Class DAOMap.</h1>
  * 
- * @author Clément GASTON
+ * @author Clement GASTON
  * @version 0.1
  */
 public class DAOMap extends DAOElement{

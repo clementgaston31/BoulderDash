@@ -9,7 +9,7 @@ import java.sql.Connection;
 /**
  * <h1>The Abstract Class DAOElement.</h1>
  * 
- * @author Clément GASTON
+ * @author Clement GASTON
  * @version 0.1
  */
 abstract class DAOElement {
@@ -42,10 +42,12 @@ abstract class DAOElement {
 	/**
 	 * Search a specific map in the database then add it to a new Map.
 	 * 
-	 * @param idMap
-	 * 			Give the ID of the map searched in the database.
+	 * 
 	 * @return map
 	 * 			Return all the corresponding information of the idMap if found.
+	 * 
+	 * @param iDMap the idMap
+	 * 			Give the ID of the map searched in the database.
 	 */
 	public abstract IMap find (int iDMap);
 }

@@ -12,7 +12,7 @@ import model.element.mobile.Player;
 /**
  * <h1>The Model Class.</h1>
  * 
- * @author Clément GASTON
+ * @author Clement GASTON
  * @version 0.1
  */
 public final class Model extends Observable implements IModel {
@@ -23,11 +23,13 @@ public final class Model extends Observable implements IModel {
 	/** The Player*/
 	private IMobile player;
 	
-	/**
+
+	 /**
 	 * Instantiates a new model.
-	 * 
-	 * @param idMap
-	 * 			Give the idMap.
+	 *
+	 * @param idMap Give the idMap.
+	 * @throws IOException the IOException
+	 * @throws SQLException the SQLException
 	 */
 	public Model(int idMap) throws IOException, SQLException{
 		final DAOMap daoMap = new DAOMap(DBConnection.getInstance().getConnection());

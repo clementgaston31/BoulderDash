@@ -60,6 +60,8 @@ public class Sprite {
 	 * Loads image.
 	 *
 	 * @throws IOException Signals that an I/O exception has occurred.
+	 * 
+	 * @param idMap the idMap
 	 */
 	public final void loadImage(int idMap) throws IOException {
 		this.setImage(ImageIO.read(new File("Level"+idMap+"/" + this.getImageName())));

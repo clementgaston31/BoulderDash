@@ -321,7 +321,7 @@ public abstract class Mobile extends Element implements IMobile{
 	/**
 	 * Set the ennemy
 	 * 
-	 * @param ennemy
+	 * @param ennemy the ennemy
 	 */
 	public void setEnnemy(Ennemy ennemy) {
 		this.ennemy = ennemy;
@@ -330,7 +330,7 @@ public abstract class Mobile extends Element implements IMobile{
 	/**
 	 * Set the moved
 	 * 
-	 * @param moved
+	 * @param moved the moved
 	 */
 	public void setHasMoved(boolean moved) {
 		this.moved = moved;

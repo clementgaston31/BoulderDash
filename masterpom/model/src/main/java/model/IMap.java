@@ -7,7 +7,7 @@ import model.element.IElement;
 /**
  * <h1>The Interface IMap.</h1>
  *
- * @author Clément GASTON & Kévin BOURDEAU
+ * @author Clement GASTON Kevin BOURDEAU
  * @version 0.1
  */
 
@@ -119,9 +119,10 @@ public interface IMap {
 	 */
 	void addDiamond();
 
-	/*
+	/**
 	 * Sets if the player can play.
-	 * @param stillPlaying
+	 * 
+	 * @param stillPlaying the stillPlaying
 	 */
 	void setStillPlaying(boolean stillPlaying);
 	
