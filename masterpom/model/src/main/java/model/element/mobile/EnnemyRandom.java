@@ -1,9 +1,6 @@
 package model.element.mobile;
 
 import java.awt.Point;
-import java.io.IOException;
-
-import model.IMap;
 import model.element.Permeability;
 import model.element.Sprite;
 
@@ -19,14 +16,10 @@ public class EnnemyRandom extends Mobile{
 	/** The Constant spriteDie. */
 	private static final Sprite spriteEnnemyDieRandom = new Sprite('J', "EnnemyDieRandom.png");
 	
-	public EnnemyRandom(final int x, final int y, final IMap map) throws IOException {
-        super(x, y, spriteEnnemyRandom, map, Permeability.BLOCKING);
-        spriteMoveRandom.loadImage(this.getMap().getIdMap());
-        spriteEnnemyDieRandom.loadImage(this.getMap().getIdMap());
-    }
+
     
     public EnnemyRandom() {
-		super();
+    	super(spriteEnnemyRandom, Permeability.BLOCKING);
 	}
 
     /*
@@ -95,11 +88,6 @@ public class EnnemyRandom extends Mobile{
 		return super.getPosition();
 	}
 
-	@Override
-	public void movement() {
-		// TODO Auto-generated method stub
-		
-	}
 
 	@Override
 	public Boolean isNotWin() {

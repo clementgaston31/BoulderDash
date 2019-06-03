@@ -11,6 +11,7 @@ import model.element.mobile.Rock;
 import model.element.Permeability;
 import model.element.mobile.Diamond;
 import model.element.mobile.Ennemy;
+import model.element.mobile.EnnemyRandom;
 import model.element.motionlessElement.MotionlessElementFactory;
 
 /**
@@ -32,17 +33,12 @@ public class Controller implements IOrderPerformer, IController {
 
 	/** The stack order. */
 	private UserOrder stackOrder;
-
-	/** Going to be deleted I think */
-	public int Diamond = 0;
-
-	/** Number of diamond to get (GOING TO BE DELETED) */
-	public int DiamondToGet = 3;
-
-	/** Set true if we win (GOING TO BE DELETED) */
-	public boolean win = false;
 	
+	/** Comment this */
 	public boolean tried = false;
+	
+	/** Comment this */
+	public boolean pushed = false;
 
 	/**
 	 * The controller which will create a view and a model.
@@ -105,202 +101,173 @@ public class Controller implements IOrderPerformer, IController {
 			this.getModel().getMap().setMobileHasChanged();
 			this.getView().followMyPlayer();
 			this.getView().updateView();
-
-			// updateModel();
 			this.tried = false;
+			this.pushed = false;
 			this.clearStackOrder();
 			this.getModel().getMap().getEnnemy().setHasMoved(false);
 
 		}
-		if (win) {
+		/*if (win) {
 			this.getView().displayMessage("VICTORYYYYY !!!!!!!!");
 		} else {
 			this.getView().displayMessage("Cheh");
-		}
+		}*/
 	}
 
+	/**
+	 * Check if the player die when the ennemy killed it
+	 * 			rock, diamond fall and slide
+	 * 			the player can push the rock
+	 *  
+	 */
 	public void updateModel() {
-		if (this.getModel().getPlayer().isDirt() == true) {
-			this.getModel().getMap().setOnTheMapXY(MotionlessElementFactory.createBackground(),
-					this.getModel().getPlayer().getX(), this.getModel().getPlayer().getY());
-		}
-
-		if (this.getModel().getPlayer().isDiamond() == true) {
-			this.getModel().getMap().setOnTheMapXY(MotionlessElementFactory.createBackground(),
-					this.getModel().getPlayer().getX(), this.getModel().getPlayer().getY());
-			Diamond = Diamond + 1;
-
-		}
 		this.getModel().getMap().getEnnemy().setHasMoved(false);
+		
+		// Sweeping of the map
 		for (int y = this.getModel().getMap().getHeight() - 1; y > 0; y--) {
 			for (int x = this.getModel().getMap().getWidth() - 1; x > 0; x--) {
 
+				// If there is an ennemy at the current x, y on the map
 				if (this.getModel().getMap().getOnTheMapXY(x, y).getClass() == Ennemy.class) {
 
+					// If the player is in a radius of 1 of the ennemy 
 					if ((this.getModel().getPlayer().getX() == x && this.getModel().getPlayer().getY() == y)
-							|| (this.getModel().getPlayer().getX() == x+1 && this.getModel().getPlayer().getY() == y)
-							|| (this.getModel().getPlayer().getX() == x-1 && this.getModel().getPlayer().getY() == y)
-							|| (this.getModel().getPlayer().getX() == x && this.getModel().getPlayer().getY() == y+1)
-							|| (this.getModel().getPlayer().getX() == x && this.getModel().getPlayer().getY() == y-1)) {
+							|| (this.getModel().getPlayer().getX() == x + 1 && this.getModel().getPlayer().getY() == y)
+							|| (this.getModel().getPlayer().getX() == x - 1 && this.getModel().getPlayer().getY() == y)
+							|| (this.getModel().getPlayer().getX() == x && this.getModel().getPlayer().getY() == y + 1)
+							|| (this.getModel().getPlayer().getX() == x
+									&& this.getModel().getPlayer().getY() == y - 1)) {
+						// The player die
 						this.getModel().getPlayer().die();
 					}
-					
+
+					//To comment 
 					if (this.getModel().getMap().getEnnemy().getHasMoved() == false) {
-
-						int Random = new Random().nextInt(3 + 1);
-						// System.out.println(Random);
-
-						if (this.getModel().getMap().getOnTheMapXY(x - 1, y).getSprite().getConsoleImage() == 'B'
-								&& Random == 0) {
-							this.getModel().getMap().setOnTheMapXY(this.getModel().getMap().getOnTheMapXY(x, y), x - 1,
-									y);
-							this.getModel().getMap().setOnTheMapXY(MotionlessElementFactory.createBackground(), x, y);
-						}
-
-						if (this.getModel().getMap().getOnTheMapXY(x, y + 1).getSprite().getConsoleImage() == 'B'
-								&& Random == 1) {
-							this.getModel().getMap().setOnTheMapXY(this.getModel().getMap().getOnTheMapXY(x, y), x,
-									y + 1);
-							this.getModel().getMap().setOnTheMapXY(MotionlessElementFactory.createBackground(), x, y);
-						}
-
-						if (this.getModel().getMap().getOnTheMapXY(x + 1, y).getSprite().getConsoleImage() == 'B'
-								&& Random == 2) {
-							this.getModel().getMap().setOnTheMapXY(this.getModel().getMap().getOnTheMapXY(x, y), x + 1,
-									y);
-							this.getModel().getMap().setOnTheMapXY(MotionlessElementFactory.createBackground(), x, y);
-						}
-
-						if (this.getModel().getMap().getOnTheMapXY(x, y - 1).getSprite().getConsoleImage() == 'B'
-								&& Random == 3) {
-							this.getModel().getMap().setOnTheMapXY(this.getModel().getMap().getOnTheMapXY(x, y), x,
-									y - 1);
-							this.getModel().getMap().setOnTheMapXY(MotionlessElementFactory.createBackground(), x, y);
-						}
+						moveEnnemy(x, y);
 
 						this.getModel().getMap().getEnnemy().setHasMoved(true);
 					}
 				}
+				
+				// If in the map there are rocks you can push
+				pushTheRockRight(x, y);
+				pushTheRockLeft(x, y);
+				// To comment
+				if (pushed == true) {
+					this.clearStackOrder();
+				}
 
-				/*
-				 * //GAUCHE if (this.getModel().getMap().getOnTheMapXY(x - 1,
-				 * y).getSprite().getConsoleImage() == 'B') {
-				 * this.getModel().getMap().setOnTheMapXY(this.getModel().getMap().getOnTheMapXY
-				 * (x, y), x - 1, y);
-				 * this.getModel().getMap().setOnTheMapXY(MotionlessElementFactory.
-				 * createBackground(), x, y); } //BAS if
-				 * (this.getModel().getMap().getOnTheMapXY(x, y -
-				 * 1).getSprite().getConsoleImage() == 'B') {
-				 * this.getModel().getMap().setOnTheMapXY(this.getModel().getMap().getOnTheMapXY
-				 * (x, y), x, y - 1);
-				 * this.getModel().getMap().setOnTheMapXY(MotionlessElementFactory.
-				 * createBackground(), x, y); } //DROITE if
-				 * (this.getModel().getMap().getOnTheMapXY(x + 1,
-				 * y).getSprite().getConsoleImage() == 'B') {
-				 * this.getModel().getMap().setOnTheMapXY(this.getModel().getMap().getOnTheMapXY
-				 * (x, y), x + 1, y);
-				 * this.getModel().getMap().setOnTheMapXY(MotionlessElementFactory.
-				 * createBackground(), x, y); } //HAUT if
-				 * (this.getModel().getMap().getOnTheMapXY(x, y +
-				 * 1).getSprite().getConsoleImage() == 'B') {
-				 * this.getModel().getMap().setOnTheMapXY(this.getModel().getMap().getOnTheMapXY
-				 * (x, y), x, y + 1);
-				 * this.getModel().getMap().setOnTheMapXY(MotionlessElementFactory.
-				 * createBackground(), x, y);
-				 * 
-				 * }
-				 */
-				
-				/// PUSH DROIT
-				if (this.getModel().getMap().getOnTheMapXY(x, y).getClass() == Rock.class 
-						&& this.getModel().getPlayer().getX() == (x-1)
-						&& this.getModel().getPlayer().getY() == y
-						&& this.getModel().getMap().getOnTheMapXY(x+1, y).getPermeability() == Permeability.PENETRABLE
-						&& this.getStackOrder() == UserOrder.RIGHT
-						&& this.tried == true) {
-					this.getModel().getMap().setOnTheMapXY(this.getModel().getMap().getOnTheMapXY(x, y), x+1, y);
-					this.getModel().getMap().setOnTheMapXY(MotionlessElementFactory.createBackground(), x, y);
-					this.getModel().getPlayer().moveRight();
-				}
-				// CA MARCHEEEEEEEEEEEEE PASSSSSSSSSSSSSSSSS
-				//PUSH GAUCHE
-				if (this.getModel().getMap().getOnTheMapXY(x, y).getClass() == Rock.class 
-						&& this.getModel().getPlayer().getX() == (x+1)
-						&& this.getModel().getPlayer().getY() == y
-						&& this.getModel().getMap().getOnTheMapXY(x-1, y).getPermeability() == Permeability.PENETRABLE
-						&& this.getStackOrder() == UserOrder.LEFT
-						&& this.tried == true) {
-					this.getModel().getMap().setOnTheMapXY(this.getModel().getMap().getOnTheMapXY(x, y), x-1, y);
-					this.getModel().getMap().setOnTheMapXY(MotionlessElementFactory.createBackground(), x, y);
-					this.getModel().getPlayer().moveLeft();
-				}
-				
-				
-				
-				// Si notre objet est soumis à la gravité
+				// If our object is subjected to gravity
 				if (this.getModel().getMap().getOnTheMapXY(x, y).getClass() == Rock.class
 						|| this.getModel().getMap().getOnTheMapXY(x, y).getClass() == Diamond.class) {
-					// Et qu'il n'ya rien en dessous
-
-					
-					//SLIDE
-					if ((this.getModel().getMap().getOnTheMapXY(x, y + 1).getClass() == Rock.class
-							|| this.getModel().getMap().getOnTheMapXY(x, y + 1).getClass() == Diamond.class)
-									&& this.getModel().getMap().getOnTheMapXY(x - 1, y)
-											.getPermeability() == Permeability.PENETRABLE
-									&& this.getModel().getMap().getOnTheMapXY(x - 1, y + 1)
-											.getPermeability() == Permeability.PENETRABLE) {
-						this.getModel().getMap().setOnTheMapXY(this.getModel().getMap().getOnTheMapXY(x, y), x - 1,
-								y + 1);
-						this.getModel().getMap().setOnTheMapXY(MotionlessElementFactory.createBackground(), x, y);
-					}
-
-					if ((this.getModel().getMap().getOnTheMapXY(x, y + 1).getClass() == Rock.class
-							|| this.getModel().getMap().getOnTheMapXY(x, y + 1).getClass() == Diamond.class)
-									&& this.getModel().getMap().getOnTheMapXY(x + 1, y)
-											.getPermeability() == Permeability.PENETRABLE
-									&& this.getModel().getMap().getOnTheMapXY(x + 1, y + 1)
-											.getPermeability() == Permeability.PENETRABLE) {
-						this.getModel().getMap().setOnTheMapXY(this.getModel().getMap().getOnTheMapXY(x, y), x + 1,
-								y + 1);
-						this.getModel().getMap().setOnTheMapXY(MotionlessElementFactory.createBackground(), x, y);
-					}
-
-					
-					//LA CHUTE
-					if (this.getModel().getMap().getOnTheMapXY(x, y + 1).getPermeability() == Permeability.PENETRABLE
-							&& (this.getModel().getPlayer().getX() != x
-									|| this.getModel().getPlayer().getY() != y + 1)) {
-						// Alors notre objet tombe
-						this.getModel().getMap().setOnTheMapXY(this.getModel().getMap().getOnTheMapXY(x, y), x, y + 1);
-
-						
-						
-						if ((this.getModel().getPlayer().getX() == x && this.getModel().getPlayer().getY() == y + 2)) {
-							this.getModel().getPlayer().die();
-						}
-
-						if (this.getModel().getMap().getOnTheMapXY(x, y+2).getClass() == Ennemy.class) {
-							this.getModel().getMap().setOnTheMapXY(MotionlessElementFactory.createBackground(), x, y+2);
-						}
-						
-						this.getModel().getMap().setOnTheMapXY(MotionlessElementFactory.createBackground(), x, y);
-
-					}
-
+					//And there is nothing below
+					slideRight(x, y);
+					slideLeft(x, y);
+					fall(x, y);
 				}
-
-				if (Diamond >= DiamondToGet && this.getModel().getMap()
-						.getOnTheMapXY(this.getModel().getPlayer().getX(), this.getModel().getPlayer().getY())
-						.getPermeability() == Permeability.WIN) {
-					win = true;
-					this.getModel().getPlayer().die();
-				}
-
 			}
 		}
 	}
+	
+	/**
+	 * Check if there is nothing under that our object is falling
+	 * @param x
+	 * @param y
+	 * 
+	 */
+	public void fall(int x, int y) {
+		
+		if (this.getModel().getMap().getOnTheMapXY(x, y + 1).getPermeability() == Permeability.PENETRABLE
+				&& (this.getModel().getPlayer().getX() != x || this.getModel().getPlayer().getY() != y + 1)) {
+			// Alors notre objet tombe
+			this.getModel().getMap().setOnTheMapXY(this.getModel().getMap().getOnTheMapXY(x, y), x, y + 1);
 
+			if ((this.getModel().getPlayer().getX() == x && this.getModel().getPlayer().getY() == y + 2)) {
+				this.getModel().getPlayer().die();
+			}
+
+			if (this.getModel().getMap().getOnTheMapXY(x, y + 2).getClass() == Ennemy.class
+					|| this.getModel().getMap().getOnTheMapXY(x, y + 2).getClass() == EnnemyRandom.class) {
+				this.getModel().getMap().setOnTheMapXY(MotionlessElementFactory.createBackground(), x, y + 2);
+			}
+
+			this.getModel().getMap().setOnTheMapXY(MotionlessElementFactory.createBackground(), x, y);
+
+		}
+
+	}
+
+	/**
+	 * 
+	 * @param x
+	 * @param y
+	 */
+	public void slideRight(int x, int y) {
+		// SLIDE droite
+		if ((this.getModel().getMap().getOnTheMapXY(x, y + 1).getClass() == Rock.class
+				|| this.getModel().getMap().getOnTheMapXY(x, y + 1).getClass() == Diamond.class)
+				&& this.getModel().getMap().getOnTheMapXY(x + 1, y).getPermeability() == Permeability.PENETRABLE
+				&& this.getModel().getMap().getOnTheMapXY(x + 1, y + 1).getPermeability() == Permeability.PENETRABLE
+				&& (this.getModel().getPlayer().getX() != (x + 1) || this.getModel().getPlayer().getY() != (y + 1))) {
+			this.getModel().getMap().setOnTheMapXY(this.getModel().getMap().getOnTheMapXY(x, y), x + 1, y + 1);
+			this.getModel().getMap().setOnTheMapXY(MotionlessElementFactory.createBackground(), x, y);
+		}
+	}
+
+	/**
+	 * 
+	 * @param x
+	 * @param y
+	 */
+	public void slideLeft(int x, int y) {
+		// SLIDE gauche
+		if ((this.getModel().getMap().getOnTheMapXY(x, y + 1).getClass() == Rock.class
+				|| this.getModel().getMap().getOnTheMapXY(x, y + 1).getClass() == Diamond.class)
+				&& this.getModel().getMap().getOnTheMapXY(x - 1, y).getPermeability() == Permeability.PENETRABLE
+				&& this.getModel().getMap().getOnTheMapXY(x - 1, y + 1).getPermeability() == Permeability.PENETRABLE
+				&& (this.getModel().getPlayer().getX() != (x - 1) || this.getModel().getPlayer().getY() != (y + 1))) {
+			this.getModel().getMap().setOnTheMapXY(this.getModel().getMap().getOnTheMapXY(x, y), x - 1, y + 1);
+			this.getModel().getMap().setOnTheMapXY(MotionlessElementFactory.createBackground(), x, y);
+		}
+	}
+
+	/**
+	 * 
+	 * @param x
+	 * @param y
+	 */
+	public void pushTheRockRight(int x, int y) {
+		/// PUSH DROIT
+		if (this.getModel().getMap().getOnTheMapXY(x, y).getClass() == Rock.class
+				&& this.getModel().getPlayer().getX() == (x - 1) && this.getModel().getPlayer().getY() == y
+				&& this.getModel().getMap().getOnTheMapXY(x + 1, y).getPermeability() == Permeability.PENETRABLE
+				&& this.getStackOrder() == UserOrder.RIGHT && this.tried == true) {
+			this.getModel().getMap().setOnTheMapXY(this.getModel().getMap().getOnTheMapXY(x, y), x + 1, y);
+			this.getModel().getMap().setOnTheMapXY(MotionlessElementFactory.createBackground(), x, y);
+			this.getModel().getPlayer().moveRight();
+			this.pushed = true;
+
+		}
+
+	}
+
+	/**
+	 * 
+	 * @param x
+	 * @param y
+	 */
+	public void pushTheRockLeft(int x, int y) {
+		// PUSH GAUCHE
+		if (this.getModel().getMap().getOnTheMapXY(x, y).getClass() == Rock.class
+				&& this.getModel().getPlayer().getX() == (x + 1) && this.getModel().getPlayer().getY() == y
+				&& this.getModel().getMap().getOnTheMapXY(x - 1, y).getPermeability() == Permeability.PENETRABLE
+				&& this.getStackOrder() == UserOrder.LEFT && this.tried == true) {
+			this.getModel().getMap().setOnTheMapXY(this.getModel().getMap().getOnTheMapXY(x, y), x - 1, y);
+			this.getModel().getMap().setOnTheMapXY(MotionlessElementFactory.createBackground(), x, y);
+			this.getModel().getPlayer().moveLeft();
+			this.pushed = true;
+		}
+	}
 	/**
 	 * Gets the view.
 	 * 
@@ -377,6 +344,44 @@ public class Controller implements IOrderPerformer, IController {
 	 */
 	public IOrderPerformer getOrderPerformer() {
 		return this;
+	}
+	
+	/**
+	 * 
+	 * @param x
+	 * @param y
+	 */
+	public void moveEnnemy(int x, int y) {
+		int Random = new Random().nextInt(3 + 1);
+		// System.out.println(Random);
+
+		if (this.getModel().getMap().getOnTheMapXY(x - 1, y).getPermeability() == Permeability.PENETRABLE
+				&& Random == 0) {
+			this.getModel().getMap().setOnTheMapXY(this.getModel().getMap().getOnTheMapXY(x, y), x - 1,
+					y);
+			this.getModel().getMap().setOnTheMapXY(MotionlessElementFactory.createBackground(), x, y);
+		}
+
+		if (this.getModel().getMap().getOnTheMapXY(x, y + 1).getPermeability() == Permeability.PENETRABLE
+				&& Random == 1) {
+			this.getModel().getMap().setOnTheMapXY(this.getModel().getMap().getOnTheMapXY(x, y), x,
+					y + 1);
+			this.getModel().getMap().setOnTheMapXY(MotionlessElementFactory.createBackground(), x, y);
+		}
+
+		if (this.getModel().getMap().getOnTheMapXY(x + 1, y).getPermeability() == Permeability.PENETRABLE
+				&& Random == 2) {
+			this.getModel().getMap().setOnTheMapXY(this.getModel().getMap().getOnTheMapXY(x, y), x + 1,
+					y);
+			this.getModel().getMap().setOnTheMapXY(MotionlessElementFactory.createBackground(), x, y);
+		}
+
+		if (this.getModel().getMap().getOnTheMapXY(x, y - 1).getPermeability() == Permeability.PENETRABLE
+				&& Random == 3) {
+			this.getModel().getMap().setOnTheMapXY(this.getModel().getMap().getOnTheMapXY(x, y), x,
+					y - 1);
+			this.getModel().getMap().setOnTheMapXY(MotionlessElementFactory.createBackground(), x, y);
+		}
 	}
 
 }

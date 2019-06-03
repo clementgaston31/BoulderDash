@@ -92,11 +92,6 @@ public class Ennemy extends Mobile {
 		return super.getPosition();
 	}
 
-	@Override
-	public void movement() {
-		// TODO Auto-generated method stub
-		
-	}
 
 	@Override
 	public Boolean isNotWin() {

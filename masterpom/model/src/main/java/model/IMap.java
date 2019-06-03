@@ -52,11 +52,7 @@ public interface IMap {
 	 */
 	Observable getObservable();
 
-	/**
-	 * At each game case, apply physics on the map
-	 * 
-	 */
-	//void updateMap();
+	
 	
 	public int getPlayerStartY();
 	

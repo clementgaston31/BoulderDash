@@ -18,6 +18,8 @@ public abstract class MobileFactory {
 	private static final Rock rock = new Rock();
 	
 	private static final Ennemy ennemy = new Ennemy();
+	
+	private static final EnnemyRandom ennemyRandom = new EnnemyRandom();
 
 	
 	
@@ -28,6 +30,7 @@ public abstract class MobileFactory {
 			diamond, 
 			rock,
 			ennemy,
+			ennemyRandom
 			};
 	
 	
@@ -51,6 +54,10 @@ public abstract class MobileFactory {
 
     public static Mobile createEnnemy() {
     	return ennemy;
+    }
+    
+    public static Mobile createEnnemyRandom() {
+    	return ennemyRandom;
     }
     
     /**

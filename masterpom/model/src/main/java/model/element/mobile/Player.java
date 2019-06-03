@@ -6,6 +6,7 @@ import java.io.IOException;
 import model.IMap;
 import model.element.Permeability;
 import model.element.Sprite;
+import model.element.motionlessElement.MotionlessElementFactory;
 
 
 public class Player extends Mobile implements IMobile{
@@ -28,8 +29,14 @@ public class Player extends Mobile implements IMobile{
 	/** The Constant spriteDie. */
 	private static final Sprite spriteDie = new Sprite('P', "Die.png");
 
-	/** Diamond count of the player */
-	private int diamondCount = 0;
+	/** Going to be deleted I think */
+	public int Diamond = 0;
+
+	/** Number of diamond to get (GOING TO BE DELETED) */
+	public int DiamondToGet = 3;
+	
+	/** Set true if we win (GOING TO BE DELETED) */
+	public boolean win = false;
 	
 	/**
      * Instantiates a new my vehicle.
@@ -51,7 +58,7 @@ public class Player extends Mobile implements IMobile{
         spriteDown.loadImage(this.getMap().getIdMap());
         spriteUp.loadImage(this.getMap().getIdMap());
         
-        this.diamondCount = 0;
+        this.Diamond = 0;
     }
     
     public Player() {
@@ -65,6 +72,8 @@ public class Player extends Mobile implements IMobile{
     @Override
     public final void moveLeft() {
         super.moveLeft();
+        this.removeTheDirt();
+        this.pickDiamond();
         this.setSprite(spriteLeft);
     }
 
@@ -75,6 +84,8 @@ public class Player extends Mobile implements IMobile{
     @Override
     public final void moveRight() {
         super.moveRight();
+        this.removeTheDirt();
+        this.pickDiamond();
         this.setSprite(spriteRight);
     }
     
@@ -85,6 +96,8 @@ public class Player extends Mobile implements IMobile{
     @Override
     public final void moveUp() {
         super.moveUp();
+        this.removeTheDirt();
+        this.pickDiamond();
         this.setSprite(spriteUp);
     }
     
@@ -95,6 +108,8 @@ public class Player extends Mobile implements IMobile{
     @Override
     public final void moveDown() {
         super.moveDown();
+        this.removeTheDirt();
+        this.pickDiamond();
         this.setSprite(spriteDown);
     }
 
@@ -118,41 +133,36 @@ public class Player extends Mobile implements IMobile{
         this.setSprite(sprite);
     }
     
-    /**
-	 * Returns the diamond count of the player
-	 * 
-	 */
-	public int getDiamondCount() {
-		return diamondCount;
-	}
+    public void removeTheDirt() {
+    	if (this.isDirt() == true) {
+			this.getMap().setOnTheMapXY(MotionlessElementFactory.createBackground(),
+					this.getX(), this.getY());
+		}
+    	
+    }
+    
+    public void pickDiamond() {
+    	if (this.isDiamond() == true) {
+			this.getMap().setOnTheMapXY(MotionlessElementFactory.createBackground(),
+					this.getX(), this.getY());
+			/*Diamond = Diamond + 1;*/
 
-	/**
-	 * Sets the diamond count of the player (Usefull to reset it)
-	 * 
-	 * @param diamondCount
-	 */
-	public void setDiamondCount(int diamondCount) {
-		this.diamondCount = diamondCount;
-	}
-
-	/**
-	 * Increases the diamond count of the player
-	 * 
-	 * @param score
-	 */
-	public void addDiamond(int diamond) {
-		this.diamondCount += diamond;
-	}
+		}
+    }
+    
+  /* public void playerWin() {
+    	if (Diamond >= DiamondToGet && this.getMap()
+				.getOnTheMapXY(this.getX(), this.getY())
+				.getPermeability() == Permeability.WIN) {
+			win = true;
+			
+		}
+    }*/
+    
    
 	@Override
 	public Point getPosition() {
 		return super.getPosition();
-	}
-
-	@Override
-	public void movement() {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override

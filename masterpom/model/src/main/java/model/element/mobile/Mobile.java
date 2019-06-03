@@ -295,7 +295,6 @@ public abstract class Mobile extends Element implements IMobile{
 		this.ennemy = ennemy;
 	}
 
-	public abstract void movement();
 
 	public void setHasMoved(boolean moved) {
 		this.moved = moved;
@@ -303,5 +302,11 @@ public abstract class Mobile extends Element implements IMobile{
 	
 	public Boolean getHasMoved() {
 		return this.moved;
+	}
+	
+	@Override
+	public Boolean isNotWin() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

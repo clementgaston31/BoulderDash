@@ -83,7 +83,7 @@ public final class Model extends Observable implements IModel {
 	 * @param player
 	 * 			The new player.
 	 */
-	@SuppressWarnings("unused")
+	
 	private void setPlayer(Player player) {
 		this.player = player;
 	}

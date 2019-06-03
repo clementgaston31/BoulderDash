@@ -2,8 +2,8 @@ package contract.model;
 
 public interface IGravity {
 	
-	public boolean isFalling();
-
-	public void setFalling(final boolean falling);
+	void slideRight(int x, int y);
+	void slideLeft(int x, int y);
+	void fall(int x, int y);
 	
 }

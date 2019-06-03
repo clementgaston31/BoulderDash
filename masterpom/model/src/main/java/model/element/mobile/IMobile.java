@@ -99,4 +99,6 @@ public interface IMobile extends IPawn, IElement {
 	Boolean isDiamond();
 
 	Boolean isNotWin();
+	Boolean isPushable();
+
 }

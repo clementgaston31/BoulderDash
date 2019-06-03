@@ -16,11 +16,8 @@ import model.element.Sprite;
 
 public class MobileTest {
 	
-	//private Mobile test;
 	private IMap map;
 	private IBoard board;
-	//private Boolean aliveTest;
-	
 	final Sprite sprite = new Sprite('X', "player");
 	
 	private Mobile testMobile;
@@ -36,10 +33,10 @@ public class MobileTest {
 
 	@Before
 	public void setUp() throws Exception {
-		//this.testMobile = new Mobile(2, 1, sprite, map, Permeability.BLOCKING) {
+		this.testMobile = new Mobile(2, 1, sprite, map, Permeability.BLOCKING) {
 			
 		};
-	//}
+	}
 
 	@After
 	public void tearDown() throws Exception {
@@ -47,7 +44,9 @@ public class MobileTest {
 
 	@Test
 	public void testMoveUp() {
-		fail("Not yet implemented");
+		this.testMobile.moveUp();
+		int expected = 0;
+		assertEquals(expected,this.testMobile.getY());;
 	}
 
 	@Test

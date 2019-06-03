@@ -5,7 +5,7 @@ import contract.controller.IOrderPerformer;
 /**
  * <h1> The View Interface </h1>
  * 
- * @author Clément GASTON
+ * @author Clément GASTON && kevinBourdeau
  * @version 0.1
  */
 public interface IView {
@@ -22,8 +22,15 @@ public interface IView {
      * Follow myPlayer.
      */
 	void followMyPlayer();
-
-	void setOrderPerformer(IOrderPerformer orderPerformer);
 	
+	/**
+	 * Update the view
+	 */
 	public void updateView() ;
+	
+	/**
+	 * Set the orderPerformer
+	 * @param orderPerformer
+	 */
+	void setOrderPerformer(IOrderPerformer orderPerformer);
 }

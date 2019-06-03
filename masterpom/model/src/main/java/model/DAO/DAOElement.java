@@ -5,7 +5,6 @@ import java.sql.Connection;
 
 import model.DAO.Entity;
 import model.IMap;
-import model.Map;
 
 /**
  * <h1> The DAOElement abstract Class. </h1>

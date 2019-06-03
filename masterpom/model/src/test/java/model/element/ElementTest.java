@@ -4,7 +4,6 @@ import static org.junit.Assert.*;
 
 import org.junit.After;
 import org.junit.AfterClass;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -13,6 +12,7 @@ public class ElementTest {
 	
 	private Element element;
 	final Sprite sprite = new Sprite('X', "player");
+	private Permeability permeability = Permeability.BLOCKING;
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
@@ -26,6 +26,7 @@ public class ElementTest {
 	public void setUp() throws Exception {
 		this.element = new Element(sprite, Permeability.BLOCKING) {
 		};
+		this.element.setSprite(sprite);
 		
 	}
 
@@ -39,20 +40,22 @@ public class ElementTest {
 	
 	@Test
 	public void testGetSprite() {
-		final Sprite expected = new Sprite('X', "player");
+		assertNotNull(sprite);
 		
-		Assert.assertEquals(expected.getClass(), element.getSprite().getClass());
+		assertEquals(sprite, element.getSprite());
 	}
 
 	@Test
 	public void testGetPermeability() {
-		final Permeability expected = Permeability.BLOCKING;
-		
-		assertEquals(expected, element.getPermeability());
+		assertNotNull(permeability);
+		assertEquals(permeability, element.getPermeability());
 	}
 
 	@Test
 	public void testSetSprite() {
+		this.element.setSprite(sprite);
+		assertEquals(sprite, this.element.getSprite());
+		
 		
 	}
 
@@ -60,5 +63,15 @@ public class ElementTest {
 	public void testGetImage() {
 		
 	}
+	
+	@Test
+	public void testSetPermeability() {
+		this.element.setPermeability(Permeability.BLOCKING);
+		assertEquals(permeability, this.element.getPermeability());
+		
+		
+	}
+	
+	
 
 }

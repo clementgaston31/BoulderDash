@@ -1,20 +1,4 @@
-package model;
-
-import static org.junit.Assert.*;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.Reader;
-import java.io.StringReader;
-
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-
-import model.element.IElement;
-import model.element.Sprite;;
+package model;;
 
 public class MapTest {
 

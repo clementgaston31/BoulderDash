@@ -72,7 +72,7 @@ public abstract class Element implements IElement{
 	 * @param permeability
 	 *            the new permeability
 	 */
-	private void setPermeability(final Permeability permeability) {
+	protected void setPermeability(final Permeability permeability) {
 		this.permeability = permeability;
 	}
 

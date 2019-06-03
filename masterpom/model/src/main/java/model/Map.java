@@ -6,15 +6,10 @@ import java.io.Reader;
 import java.io.StringReader;
 import java.util.Observable;
 
-import contract.model.IGravity;
 import model.element.IElement;
-import model.element.mobile.Diamond;
 import model.element.mobile.Ennemy;
 import model.element.mobile.Mobile;
 import model.element.mobile.MobileFactory;
-import model.element.mobile.Player;
-import model.element.mobile.Rock;
-import model.element.motionlessElement.Background;
 import model.element.motionlessElement.MotionlessElementFactory;
 
 /**
